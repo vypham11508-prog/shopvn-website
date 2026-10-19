@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bảng điều khiển – ShopVN Seller</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- SELLER HEADER -->
+  <div class="seller-header">
+    <div class="shop-name">🏪 Nike Official Store</div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <span style="font-size:1.2rem; cursor:pointer;" title="Thông báo">🔔 <sup style="background:#e53935;color:white;border-radius:50%;padding:0 4px;font-size:0.7rem;">5</sup></span>
+      <span style="font-size:0.88rem; color:rgba(255,255,255,0.7);">Xin chào, Anh Vy</span>
+      <a href="index.html" style="color:var(--yellow); font-size:0.85rem;">← Về trang mua sắm</a>
+    </div>
+  </div>
+
+  <!-- SELLER NAV -->
+  <nav class="seller-nav">
+    <a href="seller-dashboard.html" class="active">📊 Tổng quan</a>
+    <a href="seller-products.html">📦 Sản phẩm</a>
+    <a href="seller-orders.html">🛒 Đơn hàng</a>
+    <a href="#">💰 Doanh thu</a>
+    <a href="#">⭐ Đánh giá</a>
+    <a href="#">⚙️ Cài đặt</a>
+  </nav>
+
+  <div class="container seller-content">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div>
+          <div class="stat-label">Tổng doanh thu tháng này</div>
+          <div class="stat-value">128.5M₫</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🛒</div>
+        <div>
+          <div class="stat-label">Đơn hàng mới cần xử lý</div>
+          <div class="stat-value">24</div>
+        </div>
+      </div>
+      <div class="stat-card warning">
+        <div class="stat-icon">⚠️</div>
+        <div>
+          <div class="stat-label">Sản phẩm sắp hết kho</div>
+          <div class="stat-value">7</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⭐</div>
+        <div>
+          <div class="stat-label">Đánh giá trung bình</div>
+          <div class="stat-value">4.9/5</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-card">
+      <h3>📈 Doanh thu theo tuần (tháng 10/2026)</h3>
+      <div class="chart-placeholder">
+        <div class="chart-bar" style="height:60%"></div>
+        <div class="chart-bar" style="height:80%"></div>
+        <div class="chart-bar" style="height:55%"></div>
+        <div class="chart-bar" style="height:90%"></div>
+        <div class="chart-bar" style="height:70%"></div>
+        <div class="chart-bar" style="height:85%"></div>
+        <div class="chart-bar" style="height:75%"></div>
+      </div>
+      <div class="chart-labels">
+        <span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span>
+      </div>
+    </div>
+
+    <!-- NEW ORDERS TABLE -->
+    <div class="new-orders-table">
+      <h3>🆕 Đơn hàng mới nhất</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã đơn</th>
+              <th>Khách hàng</th>
+              <th>Sản phẩm</th>
+              <th>Tổng tiền</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>#VN2026101901</strong></td>
+              <td>Nguyễn Văn A<br/><span style="font-size:0.75rem;color:#888;">0901 234 567</span></td>
+              <td>👟 Nike Air Max 270 x1</td>
+              <td><strong style="color:#e53935;">1.875.000₫</strong></td>
+              <td><span class="status-pill pill-new">Mới</span></td>
+              <td>
+                <button class="btn-action btn-confirm" onclick="window.location='seller-orders.html'">Xác nhận</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>#VN2026101898</strong></td>
+              <td>Trần Thị B<br/><span style="font-size:0.75rem;color:#888;">0912 345 678</span></td>
+              <td>👟 Nike Zoom Fly x2</td>
+              <td><strong style="color:#e53935;">3.200.000₫</strong></td>
+              <td><span class="status-pill pill-packing">Đóng gói</span></td>
+              <td>
+                <button class="btn-action btn-print">In phiếu</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>#VN2026101885</strong></td>
+              <td>Lê Minh C<br/><span style="font-size:0.75rem;color:#888;">0923 456 789</span></td>
+              <td>👟 Nike React x1</td>
+              <td><strong style="color:#e53935;">2.100.000₫</strong></td>
+              <td><span class="status-pill pill-done">Đã giao</span></td>
+              <td>
+                <button class="btn-action btn-cancel-sm">Xem chi tiết</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>#VN2026101870</strong></td>
+              <td>Phạm Thị D<br/><span style="font-size:0.75rem;color:#888;">0934 567 890</span></td>
+              <td>👟 Nike Pegasus x3</td>
+              <td><strong style="color:#e53935;">4.500.000₫</strong></td>
+              <td><span class="status-pill pill-new">Mới</span></td>
+              <td>
+                <button class="btn-action btn-confirm" onclick="window.location='seller-orders.html'">Xác nhận</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="hotline-btn">📞 Hotline: 1800 1234</div>
+
+</body>
+</html>

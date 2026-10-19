@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giỏ hàng – ShopVN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">🛍️ ShopVN</a>
+      <div class="search-bar">
+        <input type="text" placeholder="Tìm kiếm sản phẩm..." />
+        <button>🔍</button>
+      </div>
+      <nav class="nav-links">
+        <a href="cart.html">🛒 Giỏ hàng <span class="badge">3</span></a>
+        <a href="orders.html">📦 Đơn hàng</a>
+        <div class="member-points">⭐ 1.250 điểm <span class="tag">Vàng</span></div>
+        <a href="login.html" class="btn-login">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <div class="container">
+      <h1>🛒 Giỏ hàng của bạn</h1>
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> › Giỏ hàng</div>
+    </div>
+  </div>
+
+  <div class="container cart-page">
+    <div class="cart-layout">
+
+      <!-- CART ITEMS -->
+      <div class="cart-items-box">
+        <div class="cart-header-row">
+          <div>Sản phẩm</div>
+          <div>Đơn giá</div>
+          <div>Số lượng</div>
+          <div>Thao tác</div>
+        </div>
+
+        <div class="cart-item-row">
+          <div class="cart-product">
+            <div class="cart-product-img">👟</div>
+            <div>
+              <div class="cart-product-name">Giày Nike Air Max 270</div>
+              <div class="cart-product-variant">Màu: Đen | Size: 40</div>
+            </div>
+          </div>
+          <div class="cart-price">1.850.000₫</div>
+          <div>
+            <div class="cart-qty-ctrl">
+              <button>−</button><span>1</span><button>+</button>
+            </div>
+          </div>
+          <div><button class="btn-remove">🗑️</button></div>
+        </div>
+
+        <div class="cart-item-row">
+          <div class="cart-product">
+            <div class="cart-product-img">📱</div>
+            <div>
+              <div class="cart-product-name">Điện thoại Samsung Galaxy S24</div>
+              <div class="cart-product-variant">Màu: Tím | Bộ nhớ: 256GB</div>
+            </div>
+          </div>
+          <div class="cart-price">8.500.000₫</div>
+          <div>
+            <div class="cart-qty-ctrl">
+              <button>−</button><span>1</span><button>+</button>
+            </div>
+          </div>
+          <div><button class="btn-remove">🗑️</button></div>
+        </div>
+
+        <div class="cart-item-row">
+          <div class="cart-product">
+            <div class="cart-product-img">🎧</div>
+            <div>
+              <div class="cart-product-name">Tai nghe Sony WH-1000XM5</div>
+              <div class="cart-product-variant">Màu: Đen</div>
+            </div>
+          </div>
+          <div class="cart-price">1.200.000₫</div>
+          <div>
+            <div class="cart-qty-ctrl">
+              <button>−</button><span>2</span><button>+</button>
+            </div>
+          </div>
+          <div><button class="btn-remove">🗑️</button></div>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="cart-summary">
+        <h3>Tóm tắt đơn hàng</h3>
+        <div class="summary-row"><span>Tạm tính (4 sản phẩm)</span><span>13.950.000₫</span></div>
+        <div class="summary-row"><span>Phí vận chuyển</span><span style="color:#2e7d32;">Miễn phí</span></div>
+        <div class="summary-row"><span>Giảm giá</span><span style="color:#e53935;">−500.000₫</span></div>
+        <div class="summary-row total"><span>Tổng cộng</span><span>13.450.000₫</span></div>
+        <button class="btn-checkout" onclick="window.location='checkout.html'">Tiến hành thanh toán →</button>
+        <div style="text-align:center; margin-top:12px;">
+          <a href="products.html" style="font-size:0.85rem; color:#888;">← Tiếp tục mua sắm</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="hotline-btn">📞 Hotline: 1800 1234</div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><strong>🛍️ ShopVN</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p></div>
+      <div><strong>Hỗ trợ</strong><p><a href="#">Chính sách đổi trả</a></p><p><a href="#">Cam kết chất lượng</a></p></div>
+      <div><strong>Bán hàng</strong><p><a href="seller-register.html">Đăng ký người bán</a></p></div>
+    </div>
+    <div class="footer-bottom">© 2026 ShopVN – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý đơn hàng – ShopVN Seller</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="seller-header">
+    <div class="shop-name">🏪 Nike Official Store</div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <span style="font-size:1.2rem;">🔔</span>
+      <span style="font-size:0.88rem; color:rgba(255,255,255,0.7);">Xin chào, Anh Vy</span>
+      <a href="index.html" style="color:var(--yellow); font-size:0.85rem;">← Về trang mua sắm</a>
+    </div>
+  </div>
+
+  <nav class="seller-nav">
+    <a href="seller-dashboard.html">📊 Tổng quan</a>
+    <a href="seller-products.html">📦 Sản phẩm</a>
+    <a href="seller-orders.html" class="active">🛒 Đơn hàng</a>
+    <a href="#">💰 Doanh thu</a>
+    <a href="#">⭐ Đánh giá</a>
+    <a href="#">⚙️ Cài đặt</a>
+  </nav>
+
+  <div class="container seller-content">
+    <h2 style="font-size:1.3rem; color:var(--dark); margin-bottom:20px;">🛒 Quản lý đơn hàng</h2>
+
+    <!-- STATUS TABS -->
+    <div class="tab-bar">
+      <button class="tab-btn active">Tất cả (48)</button>
+      <button class="tab-btn">Chờ xác nhận (24)</button>
+      <button class="tab-btn">Đang đóng gói (8)</button>
+      <button class="tab-btn">Đang giao (12)</button>
+      <button class="tab-btn">Đã hoàn tất (201)</button>
+      <button class="tab-btn">Đã hủy (3)</button>
+    </div>
+
+    <!-- SEARCH BAR -->
+    <div class="toolbar">
+      <input type="text" placeholder="🔍 Tìm theo mã đơn hoặc tên khách hàng..." />
+      <select style="padding:10px 14px; border:1px solid #ddd; border-radius:8px; font-size:0.88rem;">
+        <option>Hôm nay</option>
+        <option>7 ngày qua</option>
+        <option>Tháng này</option>
+      </select>
+    </div>
+
+    <!-- ORDERS TABLE -->
+    <div class="new-orders-table">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã đơn</th>
+              <th>Khách hàng</th>
+              <th>Sản phẩm</th>
+              <th>Tổng tiền</th>
+              <th>Ngày đặt</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>#VN2026101901</strong></td>
+              <td>
+                <div style="font-weight:600;font-size:0.88rem;">Nguyễn Văn A</div>
+                <div style="font-size:0.75rem;color:#888;">📞 0901 234 567</div>
+                <div style="font-size:0.75rem;color:#888;">📍 Hà Nội</div>
+              </td>
+              <td>
+                <div style="font-size:0.85rem;">👟 Nike Air Max 270</div>
+                <div style="font-size:0.75rem;color:#888;">Size 40 | Đen | x1</div>
+              </td>
+              <td><strong style="color:#e53935;">1.875.000₫</strong></td>
+              <td style="font-size:0.82rem;">19/10/2026<br/>14:32</td>
+              <td><span class="status-pill pill-new">Chờ xác nhận</span></td>
+              <td>
+                <button class="btn-action btn-confirm" style="margin-bottom:4px;" onclick="this.textContent='✓ Đã xác nhận'; this.disabled=true;">Xác nhận đơn</button><br/>
+                <button class="btn-action btn-print">In phiếu GH</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>#VN2026101898</strong></td>
+              <td>
+                <div style="font-weight:600;font-size:0.88rem;">Trần Thị B</div>
+                <div style="font-size:0.75rem;color:#888;">📞 0912 345 678</div>
+                <div style="font-size:0.75rem;color:#888;">📍 TP.HCM</div>
+              </td>
+              <td>
+                <div style="font-size:0.85rem;">👟 Nike Zoom Fly 5</div>
+                <div style="font-size:0.75rem;color:#888;">Size 38 | Trắng | x2</div>
+              </td>
+              <td><strong style="color:#e53935;">3.200.000₫</strong></td>
+              <td style="font-size:0.82rem;">19/10/2026<br/>11:15</td>
+              <td><span class="status-pill pill-packing">Đang đóng gói</span></td>
+              <td>
+                <button class="btn-action btn-print" style="margin-bottom:4px;">In phiếu GH</button><br/>
+                <button class="btn-action btn-cancel-sm">Hủy đơn</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>#VN2026101890</strong></td>
+              <td>
+                <div style="font-weight:600;font-size:0.88rem;">Lê Minh C</div>
+                <div style="font-size:0.75rem;color:#888;">📞 0923 456 789</div>
+                <div style="font-size:0.75rem;color:#888;">📍 Đà Nẵng</div>
+              </td>
+              <td>
+                <div style="font-size:0.85rem;">👟 Nike React Infinity</div>
+                <div style="font-size:0.75rem;color:#888;">Size 42 | Xám | x1</div>
+              </td>
+              <td><strong style="color:#e53935;">2.100.000₫</strong></td>
+              <td style="font-size:0.82rem;">18/10/2026<br/>09:44</td>
+              <td><span class="status-pill" style="background:#e3f2fd;color:#1565c0;">Đang giao</span></td>
+              <td>
+                <button class="btn-action btn-cancel-sm">Xem chi tiết</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>#VN2026101870</strong></td>
+              <td>
+                <div style="font-weight:600;font-size:0.88rem;">Phạm Thị D</div>
+                <div style="font-size:0.75rem;color:#888;">📞 0934 567 890</div>
+                <div style="font-size:0.75rem;color:#888;">📍 Cần Thơ</div>
+              </td>
+              <td>
+                <div style="font-size:0.85rem;">👟 Nike Pegasus 40</div>
+                <div style="font-size:0.75rem;color:#888;">Size 39 | Đỏ | x3</div>
+              </td>
+              <td><strong style="color:#e53935;">4.500.000₫</strong></td>
+              <td style="font-size:0.82rem;">17/10/2026<br/>16:20</td>
+              <td><span class="status-pill pill-done">Đã hoàn tất</span></td>
+              <td>
+                <button class="btn-action btn-cancel-sm">Xem chi tiết</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>#VN2026101855</strong></td>
+              <td>
+                <div style="font-weight:600;font-size:0.88rem;">Hoàng Văn E</div>
+                <div style="font-size:0.75rem;color:#888;">📞 0945 678 901</div>
+                <div style="font-size:0.75rem;color:#888;">📍 Hải Phòng</div>
+              </td>
+              <td>
+                <div style="font-size:0.85rem;">👟 Nike Air Force 1</div>
+                <div style="font-size:0.75rem;color:#888;">Size 41 | Trắng | x1</div>
+              </td>
+              <td><strong style="color:#e53935;">1.250.000₫</strong></td>
+              <td style="font-size:0.82rem;">16/10/2026<br/>13:05</td>
+              <td><span class="status-pill pill-cancel">Đã hủy</span></td>
+              <td>
+                <button class="btn-action btn-cancel-sm">Xem lý do</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="hotline-btn">📞 Hotline: 1800 1234</div>
+
+</body>
+</html>

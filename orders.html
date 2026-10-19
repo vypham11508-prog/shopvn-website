@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theo dõi đơn hàng – ShopVN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">🛍️ ShopVN</a>
+      <div class="search-bar">
+        <input type="text" placeholder="Tìm kiếm sản phẩm..." />
+        <button>🔍</button>
+      </div>
+      <nav class="nav-links">
+        <a href="cart.html">🛒 Giỏ hàng <span class="badge">3</span></a>
+        <a href="orders.html" style="color:var(--yellow);">📦 Đơn hàng</a>
+        <div class="member-points">⭐ 1.250 điểm <span class="tag">Vàng</span></div>
+        <a href="login.html" class="btn-login">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <div class="container">
+      <h1>📦 Theo dõi đơn hàng</h1>
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> › Đơn hàng của tôi</div>
+    </div>
+  </div>
+
+  <div class="container orders-page">
+
+    <!-- SEARCH BY ORDER ID -->
+    <div class="order-search">
+      <input type="text" placeholder="Nhập mã đơn hàng (VD: #VN2026101901)..." />
+      <button>🔍 Tìm đơn</button>
+    </div>
+
+    <!-- TAB BAR -->
+    <div class="tab-bar">
+      <button class="tab-btn active">Tất cả</button>
+      <button class="tab-btn">Chờ xác nhận</button>
+      <button class="tab-btn">Đang vận chuyển</button>
+      <button class="tab-btn">Đã giao</button>
+      <button class="tab-btn">Đã hủy</button>
+    </div>
+
+    <!-- ORDER 1: ĐANG VẬN CHUYỂN -->
+    <div class="order-card">
+      <div class="order-card-header">
+        <div>
+          <div class="order-id">#VN2026101901</div>
+          <div style="font-size:0.82rem; color:#888;">Đặt ngày: 19/10/2026 &nbsp;|&nbsp; Nike Official Store</div>
+        </div>
+        <span class="order-status status-shipping">🚚 Đang vận chuyển</span>
+      </div>
+
+      <!-- PROGRESS TRACK -->
+      <div class="progress-track">
+        <div class="progress-fill" style="width: 62%;"></div>
+        <div class="track-step">
+          <div class="track-dot done">✓</div>
+          <div class="track-label">Đã xác nhận</div>
+        </div>
+        <div class="track-step">
+          <div class="track-dot done">✓</div>
+          <div class="track-label">Đang đóng gói</div>
+        </div>
+        <div class="track-step">
+          <div class="track-dot current">🚚</div>
+          <div class="track-label">Đang vận chuyển</div>
+        </div>
+        <div class="track-step">
+          <div class="track-dot">📦</div>
+          <div class="track-label">Đã giao</div>
+        </div>
+      </div>
+
+      <div class="order-products">
+        <div class="order-product-mini">👟 Giày Nike Air Max 270 x1</div>
+        <div style="font-size:0.8rem; color:#888;">Tổng: 1.875.000₫</div>
+      </div>
+    </div>
+
+    <!-- ORDER 2: ĐÃ GIAO -->
+    <div class="order-card">
+      <div class="order-card-header">
+        <div>
+          <div class="order-id">#VN2026100512</div>
+          <div style="font-size:0.82rem; color:#888;">Đặt ngày: 05/10/2026 &nbsp;|&nbsp; Samsung Store</div>
+        </div>
+        <span class="order-status status-delivered">✅ Đã giao</span>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" style="width: 96%;"></div>
+        <div class="track-step">
+          <div class="track-dot done">✓</div>
+          <div class="track-label">Đã xác nhận</div>
+        </div>
+        <div class="track-step">
+          <div class="track-dot done">✓</div>
+          <div class="track-label">Đang đóng gói</div>
+        </div>
+        <div class="track-step">
+          <div class="track-dot done">✓</div>
+          <div class="track-label">Đang vận chuyển</div>
+        </div>
+        <div class="track-step">
+          <div class="track-dot done">✓</div>
+          <div class="track-label">Đã giao</div>
+        </div>
+      </div>
+
+      <div class="order-products">
+        <div class="order-product-mini">📱 Samsung Galaxy S24 x1</div>
+        <div style="font-size:0.8rem; color:#888;">Tổng: 8.500.000₫</div>
+      </div>
+    </div>
+
+    <!-- ORDER 3: CHỜ XÁC NHẬN -->
+    <div class="order-card">
+      <div class="order-card-header">
+        <div>
+          <div class="order-id">#VN2026101920</div>
+          <div style="font-size:0.82rem; color:#888;">Đặt ngày: 19/10/2026 &nbsp;|&nbsp; Sony Audio</div>
+        </div>
+        <span class="order-status status-confirmed">🕐 Chờ xác nhận</span>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" style="width: 5%;"></div>
+        <div class="track-step">
+          <div class="track-dot current">🕐</div>
+          <div class="track-label">Đã xác nhận</div>
+        </div>
+        <div class="track-step">
+          <div class="track-dot">📦</div>
+          <div class="track-label">Đang đóng gói</div>
+        </div>
+        <div class="track-step">
+          <div class="track-dot">🚚</div>
+          <div class="track-label">Đang vận chuyển</div>
+        </div>
+        <div class="track-step">
+          <div class="track-dot">✓</div>
+          <div class="track-label">Đã giao</div>
+        </div>
+      </div>
+
+      <div class="order-products">
+        <div class="order-product-mini">🎧 Tai nghe Sony WH-1000XM5 x2</div>
+        <div style="font-size:0.8rem; color:#888;">Tổng: 2.400.000₫</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="hotline-btn">📞 Hotline: 1800 1234</div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><strong>🛍️ ShopVN</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p></div>
+      <div><strong>Hỗ trợ</strong><p><a href="#">Chính sách đổi trả</a></p><p><a href="#">Cam kết chất lượng</a></p></div>
+      <div><strong>Bán hàng</strong><p><a href="seller-register.html">Đăng ký người bán</a></p></div>
+    </div>
+    <div class="footer-bottom">© 2026 ShopVN – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
+  </footer>
+</body>
+</html>

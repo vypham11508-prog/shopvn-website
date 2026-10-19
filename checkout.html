@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thanh toán – ShopVN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">🛍️ ShopVN</a>
+      <div class="search-bar">
+        <input type="text" placeholder="Tìm kiếm sản phẩm..." />
+        <button>🔍</button>
+      </div>
+      <nav class="nav-links">
+        <a href="cart.html">🛒 Giỏ hàng <span class="badge">3</span></a>
+        <a href="orders.html">📦 Đơn hàng</a>
+        <a href="login.html" class="btn-login">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <div class="container">
+      <h1>💳 Đặt hàng & Thanh toán</h1>
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> › <a href="cart.html">Giỏ hàng</a> › Thanh toán</div>
+    </div>
+  </div>
+
+  <div class="container checkout-page">
+    <div class="checkout-layout">
+
+      <!-- LEFT: FORMS -->
+      <div>
+        <!-- SHIPPING INFO -->
+        <div class="form-card">
+          <h3>📍 Thông tin giao hàng</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Họ và tên người nhận *</label>
+              <input type="text" placeholder="Nguyễn Văn A" />
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại *</label>
+              <input type="tel" placeholder="0901 234 567" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tỉnh / Thành phố *</label>
+              <select>
+                <option>Chọn tỉnh/thành phố</option>
+                <option>Hà Nội</option>
+                <option>TP. Hồ Chí Minh</option>
+                <option>Đà Nẵng</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Quận / Huyện *</label>
+              <select>
+                <option>Chọn quận/huyện</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Địa chỉ chi tiết *</label>
+            <input type="text" placeholder="Số nhà, tên đường, phường/xã..." />
+          </div>
+          <div class="form-group">
+            <label>Ghi chú cho người giao hàng</label>
+            <input type="text" placeholder="VD: Giao giờ hành chính, gọi trước khi giao..." />
+          </div>
+        </div>
+
+        <!-- SHIPPING METHOD -->
+        <div class="form-card">
+          <h3>🚚 Nhà vận chuyển</h3>
+          <div class="payment-options">
+            <label class="payment-opt selected">
+              <input type="radio" name="ship" checked /> <span>🚀 Giao nhanh (1–2 ngày) – 25.000₫</span>
+            </label>
+            <label class="payment-opt">
+              <input type="radio" name="ship" /> <span>📦 Giao tiêu chuẩn (3–5 ngày) – Miễn phí</span>
+            </label>
+            <label class="payment-opt">
+              <input type="radio" name="ship" /> <span>⚡ Hỏa tốc (Hôm nay) – 45.000₫</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- PAYMENT METHOD -->
+        <div class="form-card">
+          <h3>💳 Phương thức thanh toán</h3>
+          <div class="payment-options">
+            <label class="payment-opt selected">
+              <input type="radio" name="pay" checked /> <span>💵 Thanh toán khi nhận hàng (COD)</span>
+            </label>
+            <label class="payment-opt">
+              <input type="radio" name="pay" /> <span>🏦 Chuyển khoản ngân hàng</span>
+            </label>
+            <label class="payment-opt">
+              <input type="radio" name="pay" /> <span>📱 Ví điện tử (MoMo, ZaloPay, VNPay)</span>
+            </label>
+            <label class="payment-opt">
+              <input type="radio" name="pay" /> <span>💳 Thẻ tín dụng / ghi nợ</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: ORDER SUMMARY -->
+      <div class="order-summary-card">
+        <h3>🧾 Đơn hàng của bạn</h3>
+
+        <div class="order-item">
+          <div class="order-item-img">👟</div>
+          <div class="order-item-name">Giày Nike Air Max 270<br/><span style="font-weight:400; color:#888;">Size 40 | Đen | x1</span></div>
+          <div class="order-item-price">1.850.000₫</div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-img">📱</div>
+          <div class="order-item-name">Samsung Galaxy S24<br/><span style="font-weight:400; color:#888;">256GB | Tím | x1</span></div>
+          <div class="order-item-price">8.500.000₫</div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-img">🎧</div>
+          <div class="order-item-name">Tai nghe Sony WH-1000XM5<br/><span style="font-weight:400; color:#888;">Đen | x2</span></div>
+          <div class="order-item-price">2.400.000₫</div>
+        </div>
+
+        <div class="voucher-input">
+          <input type="text" placeholder="Nhập mã voucher..." />
+          <button>Áp dụng</button>
+        </div>
+
+        <div class="summary-row"><span>Tạm tính</span><span>13.950.000₫</span></div>
+        <div class="summary-row"><span>Phí vận chuyển</span><span>25.000₫</span></div>
+        <div class="summary-row"><span>Voucher</span><span style="color:#e53935;">−500.000₫</span></div>
+        <div class="summary-row total"><span>Tổng thanh toán</span><span>13.475.000₫</span></div>
+
+        <button class="btn-place-order" onclick="alert('Đặt hàng thành công! 🎉\nMã đơn: #VN2026101901\nBạn sẽ được chuyển đến trang theo dõi đơn hàng.'); window.location=\'orders.html\'">
+          ✅ Đặt hàng ngay
+        </button>
+
+        <div style="font-size:0.78rem; color:#888; text-align:center; margin-top:12px; line-height:1.6;">
+          🔒 Thanh toán bảo mật 256-bit SSL<br/>
+          🔄 Đổi trả miễn phí trong 30 ngày
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hotline-btn">📞 Hotline: 1800 1234</div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><strong>🛍️ ShopVN</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p></div>
+      <div><strong>Hỗ trợ</strong><p><a href="#">Chính sách đổi trả</a></p><p><a href="#">Cam kết chất lượng</a></p></div>
+      <div><strong>Bán hàng</strong><p><a href="seller-register.html">Đăng ký người bán</a></p></div>
+    </div>
+    <div class="footer-bottom">© 2026 ShopVN – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
+  </footer>
+</body>
+</html>
