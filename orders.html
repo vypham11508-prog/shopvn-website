@@ -6,6 +6,19 @@
   <title>Theo dõi đơn hàng – ShopVN</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .order-detail-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center; padding:20px; }
+    .order-detail-modal.open { display:flex; }
+    .modal-box { background:white; border-radius:16px; padding:32px; max-width:600px; width:100%; max-height:90vh; overflow-y:auto; position:relative; }
+    .modal-close { position:absolute; top:16px; right:20px; font-size:1.5rem; cursor:pointer; color:#888; background:none; border:none; }
+    .modal-title { font-family:'Montserrat',sans-serif; font-size:1.2rem; font-weight:700; color:var(--dark); margin-bottom:20px; }
+    .modal-section { margin-bottom:16px; }
+    .modal-section h4 { font-size:0.85rem; font-weight:700; color:#888; text-transform:uppercase; margin-bottom:8px; }
+    .modal-row { display:flex; justify-content:space-between; font-size:0.88rem; padding:5px 0; border-bottom:1px solid #f0f0f0; }
+    .modal-row:last-child { border:none; }
+    .btn-cancel-order { width:100%; padding:12px; background:#fee; border:2px solid #e53935; color:#e53935; border-radius:10px; font-weight:700; cursor:pointer; font-family:'Montserrat',sans-serif; margin-top:16px; }
+    .btn-cancel-order:disabled { opacity:0.4; cursor:not-allowed; }
+  </style>
 </head>
 <body>
 
@@ -13,11 +26,11 @@
     <div class="container header-inner">
       <a href="index.html" class="logo">🛍️ ShopVN</a>
       <div class="search-bar">
-        <input type="text" placeholder="Tìm kiếm sản phẩm..." />
-        <button>🔍</button>
+        <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm..." onkeydown="if(event.key==='Enter') doSearch()" />
+        <button onclick="doSearch()">🔍</button>
       </div>
       <nav class="nav-links">
-        <a href="cart.html">🛒 Giỏ hàng <span class="badge">3</span></a>
+        <a href="cart.html">🛒 Giỏ hàng <span class="badge cart-badge">0</span></a>
         <a href="orders.html" style="color:var(--yellow);">📦 Đơn hàng</a>
         <div class="member-points">⭐ 1.250 điểm <span class="tag">Vàng</span></div>
         <a href="login.html" class="btn-login">Đăng nhập</a>
@@ -27,137 +40,63 @@
 
   <div class="page-header">
     <div class="container">
-      <h1>📦 Theo dõi đơn hàng</h1>
-      <div class="breadcrumb"><a href="index.html">Trang chủ</a> › Đơn hàng của tôi</div>
+      <h1>📦 Đơn hàng của tôi</h1>
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> › Đơn hàng</div>
     </div>
   </div>
 
   <div class="container orders-page">
-
-    <!-- SEARCH BY ORDER ID -->
     <div class="order-search">
-      <input type="text" placeholder="Nhập mã đơn hàng (VD: #VN2026101901)..." />
-      <button>🔍 Tìm đơn</button>
+      <input type="text" id="order-search-input" placeholder="Nhập mã đơn hàng để tìm..." oninput="filterOrders()" />
+      <button onclick="filterOrders()">🔍 Tìm đơn</button>
     </div>
 
-    <!-- TAB BAR -->
-    <div class="tab-bar">
-      <button class="tab-btn active">Tất cả</button>
-      <button class="tab-btn">Chờ xác nhận</button>
-      <button class="tab-btn">Đang vận chuyển</button>
-      <button class="tab-btn">Đã giao</button>
-      <button class="tab-btn">Đã hủy</button>
+    <div class="tab-bar" id="status-tabs">
+      <button class="tab-btn active" onclick="setTab('all', this)">Tất cả</button>
+      <button class="tab-btn" onclick="setTab('pending', this)">Chờ xác nhận</button>
+      <button class="tab-btn" onclick="setTab('shipping', this)">Đang vận chuyển</button>
+      <button class="tab-btn" onclick="setTab('delivered', this)">Đã giao</button>
+      <button class="tab-btn" onclick="setTab('cancelled', this)">Đã hủy</button>
     </div>
 
-    <!-- ORDER 1: ĐANG VẬN CHUYỂN -->
-    <div class="order-card">
-      <div class="order-card-header">
-        <div>
-          <div class="order-id">#VN2026101901</div>
-          <div style="font-size:0.82rem; color:#888;">Đặt ngày: 19/10/2026 &nbsp;|&nbsp; Nike Official Store</div>
-        </div>
-        <span class="order-status status-shipping">🚚 Đang vận chuyển</span>
+    <div id="orders-list"></div>
+  </div>
+
+  <!-- DETAIL MODAL -->
+  <div class="order-detail-modal" id="detail-modal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-title" id="modal-order-id"></div>
+
+      <div class="modal-section">
+        <h4>Thông tin giao hàng</h4>
+        <div id="modal-receiver"></div>
+      </div>
+
+      <div class="modal-section">
+        <h4>Sản phẩm đã đặt</h4>
+        <div id="modal-items"></div>
+      </div>
+
+      <div class="modal-section">
+        <h4>Thanh toán</h4>
+        <div id="modal-payment"></div>
       </div>
 
       <!-- PROGRESS TRACK -->
-      <div class="progress-track">
-        <div class="progress-fill" style="width: 62%;"></div>
-        <div class="track-step">
-          <div class="track-dot done">✓</div>
-          <div class="track-label">Đã xác nhận</div>
-        </div>
-        <div class="track-step">
-          <div class="track-dot done">✓</div>
-          <div class="track-label">Đang đóng gói</div>
-        </div>
-        <div class="track-step">
-          <div class="track-dot current">🚚</div>
-          <div class="track-label">Đang vận chuyển</div>
-        </div>
-        <div class="track-step">
-          <div class="track-dot">📦</div>
-          <div class="track-label">Đã giao</div>
+      <div class="modal-section">
+        <h4>Trạng thái đơn hàng</h4>
+        <div class="progress-track" id="modal-track">
+          <div class="progress-fill" id="modal-progress-fill"></div>
+          <div class="track-step"><div class="track-dot" id="td-1">1</div><div class="track-label">Xác nhận</div></div>
+          <div class="track-step"><div class="track-dot" id="td-2">2</div><div class="track-label">Đóng gói</div></div>
+          <div class="track-step"><div class="track-dot" id="td-3">🚚</div><div class="track-label">Vận chuyển</div></div>
+          <div class="track-step"><div class="track-dot" id="td-4">✓</div><div class="track-label">Đã giao</div></div>
         </div>
       </div>
 
-      <div class="order-products">
-        <div class="order-product-mini">👟 Giày Nike Air Max 270 x1</div>
-        <div style="font-size:0.8rem; color:#888;">Tổng: 1.875.000₫</div>
-      </div>
+      <button class="btn-cancel-order" id="modal-cancel-btn" onclick="cancelCurrentOrder()">❌ Hủy đơn hàng</button>
     </div>
-
-    <!-- ORDER 2: ĐÃ GIAO -->
-    <div class="order-card">
-      <div class="order-card-header">
-        <div>
-          <div class="order-id">#VN2026100512</div>
-          <div style="font-size:0.82rem; color:#888;">Đặt ngày: 05/10/2026 &nbsp;|&nbsp; Samsung Store</div>
-        </div>
-        <span class="order-status status-delivered">✅ Đã giao</span>
-      </div>
-
-      <div class="progress-track">
-        <div class="progress-fill" style="width: 96%;"></div>
-        <div class="track-step">
-          <div class="track-dot done">✓</div>
-          <div class="track-label">Đã xác nhận</div>
-        </div>
-        <div class="track-step">
-          <div class="track-dot done">✓</div>
-          <div class="track-label">Đang đóng gói</div>
-        </div>
-        <div class="track-step">
-          <div class="track-dot done">✓</div>
-          <div class="track-label">Đang vận chuyển</div>
-        </div>
-        <div class="track-step">
-          <div class="track-dot done">✓</div>
-          <div class="track-label">Đã giao</div>
-        </div>
-      </div>
-
-      <div class="order-products">
-        <div class="order-product-mini">📱 Samsung Galaxy S24 x1</div>
-        <div style="font-size:0.8rem; color:#888;">Tổng: 8.500.000₫</div>
-      </div>
-    </div>
-
-    <!-- ORDER 3: CHỜ XÁC NHẬN -->
-    <div class="order-card">
-      <div class="order-card-header">
-        <div>
-          <div class="order-id">#VN2026101920</div>
-          <div style="font-size:0.82rem; color:#888;">Đặt ngày: 19/10/2026 &nbsp;|&nbsp; Sony Audio</div>
-        </div>
-        <span class="order-status status-confirmed">🕐 Chờ xác nhận</span>
-      </div>
-
-      <div class="progress-track">
-        <div class="progress-fill" style="width: 5%;"></div>
-        <div class="track-step">
-          <div class="track-dot current">🕐</div>
-          <div class="track-label">Đã xác nhận</div>
-        </div>
-        <div class="track-step">
-          <div class="track-dot">📦</div>
-          <div class="track-label">Đang đóng gói</div>
-        </div>
-        <div class="track-step">
-          <div class="track-dot">🚚</div>
-          <div class="track-label">Đang vận chuyển</div>
-        </div>
-        <div class="track-step">
-          <div class="track-dot">✓</div>
-          <div class="track-label">Đã giao</div>
-        </div>
-      </div>
-
-      <div class="order-products">
-        <div class="order-product-mini">🎧 Tai nghe Sony WH-1000XM5 x2</div>
-        <div style="font-size:0.8rem; color:#888;">Tổng: 2.400.000₫</div>
-      </div>
-    </div>
-
   </div>
 
   <div class="hotline-btn">📞 Hotline: 1800 1234</div>
@@ -170,5 +109,156 @@
     </div>
     <div class="footer-bottom">© 2026 ShopVN – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
   </footer>
+
+  <script src="data.js"></script>
+  <script>
+    function doSearch() {
+      const q = document.getElementById('search-input').value.trim();
+      if (q) window.location.href = 'products.html?q=' + encodeURIComponent(q);
+    }
+
+    let currentTab = 'all';
+    let currentModalOrderId = null;
+
+    const STATUS_CONFIG = {
+      pending:   { label: '🕐 Chờ xác nhận', cls: 'status-confirmed', progress: '5%',  dots: [0,0,0,0] },
+      packing:   { label: '📦 Đang đóng gói', cls: 'status-processing', progress: '35%', dots: [1,0,0,0] },
+      shipping:  { label: '🚚 Đang vận chuyển', cls: 'status-shipping',  progress: '65%', dots: [1,1,0,0] },
+      delivered: { label: '✅ Đã giao',       cls: 'status-delivered', progress: '96%', dots: [1,1,1,1] },
+      cancelled: { label: '❌ Đã hủy',        cls: 'pill-cancel',      progress: '0%',  dots: [0,0,0,0] },
+    };
+
+    function getOrders() {
+      return JSON.parse(localStorage.getItem('orders') || '[]');
+    }
+    function saveOrders(orders) {
+      localStorage.setItem('orders', JSON.stringify(orders));
+    }
+
+    function setTab(tab, btn) {
+      currentTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderOrders();
+    }
+
+    function filterOrders() { renderOrders(); }
+
+    function renderOrders() {
+      const orders = getOrders();
+      const searchVal = document.getElementById('order-search-input').value.trim().toLowerCase();
+      const list = document.getElementById('orders-list');
+
+      let filtered = orders.filter(o => {
+        const matchTab = currentTab === 'all' || o.status === currentTab;
+        const matchSearch = !searchVal || o.id.toLowerCase().includes(searchVal);
+        return matchTab && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        list.innerHTML = `<div style="text-align:center;padding:60px;color:#888;"><div style="font-size:3rem;">📭</div><p style="margin-top:12px;">Không có đơn hàng nào</p></div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map(order => {
+        const cfg = STATUS_CONFIG[order.status] || STATUS_CONFIG.pending;
+        const itemsSummary = order.items.map(i => `${i.emoji} ${i.name} x${i.qty}`).join(' · ');
+        return `
+          <div class="order-card">
+            <div class="order-card-header">
+              <div>
+                <div class="order-id">${order.id}</div>
+                <div style="font-size:0.82rem;color:#888;">Ngày đặt: ${order.date}</div>
+              </div>
+              <span class="order-status ${cfg.cls}">${cfg.label}</span>
+            </div>
+            <div class="order-products" style="margin-bottom:12px;">
+              <div style="font-size:0.85rem;color:#555;">${itemsSummary}</div>
+              <div style="font-size:0.85rem;font-weight:700;color:#e53935;margin-top:4px;">Tổng: ${formatPrice(order.total)}</div>
+            </div>
+            <div style="display:flex;gap:10px;">
+              <button onclick="openModal('${order.id}')" style="padding:8px 20px;background:var(--dark);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.85rem;">👁 Xem chi tiết</button>
+              ${order.status === 'pending' ? `<button onclick="cancelOrder('${order.id}')" style="padding:8px 20px;background:#fee;border:2px solid #e53935;color:#e53935;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.85rem;">❌ Hủy đơn</button>` : ''}
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function openModal(orderId) {
+      const orders = getOrders();
+      const order = orders.find(o => o.id === orderId);
+      if (!order) return;
+      currentModalOrderId = orderId;
+
+      document.getElementById('modal-order-id').textContent = `Đơn hàng ${order.id}`;
+
+      // Receiver
+      const r = order.receiver || {};
+      document.getElementById('modal-receiver').innerHTML = `
+        <div class="modal-row"><span>Người nhận</span><span>${r.name || '—'}</span></div>
+        <div class="modal-row"><span>Điện thoại</span><span>${r.phone || '—'}</span></div>
+        <div class="modal-row"><span>Địa chỉ</span><span>${[r.address, r.province].filter(Boolean).join(', ') || '—'}</span></div>`;
+
+      // Items
+      document.getElementById('modal-items').innerHTML = order.items.map(i => {
+        const variant = [i.color, i.size].filter(Boolean).join(' | ');
+        return `<div class="modal-row"><span>${i.emoji} ${i.name}${variant ? ` (${variant})` : ''} x${i.qty}</span><span>${formatPrice(i.price * i.qty)}</span></div>`;
+      }).join('');
+
+      // Payment
+      document.getElementById('modal-payment').innerHTML = `
+        <div class="modal-row"><span>Phương thức</span><span>${order.payLabel || 'COD'}</span></div>
+        <div class="modal-row"><span>Vận chuyển</span><span>${order.shipLabel || 'Tiêu chuẩn'}</span></div>
+        <div class="modal-row"><span><strong>Tổng tiền</strong></span><span style="color:#e53935;font-weight:700;">${formatPrice(order.total)}</span></div>`;
+
+      // Progress track
+      const cfg = STATUS_CONFIG[order.status] || STATUS_CONFIG.pending;
+      document.getElementById('modal-progress-fill').style.width = cfg.progress;
+      [1,2,3,4].forEach(i => {
+        const dot = document.getElementById('td-' + i);
+        dot.classList.remove('done','current');
+        const doneCount = cfg.dots.filter(Boolean).length;
+        if (i <= doneCount) dot.classList.add('done');
+        else if (i === doneCount + 1 && order.status !== 'delivered') dot.classList.add('current');
+      });
+
+      // Cancel button
+      const cancelBtn = document.getElementById('modal-cancel-btn');
+      cancelBtn.disabled = order.status !== 'pending';
+      cancelBtn.textContent = order.status === 'cancelled' ? '✕ Đơn đã hủy' : '❌ Hủy đơn hàng';
+
+      document.getElementById('detail-modal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('detail-modal').classList.remove('open');
+      currentModalOrderId = null;
+    }
+
+    function cancelCurrentOrder() {
+      if (currentModalOrderId) cancelOrder(currentModalOrderId);
+      closeModal();
+    }
+
+    function cancelOrder(orderId) {
+      if (!confirm('Bạn có chắc muốn hủy đơn hàng này không?')) return;
+      const orders = getOrders();
+      const order = orders.find(o => o.id === orderId);
+      if (order && order.status === 'pending') {
+        order.status = 'cancelled';
+        saveOrders(orders);
+        showToast('Đã hủy đơn hàng ' + orderId);
+        renderOrders();
+      }
+    }
+
+    // Click ngoài modal để đóng
+    document.getElementById('detail-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    renderOrders();
+    updateCartBadge();
+  </script>
 </body>
 </html>

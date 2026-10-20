@@ -13,11 +13,11 @@
     <div class="container header-inner">
       <a href="index.html" class="logo">🛍️ ShopVN</a>
       <div class="search-bar">
-        <input type="text" placeholder="Tìm kiếm sản phẩm..." />
-        <button>🔍</button>
+        <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm..." onkeydown="if(event.key==='Enter') doSearch()" />
+        <button onclick="doSearch()">🔍</button>
       </div>
       <nav class="nav-links">
-        <a href="cart.html">🛒 Giỏ hàng <span class="badge">3</span></a>
+        <a href="cart.html">🛒 Giỏ hàng <span class="badge cart-badge">0</span></a>
         <a href="orders.html">📦 Đơn hàng</a>
         <div class="member-points">⭐ 1.250 điểm <span class="tag">Vàng</span></div>
         <a href="login.html" class="btn-login">Đăng nhập</a>
@@ -34,81 +34,25 @@
 
   <div class="container cart-page">
     <div class="cart-layout">
-
-      <!-- CART ITEMS -->
-      <div class="cart-items-box">
-        <div class="cart-header-row">
-          <div>Sản phẩm</div>
-          <div>Đơn giá</div>
-          <div>Số lượng</div>
-          <div>Thao tác</div>
-        </div>
-
-        <div class="cart-item-row">
-          <div class="cart-product">
-            <div class="cart-product-img">👟</div>
-            <div>
-              <div class="cart-product-name">Giày Nike Air Max 270</div>
-              <div class="cart-product-variant">Màu: Đen | Size: 40</div>
-            </div>
-          </div>
-          <div class="cart-price">1.850.000₫</div>
-          <div>
-            <div class="cart-qty-ctrl">
-              <button>−</button><span>1</span><button>+</button>
-            </div>
-          </div>
-          <div><button class="btn-remove">🗑️</button></div>
-        </div>
-
-        <div class="cart-item-row">
-          <div class="cart-product">
-            <div class="cart-product-img">📱</div>
-            <div>
-              <div class="cart-product-name">Điện thoại Samsung Galaxy S24</div>
-              <div class="cart-product-variant">Màu: Tím | Bộ nhớ: 256GB</div>
-            </div>
-          </div>
-          <div class="cart-price">8.500.000₫</div>
-          <div>
-            <div class="cart-qty-ctrl">
-              <button>−</button><span>1</span><button>+</button>
-            </div>
-          </div>
-          <div><button class="btn-remove">🗑️</button></div>
-        </div>
-
-        <div class="cart-item-row">
-          <div class="cart-product">
-            <div class="cart-product-img">🎧</div>
-            <div>
-              <div class="cart-product-name">Tai nghe Sony WH-1000XM5</div>
-              <div class="cart-product-variant">Màu: Đen</div>
-            </div>
-          </div>
-          <div class="cart-price">1.200.000₫</div>
-          <div>
-            <div class="cart-qty-ctrl">
-              <button>−</button><span>2</span><button>+</button>
-            </div>
-          </div>
-          <div><button class="btn-remove">🗑️</button></div>
+      <div>
+        <div class="cart-items-box" id="cart-items-box"></div>
+        <div id="empty-cart" style="display:none;text-align:center;padding:60px;background:white;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.1);">
+          <div style="font-size:4rem;">🛒</div>
+          <p style="margin-top:12px;color:#888;">Giỏ hàng trống</p>
+          <a href="products.html" class="btn-primary" style="display:inline-block;margin-top:16px;">Mua sắm ngay</a>
         </div>
       </div>
 
-      <!-- SUMMARY -->
       <div class="cart-summary">
         <h3>Tóm tắt đơn hàng</h3>
-        <div class="summary-row"><span>Tạm tính (4 sản phẩm)</span><span>13.950.000₫</span></div>
+        <div class="summary-row"><span>Tạm tính</span><span id="subtotal">0₫</span></div>
         <div class="summary-row"><span>Phí vận chuyển</span><span style="color:#2e7d32;">Miễn phí</span></div>
-        <div class="summary-row"><span>Giảm giá</span><span style="color:#e53935;">−500.000₫</span></div>
-        <div class="summary-row total"><span>Tổng cộng</span><span>13.450.000₫</span></div>
+        <div class="summary-row total"><span>Tổng cộng</span><span id="total">0₫</span></div>
         <button class="btn-checkout" onclick="window.location='checkout.html'">Tiến hành thanh toán →</button>
-        <div style="text-align:center; margin-top:12px;">
-          <a href="products.html" style="font-size:0.85rem; color:#888;">← Tiếp tục mua sắm</a>
+        <div style="text-align:center;margin-top:12px;">
+          <a href="products.html" style="font-size:0.85rem;color:#888;">← Tiếp tục mua sắm</a>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -122,5 +66,81 @@
     </div>
     <div class="footer-bottom">© 2026 ShopVN – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
   </footer>
+
+  <script src="data.js"></script>
+  <script>
+    function doSearch() {
+      const q = document.getElementById('search-input').value.trim();
+      if (q) window.location.href = 'products.html?q=' + encodeURIComponent(q);
+    }
+
+    function renderCart() {
+      const cart = getCart();
+      const box = document.getElementById('cart-items-box');
+      const empty = document.getElementById('empty-cart');
+
+      if (cart.length === 0) {
+        box.style.display = 'none';
+        empty.style.display = 'block';
+        document.getElementById('subtotal').textContent = '0₫';
+        document.getElementById('total').textContent = '0₫';
+        return;
+      }
+
+      box.style.display = 'block';
+      empty.style.display = 'none';
+
+      let html = `<div class="cart-header-row"><div>Sản phẩm</div><div>Đơn giá</div><div>Số lượng</div><div>Thành tiền</div><div></div></div>`;
+      let subtotal = 0;
+
+      cart.forEach((item, idx) => {
+        const lineTotal = item.price * item.qty;
+        subtotal += lineTotal;
+        const variant = [item.color, item.size].filter(Boolean).join(' | ');
+        html += `
+          <div class="cart-item-row" style="grid-template-columns:1fr 110px 130px 110px 50px;">
+            <div class="cart-product">
+              <div class="cart-product-img">${item.emoji}</div>
+              <div>
+                <div class="cart-product-name">${item.name}</div>
+                ${variant ? `<div class="cart-product-variant">${variant}</div>` : ''}
+              </div>
+            </div>
+            <div class="cart-price">${formatPrice(item.price)}</div>
+            <div>
+              <div class="cart-qty-ctrl">
+                <button onclick="updateQty(${idx},-1)">−</button>
+                <span>${item.qty}</span>
+                <button onclick="updateQty(${idx},1)">+</button>
+              </div>
+            </div>
+            <div class="cart-price">${formatPrice(lineTotal)}</div>
+            <div><button class="btn-remove" onclick="removeItem(${idx})" title="Xóa">🗑️</button></div>
+          </div>`;
+      });
+
+      box.innerHTML = html;
+      document.getElementById('subtotal').textContent = formatPrice(subtotal);
+      document.getElementById('total').textContent = formatPrice(subtotal);
+    }
+
+    function updateQty(idx, delta) {
+      const cart = getCart();
+      cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+      saveCart(cart);
+      renderCart();
+    }
+
+    function removeItem(idx) {
+      const cart = getCart();
+      cart.splice(idx, 1);
+      saveCart(cart);
+      renderCart();
+      showToast('Đã xóa sản phẩm khỏi giỏ hàng');
+    }
+
+    renderCart();
+    updateCartBadge();
+  </script>
 </body>
 </html>

@@ -13,11 +13,11 @@
     <div class="container header-inner">
       <a href="index.html" class="logo">🛍️ ShopVN</a>
       <div class="search-bar">
-        <input type="text" placeholder="Tìm kiếm sản phẩm..." />
-        <button>🔍</button>
+        <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm..." onkeydown="if(event.key==='Enter') doSearch()" />
+        <button onclick="doSearch()">🔍</button>
       </div>
       <nav class="nav-links">
-        <a href="cart.html">🛒 Giỏ hàng <span class="badge">3</span></a>
+        <a href="cart.html">🛒 Giỏ hàng <span class="badge cart-badge">0</span></a>
         <a href="orders.html">📦 Đơn hàng</a>
         <a href="login.html" class="btn-login">Đăng nhập</a>
       </nav>
@@ -33,54 +33,35 @@
 
   <div class="container checkout-page">
     <div class="checkout-layout">
-
-      <!-- LEFT: FORMS -->
+      <!-- LEFT -->
       <div>
         <!-- SHIPPING INFO -->
         <div class="form-card">
           <h3>📍 Thông tin giao hàng</h3>
           <div class="form-row">
-            <div class="form-group">
-              <label>Họ và tên người nhận *</label>
-              <input type="text" placeholder="Nguyễn Văn A" />
-            </div>
-            <div class="form-group">
-              <label>Số điện thoại *</label>
-              <input type="tel" placeholder="0901 234 567" />
-            </div>
+            <div class="form-group"><label>Họ và tên *</label><input type="text" id="receiver-name" placeholder="Nguyễn Văn A" /></div>
+            <div class="form-group"><label>Số điện thoại *</label><input type="tel" id="receiver-phone" placeholder="0901 234 567" /></div>
           </div>
           <div class="form-row">
-            <div class="form-group">
-              <label>Tỉnh / Thành phố *</label>
-              <select id="checkout-province"></select>
-            </div>
-            <div class="form-group">
-              <label>Quận / Huyện *</label>
-              <select id="checkout-district"></select>
-            </div>
+            <div class="form-group"><label>Tỉnh / Thành phố *</label><select id="checkout-province"></select></div>
+            <div class="form-group"><label>Quận / Huyện *</label><select id="checkout-district"></select></div>
           </div>
-          <div class="form-group">
-            <label>Địa chỉ chi tiết *</label>
-            <input type="text" placeholder="Số nhà, tên đường, phường/xã..." />
-          </div>
-          <div class="form-group">
-            <label>Ghi chú cho người giao hàng</label>
-            <input type="text" placeholder="VD: Giao giờ hành chính, gọi trước khi giao..." />
-          </div>
+          <div class="form-group"><label>Địa chỉ chi tiết *</label><input type="text" id="receiver-address" placeholder="Số nhà, tên đường..." /></div>
+          <div class="form-group"><label>Ghi chú</label><input type="text" placeholder="Giao giờ hành chính, gọi trước khi giao..." /></div>
         </div>
 
         <!-- SHIPPING METHOD -->
         <div class="form-card">
           <h3>🚚 Nhà vận chuyển</h3>
-          <div class="payment-options">
-            <label class="payment-opt selected">
-              <input type="radio" name="ship" checked /> <span>🚀 Giao nhanh (1–2 ngày) – 25.000₫</span>
+          <div class="payment-options" id="ship-options">
+            <label class="payment-opt" onclick="selectShip(this, 25000, 'Giao nhanh (1–2 ngày)')">
+              <input type="radio" name="ship" value="25000" /> <span>🚀 Giao nhanh (1–2 ngày) – 25.000₫</span>
             </label>
-            <label class="payment-opt">
-              <input type="radio" name="ship" /> <span>📦 Giao tiêu chuẩn (3–5 ngày) – Miễn phí</span>
+            <label class="payment-opt" onclick="selectShip(this, 0, 'Giao tiêu chuẩn (3–5 ngày)')">
+              <input type="radio" name="ship" value="0" /> <span>📦 Giao tiêu chuẩn (3–5 ngày) – Miễn phí</span>
             </label>
-            <label class="payment-opt">
-              <input type="radio" name="ship" /> <span>⚡ Hỏa tốc (Hôm nay) – 45.000₫</span>
+            <label class="payment-opt" onclick="selectShip(this, 45000, 'Hỏa tốc (Hôm nay)')">
+              <input type="radio" name="ship" value="45000" /> <span>⚡ Hỏa tốc (Hôm nay) – 45.000₫</span>
             </label>
           </div>
         </div>
@@ -88,17 +69,17 @@
         <!-- PAYMENT METHOD -->
         <div class="form-card">
           <h3>💳 Phương thức thanh toán</h3>
-          <div class="payment-options">
-            <label class="payment-opt selected">
-              <input type="radio" name="pay" checked /> <span>💵 Thanh toán khi nhận hàng (COD)</span>
+          <div class="payment-options" id="pay-options">
+            <label class="payment-opt" onclick="selectPay(this, 'Thanh toán khi nhận hàng (COD)')">
+              <input type="radio" name="pay" /> <span>💵 Thanh toán khi nhận hàng (COD)</span>
             </label>
-            <label class="payment-opt">
+            <label class="payment-opt" onclick="selectPay(this, 'Chuyển khoản ngân hàng')">
               <input type="radio" name="pay" /> <span>🏦 Chuyển khoản ngân hàng</span>
             </label>
-            <label class="payment-opt">
+            <label class="payment-opt" onclick="selectPay(this, 'Ví điện tử (MoMo / ZaloPay)')">
               <input type="radio" name="pay" /> <span>📱 Ví điện tử (MoMo, ZaloPay, VNPay)</span>
             </label>
-            <label class="payment-opt">
+            <label class="payment-opt" onclick="selectPay(this, 'Thẻ tín dụng / ghi nợ')">
               <input type="radio" name="pay" /> <span>💳 Thẻ tín dụng / ghi nợ</span>
             </label>
           </div>
@@ -108,51 +89,30 @@
       <!-- RIGHT: ORDER SUMMARY -->
       <div class="order-summary-card">
         <h3>🧾 Đơn hàng của bạn</h3>
+        <div id="checkout-items"></div>
 
-        <div class="order-item">
-          <div class="order-item-img">👟</div>
-          <div class="order-item-name">Giày Nike Air Max 270<br/><span style="font-weight:400; color:#888;">Size 40 | Đen | x1</span></div>
-          <div class="order-item-price">1.850.000₫</div>
-        </div>
-        <div class="order-item">
-          <div class="order-item-img">📱</div>
-          <div class="order-item-name">Samsung Galaxy S24<br/><span style="font-weight:400; color:#888;">256GB | Tím | x1</span></div>
-          <div class="order-item-price">8.500.000₫</div>
-        </div>
-        <div class="order-item">
-          <div class="order-item-img">🎧</div>
-          <div class="order-item-name">Tai nghe Sony WH-1000XM5<br/><span style="font-weight:400; color:#888;">Đen | x2</span></div>
-          <div class="order-item-price">2.400.000₫</div>
-        </div>
-
+        <!-- VOUCHER -->
         <div class="voucher-input">
-          <input type="text" placeholder="Nhập mã voucher..." />
-          <button>Áp dụng</button>
+          <input type="text" id="voucher-input" placeholder="Nhập mã voucher..." />
+          <button onclick="applyVoucher()">Áp dụng</button>
         </div>
+        <div id="voucher-msg" style="font-size:0.82rem;margin-bottom:10px;"></div>
 
-        <div class="summary-row"><span>Tạm tính</span><span>13.950.000₫</span></div>
-        <div class="summary-row"><span>Phí vận chuyển</span><span>25.000₫</span></div>
-        <div class="summary-row"><span>Voucher</span><span style="color:#e53935;">−500.000₫</span></div>
-        <div class="summary-row total"><span>Tổng thanh toán</span><span>13.475.000₫</span></div>
+        <div class="summary-row"><span>Tạm tính</span><span id="co-subtotal">0₫</span></div>
+        <div class="summary-row"><span>Phí vận chuyển</span><span id="co-ship">Chưa chọn</span></div>
+        <div class="summary-row" id="voucher-row" style="display:none;"><span>Voucher</span><span id="co-voucher" style="color:#e53935;"></span></div>
+        <div class="summary-row total"><span>Tổng thanh toán</span><span id="co-total">0₫</span></div>
 
-        <button class="btn-place-order" onclick="alert('Đặt hàng thành công! 🎉\nMã đơn: #VN2026101901\nBạn sẽ được chuyển đến trang theo dõi đơn hàng.'); window.location=\'orders.html\'">
-          ✅ Đặt hàng ngay
-        </button>
+        <button class="btn-place-order" onclick="placeOrder()">✅ Đặt hàng ngay</button>
 
-        <div style="font-size:0.78rem; color:#888; text-align:center; margin-top:12px; line-height:1.6;">
-          🔒 Thanh toán bảo mật 256-bit SSL<br/>
-          🔄 Đổi trả miễn phí trong 30 ngày
+        <div style="font-size:0.78rem;color:#888;text-align:center;margin-top:12px;line-height:1.6;">
+          🔒 Thanh toán bảo mật 256-bit SSL<br/>🔄 Đổi trả miễn phí 30 ngày
         </div>
       </div>
     </div>
   </div>
 
   <div class="hotline-btn">📞 Hotline: 1800 1234</div>
-
-  <script src="vietnam-address.js"></script>
-  <script>
-    initProvinceDropdown('checkout-province', 'checkout-district');
-  </script>
 
   <footer class="footer">
     <div class="container footer-inner">
@@ -162,5 +122,140 @@
     </div>
     <div class="footer-bottom">© 2026 ShopVN – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
   </footer>
+
+  <script src="data.js"></script>
+  <script src="vietnam-address.js"></script>
+  <script>
+    function doSearch() {
+      const q = document.getElementById('search-input').value.trim();
+      if (q) window.location.href = 'products.html?q=' + encodeURIComponent(q);
+    }
+
+    let shipFee = -1, shipLabel = '', payLabel = '', voucherDiscount = 0;
+
+    const VOUCHERS = { 'SHOPVN10': 0.10, 'SALE20': 0.20, 'FREESHIP': 0, 'GIAM50K': 50000 };
+
+    function selectShip(el, fee, label) {
+      document.querySelectorAll('#ship-options .payment-opt').forEach(e => e.classList.remove('selected'));
+      el.classList.add('selected');
+      el.querySelector('input').checked = true;
+      shipFee = fee;
+      shipLabel = label;
+      recalc();
+    }
+
+    function selectPay(el, label) {
+      document.querySelectorAll('#pay-options .payment-opt').forEach(e => e.classList.remove('selected'));
+      el.classList.add('selected');
+      el.querySelector('input').checked = true;
+      payLabel = label;
+    }
+
+    function applyVoucher() {
+      const code = document.getElementById('voucher-input').value.trim().toUpperCase();
+      const msgEl = document.getElementById('voucher-msg');
+      if (!code) { msgEl.textContent = ''; return; }
+      if (VOUCHERS[code] !== undefined) {
+        const subtotal = getSubtotal();
+        if (code === 'GIAM50K') {
+          voucherDiscount = 50000;
+        } else if (code === 'FREESHIP') {
+          voucherDiscount = 0;
+          shipFee = 0;
+        } else {
+          voucherDiscount = Math.round(subtotal * VOUCHERS[code]);
+        }
+        msgEl.style.color = '#2e7d32';
+        msgEl.textContent = `✅ Áp dụng mã "${code}" thành công!`;
+        document.getElementById('voucher-row').style.display = 'flex';
+        recalc();
+      } else {
+        voucherDiscount = 0;
+        msgEl.style.color = '#e53935';
+        msgEl.textContent = '❌ Mã voucher không hợp lệ';
+        document.getElementById('voucher-row').style.display = 'none';
+        recalc();
+      }
+    }
+
+    function getSubtotal() {
+      return getCart().reduce((s, i) => s + i.price * i.qty, 0);
+    }
+
+    function recalc() {
+      const subtotal = getSubtotal();
+      document.getElementById('co-subtotal').textContent = formatPrice(subtotal);
+      document.getElementById('co-ship').textContent = shipFee < 0 ? 'Chưa chọn' : (shipFee === 0 ? 'Miễn phí' : formatPrice(shipFee));
+      if (voucherDiscount > 0) document.getElementById('co-voucher').textContent = '−' + formatPrice(voucherDiscount);
+      const total = Math.max(0, subtotal + (shipFee > 0 ? shipFee : 0) - voucherDiscount);
+      document.getElementById('co-total').textContent = formatPrice(total);
+    }
+
+    function renderCheckoutItems() {
+      const cart = getCart();
+      const el = document.getElementById('checkout-items');
+      if (cart.length === 0) {
+        el.innerHTML = '<p style="color:#888;font-size:0.85rem;">Giỏ hàng trống</p>';
+        return;
+      }
+      el.innerHTML = cart.map(item => {
+        const variant = [item.color, item.size].filter(Boolean).join(' | ');
+        return `<div class="order-item">
+          <div class="order-item-img">${item.emoji}</div>
+          <div class="order-item-name">${item.name}<br/><span style="font-weight:400;color:#888;">${variant ? variant + ' | ' : ''}x${item.qty}</span></div>
+          <div class="order-item-price">${formatPrice(item.price * item.qty)}</div>
+        </div>`;
+      }).join('');
+    }
+
+    function placeOrder() {
+      const name = document.getElementById('receiver-name').value.trim();
+      const phone = document.getElementById('receiver-phone').value.trim();
+      const address = document.getElementById('receiver-address').value.trim();
+      const province = document.getElementById('checkout-province').value;
+
+      if (!name || !phone || !address || !province) {
+        showToast('⚠️ Vui lòng điền đầy đủ thông tin giao hàng!'); return;
+      }
+      if (shipFee < 0) { showToast('⚠️ Vui lòng chọn nhà vận chuyển!'); return; }
+      if (!payLabel) { showToast('⚠️ Vui lòng chọn phương thức thanh toán!'); return; }
+
+      const cart = getCart();
+      if (cart.length === 0) { showToast('⚠️ Giỏ hàng trống!'); return; }
+
+      // Tạo đơn hàng mới
+      const orderId = '#VN' + Date.now().toString().slice(-10);
+      const subtotal = getSubtotal();
+      const total = Math.max(0, subtotal + (shipFee > 0 ? shipFee : 0) - voucherDiscount);
+
+      const newOrder = {
+        id: orderId,
+        date: new Date().toLocaleDateString('vi-VN'),
+        items: [...cart],
+        total,
+        shipLabel,
+        payLabel,
+        receiver: { name, phone, address, province },
+        status: 'pending' // chờ xác nhận
+      };
+
+      // Lưu vào danh sách đơn hàng
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      orders.unshift(newOrder);
+      localStorage.setItem('orders', JSON.stringify(orders));
+      localStorage.setItem('lastOrder', orderId);
+
+      // Xóa giỏ hàng
+      saveCart([]);
+
+      // Chuyển đến trang xác nhận
+      window.location.href = 'order-success.html';
+    }
+
+    renderCheckoutItems();
+    recalc();
+    updateCartBadge();
+    initProvinceDropdown('checkout-province', 'checkout-district');
+  </script>
 </body>
 </html>

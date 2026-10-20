@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đặt hàng thành công – ShopVN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .success-wrap { min-height: 70vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+    .success-card { background: white; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.1); padding: 48px 40px; max-width: 560px; width: 100%; text-align: center; }
+    .success-icon { font-size: 5rem; margin-bottom: 16px; animation: pop 0.4s ease; }
+    @keyframes pop { 0%{transform:scale(0.5);opacity:0} 100%{transform:scale(1);opacity:1} }
+    .success-title { font-family: 'Montserrat', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+    .success-sub { color: #666; margin-bottom: 24px; }
+    .order-id-box { background: #f0f7ff; border: 2px dashed var(--dark); border-radius: 10px; padding: 16px; margin-bottom: 28px; }
+    .order-id-box span { font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--dark); }
+    .success-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-track { padding: 12px 28px; background: var(--dark); color: white; border: none; border-radius: 25px; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; font-size: 0.95rem; }
+    .btn-continue { padding: 12px 28px; background: var(--yellow); color: var(--dark); border: none; border-radius: 25px; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; font-size: 0.95rem; }
+    .order-info-list { text-align: left; background: #fafafa; border-radius: 10px; padding: 16px 20px; margin-bottom: 24px; font-size: 0.88rem; }
+    .order-info-list div { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee; }
+    .order-info-list div:last-child { border-bottom: none; }
+    .order-info-list span:first-child { color: #888; }
+    .order-info-list span:last-child { font-weight: 600; color: var(--dark); }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">🛍️ ShopVN</a>
+      <div style="flex:1;"></div>
+      <nav class="nav-links">
+        <a href="cart.html">🛒 Giỏ hàng <span class="badge cart-badge">0</span></a>
+        <a href="orders.html">📦 Đơn hàng</a>
+        <a href="login.html" class="btn-login">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="success-wrap">
+    <div class="success-card">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">Đặt hàng thành công!</div>
+      <div class="success-sub">Cảm ơn bạn đã tin tưởng ShopVN. Đơn hàng của bạn đang được xử lý.</div>
+
+      <div class="order-id-box">
+        <div style="font-size:0.82rem;color:#888;margin-bottom:4px;">Mã đơn hàng của bạn</div>
+        <span id="success-order-id">...</span>
+      </div>
+
+      <div class="order-info-list" id="order-info-list"></div>
+
+      <div class="success-actions">
+        <button class="btn-track" onclick="window.location='orders.html'">📦 Theo dõi đơn hàng</button>
+        <button class="btn-continue" onclick="window.location='products.html'">🛍️ Tiếp tục mua sắm</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hotline-btn">📞 Hotline: 1800 1234</div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><strong>🛍️ ShopVN</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p></div>
+      <div><strong>Hỗ trợ</strong><p><a href="#">Chính sách đổi trả</a></p><p><a href="#">Cam kết chất lượng</a></p></div>
+      <div><strong>Bán hàng</strong><p><a href="seller-register.html">Đăng ký người bán</a></p></div>
+    </div>
+    <div class="footer-bottom">© 2026 ShopVN – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script>
+    updateCartBadge();
+    const lastOrderId = localStorage.getItem('lastOrder');
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const order = orders.find(o => o.id === lastOrderId);
+
+    document.getElementById('success-order-id').textContent = lastOrderId || '#VN???';
+
+    if (order) {
+      const infoEl = document.getElementById('order-info-list');
+      const itemNames = order.items.map(i => `${i.emoji} ${i.name} x${i.qty}`).join(', ');
+      infoEl.innerHTML = `
+        <div><span>Ngày đặt</span><span>${order.date}</span></div>
+        <div><span>Người nhận</span><span>${order.receiver.name}</span></div>
+        <div><span>Số điện thoại</span><span>${order.receiver.phone}</span></div>
+        <div><span>Địa chỉ</span><span>${order.receiver.province}</span></div>
+        <div><span>Sản phẩm</span><span style="text-align:right;max-width:200px;">${itemNames}</span></div>
+        <div><span>Vận chuyển</span><span>${order.shipLabel || 'Tiêu chuẩn'}</span></div>
+        <div><span>Thanh toán</span><span>${order.payLabel || 'COD'}</span></div>
+        <div><span>Tổng tiền</span><span style="color:#e53935;">${formatPrice(order.total)}</span></div>
+      `;
+    }
+  </script>
+</body>
+</html>
