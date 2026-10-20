@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Đặt hàng thành công – ShopVN</title>
+  <title>Đặt hàng thành công – Pick&Pay</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <style>
@@ -29,13 +29,9 @@
 
   <header class="header">
     <div class="container header-inner">
-      <a href="index.html" class="logo">🛍️ ShopVN</a>
+      <a href="index.html" class="logo">🛒 Pick&Pay</a>
       <div style="flex:1;"></div>
-      <nav class="nav-links">
-        <a href="cart.html">🛒 Giỏ hàng <span class="badge cart-badge">0</span></a>
-        <a href="orders.html">📦 Đơn hàng</a>
-        <a href="login.html" class="btn-login">Đăng nhập</a>
-      </nav>
+      <nav class="nav-links" id="nav-container"></nav>
     </div>
   </header>
 
@@ -43,7 +39,7 @@
     <div class="success-card">
       <div class="success-icon">🎉</div>
       <div class="success-title">Đặt hàng thành công!</div>
-      <div class="success-sub">Cảm ơn bạn đã tin tưởng ShopVN. Đơn hàng của bạn đang được xử lý.</div>
+      <div class="success-sub">Cảm ơn bạn đã tin tưởng Pick&Pay. Đơn hàng của bạn đang được xử lý.</div>
 
       <div class="order-id-box">
         <div style="font-size:0.82rem;color:#888;margin-bottom:4px;">Mã đơn hàng của bạn</div>
@@ -63,15 +59,17 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <div><strong>🛍️ ShopVN</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p></div>
-      <div><strong>Hỗ trợ</strong><p><a href="#">Chính sách đổi trả</a></p><p><a href="#">Cam kết chất lượng</a></p></div>
+      <div><strong>🛒 Pick&Pay</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p></div>
+      <div><strong>Hỗ trợ</strong><p><a href="policy-return.html">Chính sách đổi trả</a></p><p><a href="policy-quality.html">Cam kết chất lượng</a></p></div>
       <div><strong>Bán hàng</strong><p><a href="seller-register.html">Đăng ký người bán</a></p></div>
     </div>
-    <div class="footer-bottom">© 2026 ShopVN – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
+    <div class="footer-bottom">© 2026 Pick&Pay – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
   </footer>
 
+  <script src="auth.js"></script>
   <script src="data.js"></script>
   <script>
+    renderHeaderNav('nav-container');
     updateCartBadge();
     const lastOrderId = localStorage.getItem('lastOrder');
     const orders = JSON.parse(localStorage.getItem('orders') || '[]');
@@ -96,3 +94,4 @@
   </script>
 </body>
 </html>
+

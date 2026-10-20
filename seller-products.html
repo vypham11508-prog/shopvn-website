@@ -1,169 +1,191 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quản lý sản phẩm – ShopVN Seller</title>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý sản phẩm – Pick&Pay Seller</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <div class="seller-header">
-    <div class="shop-name">🏪 Nike Official Store</div>
-    <div style="display:flex; align-items:center; gap:16px;">
-      <span style="font-size:1.2rem;">🔔</span>
-      <span style="font-size:0.88rem; color:rgba(255,255,255,0.7);">Xin chào, Anh Vy</span>
-      <a href="index.html" style="color:var(--yellow); font-size:0.85rem;">← Về trang mua sắm</a>
+    <div class="shop-name">🏪 <span id="shop-name-display">Pick&amp;Pay Shop</span></div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <a href="index.html" style="color:var(--yellow);font-size:0.84rem;">← Về trang mua sắm</a>
     </div>
   </div>
-
   <nav class="seller-nav">
     <a href="seller-dashboard.html">📊 Tổng quan</a>
     <a href="seller-products.html" class="active">📦 Sản phẩm</a>
     <a href="seller-orders.html">🛒 Đơn hàng</a>
-    <a href="#">💰 Doanh thu</a>
-    <a href="#">⭐ Đánh giá</a>
-    <a href="#">⚙️ Cài đặt</a>
+    <a href="seller-revenue.html">💰 Doanh thu</a>
+    <a href="seller-reviews.html">⭐ Đánh giá</a>
   </nav>
 
   <div class="container seller-content">
-    <h2 style="font-size:1.3rem; color:var(--dark); margin-bottom:20px;">📦 Quản lý sản phẩm</h2>
-
-    <!-- TOOLBAR -->
+    <h2 style="font-size:1.2rem;color:var(--dark);margin-bottom:18px;">📦 Quản lý sản phẩm</h2>
     <div class="toolbar">
-      <input type="text" placeholder="🔍 Tìm kiếm sản phẩm theo tên..." />
-      <select style="padding:10px 14px; border:1px solid #ddd; border-radius:8px; font-size:0.88rem;">
-        <option>Tất cả trạng thái</option>
-        <option>Đang bán</option>
-        <option>Hết hàng</option>
-        <option>Đã ẩn</option>
+      <input type="text" id="search-prod" placeholder="🔍 Tìm sản phẩm..." oninput="renderProducts()" />
+      <select id="filter-status" onchange="renderProducts()">
+        <option value="">Tất cả</option>
+        <option value="active">Đang bán</option>
+        <option value="low">Sắp hết</option>
+        <option value="out">Hết hàng</option>
+        <option value="hidden">Đã ẩn</option>
       </select>
-      <button class="btn-add-new" onclick="document.getElementById('add-form').style.display='block'">+ Thêm sản phẩm mới</button>
+      <button class="btn-add-new" onclick="openAddForm()">+ Thêm sản phẩm</button>
     </div>
 
-    <!-- ADD PRODUCT FORM (hidden by default) -->
-    <div id="add-form" style="display:none; background:white; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.1); padding:24px; margin-bottom:24px;">
-      <h3 style="font-size:1rem; font-weight:700; color:var(--dark); margin-bottom:20px; padding-bottom:8px; border-bottom:2px solid var(--yellow);">➕ Thêm sản phẩm mới</h3>
-      <div class="form-row">
-        <div class="form-group"><label>Tên sản phẩm *</label><input type="text" placeholder="VD: Giày Nike Air Max 270" /></div>
-        <div class="form-group"><label>Phân loại</label><select><option>Giày thể thao</option><option>Thời trang</option></select></div>
+    <!-- FORM THÊM/SỬA -->
+    <div id="product-form" style="display:none;background:white;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.1);padding:24px;margin-bottom:20px;">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:18px;border-bottom:2px solid var(--yellow);padding-bottom:7px;" id="form-title">➕ Thêm sản phẩm mới</h3>
+      <input type="hidden" id="edit-id" value="" />
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="form-group"><label>Tên sản phẩm *</label><input type="text" id="f-name" placeholder="VD: Giày Nike Air Force 1" /></div>
+        <div class="form-group"><label>Danh mục</label>
+          <select id="f-cat"><option>Thời trang</option><option>Điện tử</option><option>Làm đẹp</option><option>Sách</option><option>Thể thao</option></select>
+        </div>
+        <div class="form-group"><label>Giá bán (₫) *</label><input type="number" id="f-price" placeholder="VD: 1590000" /></div>
+        <div class="form-group"><label>Số lượng kho *</label><input type="number" id="f-stock" placeholder="VD: 50" /></div>
+        <div class="form-group"><label>Emoji đại diện</label><input type="text" id="f-emoji" placeholder="👟" maxlength="4" /></div>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label>Giá bán (₫) *</label><input type="number" placeholder="1850000" /></div>
-        <div class="form-group"><label>Số lượng tồn kho *</label><input type="number" placeholder="100" /></div>
+      <div class="form-group"><label>Mô tả sản phẩm</label>
+        <textarea id="f-desc" rows="3" style="width:100%;padding:9px 13px;border:1px solid #ddd;border-radius:8px;font-size:0.88rem;font-family:Open Sans,sans-serif;resize:vertical;" placeholder="Mô tả chi tiết sản phẩm..."></textarea>
       </div>
-      <div class="form-group"><label>Mô tả sản phẩm</label><input type="text" placeholder="Mô tả ngắn về sản phẩm..." /></div>
-      <div class="form-group"><label>Tải ảnh sản phẩm</label><input type="file" accept="image/*" /></div>
-      <div style="display:flex; gap:12px; margin-top:8px;">
-        <button style="padding:10px 24px; background:var(--orange); border:none; color:white; border-radius:8px; font-weight:700; cursor:pointer;">💾 Lưu sản phẩm</button>
-        <button style="padding:10px 24px; background:#eee; border:none; border-radius:8px; cursor:pointer;" onclick="document.getElementById('add-form').style.display='none'">Hủy</button>
+      <div style="display:flex;gap:10px;">
+        <button onclick="saveProduct()" style="padding:10px 24px;background:var(--orange);border:none;color:var(--dark);border-radius:8px;font-weight:700;cursor:pointer;font-family:Montserrat,sans-serif;">💾 Lưu sản phẩm</button>
+        <button onclick="closeForm()" style="padding:10px 22px;background:#eee;border:none;border-radius:8px;cursor:pointer;font-weight:600;">Hủy</button>
       </div>
     </div>
 
-    <!-- PRODUCTS TABLE -->
+    <!-- BẢNG SẢN PHẨM -->
     <div class="new-orders-table">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Sản phẩm</th>
-              <th>Phân loại</th>
-              <th>Giá bán</th>
-              <th>Tồn kho</th>
-              <th>Đã bán</th>
-              <th>Trạng thái</th>
-              <th>Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:2rem;">👟</span>
-                  <div>
-                    <div style="font-weight:600;font-size:0.88rem;">Nike Air Max 270</div>
-                    <div style="font-size:0.75rem;color:#888;">SKU: NK-AM270-BLK</div>
-                  </div>
-                </div>
-              </td>
-              <td>Giày thể thao</td>
-              <td><strong style="color:#e53935;">1.850.000₫</strong></td>
-              <td><span style="color:#2e7d32;font-weight:700;">48</span></td>
-              <td>2.840</td>
-              <td><span class="status-pill pill-done">Đang bán</span></td>
-              <td>
-                <button class="btn-action btn-confirm" style="margin-bottom:4px;">Sửa</button><br/>
-                <button class="btn-action btn-cancel-sm">Ẩn</button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:2rem;">👟</span>
-                  <div>
-                    <div style="font-weight:600;font-size:0.88rem;">Nike Zoom Fly 5</div>
-                    <div style="font-size:0.75rem;color:#888;">SKU: NK-ZF5-WHT</div>
-                  </div>
-                </div>
-              </td>
-              <td>Giày chạy bộ</td>
-              <td><strong style="color:#e53935;">1.600.000₫</strong></td>
-              <td><span style="color:#e65100;font-weight:700;">3 ⚠️</span></td>
-              <td>1.205</td>
-              <td><span class="status-pill pill-new">Sắp hết</span></td>
-              <td>
-                <button class="btn-action btn-confirm" style="margin-bottom:4px;">Sửa</button><br/>
-                <button class="btn-action btn-cancel-sm">Ẩn</button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:2rem;">👟</span>
-                  <div>
-                    <div style="font-weight:600;font-size:0.88rem;">Nike React Infinity</div>
-                    <div style="font-size:0.75rem;color:#888;">SKU: NK-RI-GRY</div>
-                  </div>
-                </div>
-              </td>
-              <td>Giày thể thao</td>
-              <td><strong style="color:#e53935;">2.100.000₫</strong></td>
-              <td><span style="color:#aaa;font-weight:700;">0</span></td>
-              <td>892</td>
-              <td><span class="status-pill" style="background:#eee;color:#888;">Hết hàng</span></td>
-              <td>
-                <button class="btn-action btn-confirm" style="margin-bottom:4px;">Nhập kho</button><br/>
-                <button class="btn-action" style="background:#e53935;color:white;font-size:0.75rem;">Xóa</button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div style="display:flex;align-items:center;gap:10px;">
-                  <span style="font-size:2rem;">👟</span>
-                  <div>
-                    <div style="font-weight:600;font-size:0.88rem;">Nike Pegasus 40</div>
-                    <div style="font-size:0.75rem;color:#888;">SKU: NK-PG40-RED</div>
-                  </div>
-                </div>
-              </td>
-              <td>Giày chạy bộ</td>
-              <td><strong style="color:#e53935;">1.500.000₫</strong></td>
-              <td><span style="color:#2e7d32;font-weight:700;">67</span></td>
-              <td>3.102</td>
-              <td><span class="status-pill pill-done">Đang bán</span></td>
-              <td>
-                <button class="btn-action btn-confirm" style="margin-bottom:4px;">Sửa</button><br/>
-                <button class="btn-action btn-cancel-sm">Ẩn</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Sản phẩm</th><th>Danh mục</th><th>Giá bán</th><th>Tồn kho</th><th>Đã bán</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+        <tbody id="products-tbody"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <!-- MODAL CHI TIẾT SẢN PHẨM -->
+  <div class="modal-overlay" id="prod-modal">
+    <div class="modal-box" style="max-width:500px;">
+      <button class="modal-close" onclick="closeProdModal()">✕</button>
+      <div class="modal-title" id="prod-modal-title"></div>
+      <div id="prod-modal-content"></div>
+      <div style="display:flex;gap:10px;margin-top:16px;">
+        <button id="btn-edit-modal" onclick="editFromModal()" style="flex:1;padding:10px;background:var(--orange);border:none;border-radius:8px;font-weight:700;cursor:pointer;color:var(--dark);">✏️ Chỉnh sửa</button>
+        <button id="btn-toggle-modal" onclick="toggleHideFromModal()" style="flex:1;padding:10px;background:#eee;border:none;border-radius:8px;font-weight:700;cursor:pointer;"></button>
+        <button id="btn-delete-modal" onclick="deleteFromModal()" style="flex:1;padding:10px;background:#fee;border:2px solid #e53935;color:#e53935;border-radius:8px;font-weight:700;cursor:pointer;">🗑️ Xóa</button>
       </div>
     </div>
   </div>
 
-  <div class="hotline-btn">📞 Hotline: 1800 1234</div>
+  <script src="auth.js"></script>
+  <script src="data.js"></script>
+  <script src="seller-data.js"></script>
+  <script>
+    const user = getUser();
+    if (user) document.getElementById('shop-name-display').textContent = user.shopName||'Pick&Pay Shop';
+    let currentProdId = null;
 
+    function renderProducts() {
+      const q = document.getElementById('search-prod').value.toLowerCase();
+      const st = document.getElementById('filter-status').value;
+      let prods = getSellerProducts().filter(p => {
+        const mQ = !q || p.name.toLowerCase().includes(q);
+        const mSt = !st || (st==='hidden'?p.hidden:(p.status===st&&!p.hidden));
+        return mQ && mSt;
+      });
+      const statusMap = { active:'<span class="status-pill pill-done">Đang bán</span>', low:'<span class="status-pill pill-packing">Sắp hết</span>', out:'<span class="status-pill" style="background:#eee;color:#888;">Hết hàng</span>', hidden:'<span class="status-pill" style="background:#f5f5f5;color:#aaa;">Đã ẩn</span>' };
+      document.getElementById('products-tbody').innerHTML = prods.length ? prods.map(p => `<tr style="cursor:pointer;" onclick="openProdModal('${p.id}')">
+        <td><div style="display:flex;align-items:center;gap:10px;"><span style="font-size:1.8rem;">${p.emoji||'📦'}</span><div><div style="font-weight:600;font-size:0.88rem;">${p.name}</div><div style="font-size:0.74rem;color:#888;">SKU: ${p.id}</div></div></div></td>
+        <td style="font-size:0.84rem;">${p.category||'—'}</td>
+        <td><strong style="color:#e53935;">${formatPrice(p.price)}</strong></td>
+        <td><span style="font-weight:700;color:${p.stock===0?'#e53935':p.stock<=5?'#e65100':'#2e7d32'}">${p.stock}${p.stock<=5&&p.stock>0?' ⚠️':''}</span></td>
+        <td>${(p.sold||0).toLocaleString()}</td>
+        <td>${p.hidden ? statusMap.hidden : (statusMap[p.status]||statusMap.active)}</td>
+        <td onclick="event.stopPropagation()">
+          <button class="btn-action btn-view" onclick="openProdModal('${p.id}')">Chi tiết</button>
+        </td>
+      </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;color:#888;padding:32px;">Không có sản phẩm</td></tr>';
+    }
+
+    function openAddForm() {
+      document.getElementById('form-title').textContent = '➕ Thêm sản phẩm mới';
+      document.getElementById('edit-id').value = '';
+      ['f-name','f-price','f-stock','f-desc','f-emoji'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('product-form').style.display = 'block';
+      document.getElementById('product-form').scrollIntoView({behavior:'smooth'});
+    }
+
+    function closeForm() { document.getElementById('product-form').style.display = 'none'; }
+
+    function saveProduct() {
+      const name = document.getElementById('f-name').value.trim();
+      const price = parseInt(document.getElementById('f-price').value);
+      const stock = parseInt(document.getElementById('f-stock').value);
+      if (!name||isNaN(price)||isNaN(stock)) { showToast('⚠️ Vui lòng điền đầy đủ!'); return; }
+      const prods = getSellerProducts();
+      const editId = document.getElementById('edit-id').value;
+      const emoji = document.getElementById('f-emoji').value||'📦';
+      const cat = document.getElementById('f-cat').value;
+      const desc = document.getElementById('f-desc').value;
+      if (editId) {
+        const idx = prods.findIndex(p=>p.id===editId);
+        if (idx>=0) { prods[idx]={...prods[idx],name,price,stock,emoji,category:cat,desc}; prods[idx].status=stock===0?'out':stock<=5?'low':'active'; }
+      } else {
+        const id='sp'+(Date.now());
+        prods.unshift({id,name,category:cat,price,stock,sold:0,status:stock===0?'out':stock<=5?'low':'active',hidden:false,emoji,desc});
+      }
+      saveSellerProducts(prods);
+      closeForm(); renderProducts();
+      showToast(editId?'✅ Đã cập nhật sản phẩm!':'✅ Đã thêm sản phẩm mới!');
+    }
+
+    function openProdModal(id) {
+      currentProdId = id;
+      const p = getSellerProducts().find(x=>x.id===id); if(!p) return;
+      document.getElementById('prod-modal-title').textContent = p.emoji+' '+p.name;
+      document.getElementById('prod-modal-content').innerHTML = `
+        <div class="modal-row"><span>Danh mục</span><span>${p.category||'—'}</span></div>
+        <div class="modal-row"><span>Giá bán</span><span style="color:#e53935;font-weight:700;">${formatPrice(p.price)}</span></div>
+        <div class="modal-row"><span>Tồn kho</span><span>${p.stock}</span></div>
+        <div class="modal-row"><span>Đã bán</span><span>${(p.sold||0).toLocaleString()}</span></div>
+        <div class="modal-row"><span>Trạng thái</span><span>${p.hidden?'Đã ẩn':p.status==='out'?'Hết hàng':p.status==='low'?'Sắp hết':'Đang bán'}</span></div>
+        <div style="margin-top:10px;font-size:0.84rem;color:#444;line-height:1.6;"><strong>Mô tả:</strong><br/>${p.desc||'Chưa có mô tả.'}</div>`;
+      document.getElementById('btn-toggle-modal').textContent = p.hidden ? '👁️ Hiện sản phẩm' : '🚫 Ẩn sản phẩm';
+      document.getElementById('prod-modal').classList.add('open');
+    }
+    function closeProdModal() { document.getElementById('prod-modal').classList.remove('open'); currentProdId=null; }
+    function editFromModal() {
+      const p = getSellerProducts().find(x=>x.id===currentProdId); if(!p) return;
+      closeProdModal();
+      document.getElementById('form-title').textContent = '✏️ Chỉnh sửa sản phẩm';
+      document.getElementById('edit-id').value = p.id;
+      document.getElementById('f-name').value = p.name;
+      document.getElementById('f-price').value = p.price;
+      document.getElementById('f-stock').value = p.stock;
+      document.getElementById('f-emoji').value = p.emoji||'';
+      document.getElementById('f-desc').value = p.desc||'';
+      document.getElementById('f-cat').value = p.category||'Thời trang';
+      document.getElementById('product-form').style.display = 'block';
+      document.getElementById('product-form').scrollIntoView({behavior:'smooth'});
+    }
+    function toggleHideFromModal() {
+      const prods = getSellerProducts();
+      const idx = prods.findIndex(x=>x.id===currentProdId); if(idx<0) return;
+      prods[idx].hidden = !prods[idx].hidden;
+      saveSellerProducts(prods); closeProdModal(); renderProducts();
+      showToast(prods[idx].hidden?'Đã ẩn sản phẩm':'Đã hiện sản phẩm');
+    }
+    function deleteFromModal() {
+      if (!confirm('Xóa sản phẩm này?')) return;
+      const prods = getSellerProducts().filter(x=>x.id!==currentProdId);
+      saveSellerProducts(prods); closeProdModal(); renderProducts();
+      showToast('🗑️ Đã xóa sản phẩm');
+    }
+    document.getElementById('prod-modal').addEventListener('click',e=>{if(e.target===document.getElementById('prod-modal'))closeProdModal();});
+    renderProducts();
+  </script>
 </body>
 </html>

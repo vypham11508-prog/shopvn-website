@@ -1,50 +1,41 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Danh mục sản phẩm – ShopVN</title>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sản phẩm – Pick&Pay</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <header class="header">
     <div class="container header-inner">
-      <a href="index.html" class="logo">🛍️ ShopVN</a>
+      <a href="index.html" class="logo">🛒 Pick&amp;Pay</a>
       <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm..." onkeydown="if(event.key==='Enter') doSearch()" />
+        <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm..." onkeydown="if(event.key==='Enter')doSearch()" />
         <button onclick="doSearch()">🔍</button>
       </div>
-      <nav class="nav-links">
-        <a href="cart.html">🛒 Giỏ hàng <span class="badge cart-badge">0</span></a>
-        <a href="orders.html">📦 Đơn hàng</a>
-        <div class="member-points">⭐ 1.250 điểm <span class="tag">Vàng</span></div>
-        <a href="login.html" class="btn-login">Đăng nhập</a>
-      </nav>
+      <nav class="nav-links" id="nav-container"></nav>
     </div>
   </header>
 
   <div class="page-header">
     <div class="container">
-      <h1 id="page-title">Danh mục sản phẩm</h1>
+      <h1 id="page-title">Tất cả sản phẩm</h1>
       <div class="breadcrumb"><a href="index.html">Trang chủ</a> › <span id="breadcrumb-cat">Tất cả</span></div>
     </div>
   </div>
 
   <div class="container products-page">
     <div class="products-layout">
-
-      <!-- SIDEBAR FILTER -->
       <aside class="filter-sidebar">
         <h3>🔧 Bộ lọc</h3>
         <div class="filter-group">
-          <label>Khoảng giá</label>
-          <input type="range" id="price-range" min="0" max="35000000" value="35000000" oninput="applyFilters()" />
+          <label>Khoảng giá tối đa</label>
+          <input type="range" id="price-range" min="0" max="30000000" value="30000000" oninput="applyFilters()" />
           <div class="price-range-labels"><span>0₫</span><span id="price-label">Tất cả</span></div>
         </div>
         <div class="filter-group">
-          <label>Đánh giá tối thiểu</label>
+          <label>Đánh giá</label>
           <label class="filter-checkbox"><input type="radio" name="rating" value="0" checked onchange="applyFilters()"> Tất cả</label>
           <label class="filter-checkbox"><input type="radio" name="rating" value="4.5" onchange="applyFilters()"> ⭐ Từ 4.5 sao</label>
           <label class="filter-checkbox"><input type="radio" name="rating" value="4.8" onchange="applyFilters()"> ⭐ Từ 4.8 sao</label>
@@ -60,11 +51,10 @@
         </div>
       </aside>
 
-      <!-- PRODUCTS MAIN -->
       <div class="products-main">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
-          <h2 id="result-count" style="font-size:1.1rem;color:var(--dark);">Đang tải...</h2>
-          <div class="sort-bar" style="margin:0;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px;">
+          <h2 id="result-count" style="font-size:1rem;color:var(--dark);"></h2>
+          <div class="sort-bar">
             <span>Sắp xếp:</span>
             <button class="sort-btn active" onclick="setSort('popular',this)">Phổ biến</button>
             <button class="sort-btn" onclick="setSort('price-asc',this)">Giá tăng</button>
@@ -73,7 +63,7 @@
           </div>
         </div>
         <div class="products-grid" id="products-grid"></div>
-        <div id="no-result" style="display:none;text-align:center;padding:60px 20px;color:#888;">
+        <div id="no-result" style="display:none;text-align:center;padding:60px;color:#888;">
           <div style="font-size:3rem;">🔍</div>
           <p style="margin-top:12px;">Không tìm thấy sản phẩm phù hợp</p>
         </div>
@@ -81,95 +71,64 @@
     </div>
   </div>
 
-  <div class="hotline-btn">📞 Hotline: 1800 1234</div>
-
+  <div class="hotline-btn">📞 1800 1234</div>
   <footer class="footer">
     <div class="container footer-inner">
-      <div><strong>🛍️ ShopVN</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p></div>
-      <div><strong>Hỗ trợ</strong><p><a href="#">Chính sách đổi trả</a></p><p><a href="#">Cam kết chất lượng</a></p></div>
-      <div><strong>Bán hàng</strong><p><a href="seller-register.html">Đăng ký người bán</a></p></div>
+      <div><strong>🛒 Pick&amp;Pay</strong><p>📞 1800 1234</p></div>
+      <div><strong>Hỗ trợ</strong><p><a href="policy-return.html">Chính sách đổi trả</a></p><p><a href="policy-quality.html">Cam kết chất lượng</a></p></div>
     </div>
-    <div class="footer-bottom">© 2026 ShopVN – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
+    <div class="footer-bottom">© 2026 Pick&amp;Pay – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
   </footer>
 
+  <script src="auth.js"></script>
   <script src="data.js"></script>
   <script>
-    const catLabels = { thoitrang:'👗 Thời trang', dientuchomay:'📱 Điện tử', lamdep:'💄 Làm đẹp', sach:'📚 Sách', thethao:'⚽ Thể thao' };
+    const catLabels = {thoitrang:'👗 Thời trang',dientuchomay:'📱 Điện tử',lamdep:'💄 Làm đẹp',sach:'📚 Sách',thethao:'⚽ Thể thao'};
     let currentSort = 'popular';
 
     function doSearch() {
       const q = document.getElementById('search-input').value.trim();
-      if (q) window.location.href = 'products.html?q=' + encodeURIComponent(q);
+      window.location.href = q ? 'products.html?q='+encodeURIComponent(q) : 'products.html';
     }
-
     function getParams() {
       const p = new URLSearchParams(window.location.search);
-      return { cat: p.get('cat') || '', q: p.get('q') || '' };
+      return { cat: p.get('cat')||'', q: p.get('q')||'' };
     }
-
     function setSort(type, btn) {
       currentSort = type;
       document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      applyFilters();
+      btn.classList.add('active'); applyFilters();
     }
-
     function applyFilters() {
-      const maxPrice = parseInt(document.getElementById('price-range').value);
-      const ratingVal = parseFloat(document.querySelector('input[name=rating]:checked').value);
-      const catVal = document.querySelector('input[name=cat]:checked').value;
+      const maxP = parseInt(document.getElementById('price-range').value);
+      const minR = parseFloat(document.querySelector('input[name=rating]:checked').value);
+      const catV = document.querySelector('input[name=cat]:checked').value;
       const { q } = getParams();
-
-      document.getElementById('price-label').textContent = maxPrice >= 35000000 ? 'Tất cả' : formatPrice(maxPrice);
-
+      document.getElementById('price-label').textContent = maxP>=30000000 ? 'Tất cả' : formatPrice(maxP);
       let results = PRODUCTS.filter(p => {
-        const matchCat = catVal ? p.category === catVal : true;
-        const matchPrice = p.price <= maxPrice;
-        const matchRating = p.rating >= ratingVal;
-        const matchQ = q ? p.name.toLowerCase().includes(q.toLowerCase()) : true;
-        return matchCat && matchPrice && matchRating && matchQ;
+        const mCat = catV ? p.category===catV : true;
+        const mP = p.price <= maxP;
+        const mR = p.rating >= minR;
+        const mQ = q ? p.name.toLowerCase().includes(q.toLowerCase()) || (p.seller&&p.seller.toLowerCase().includes(q.toLowerCase())) : true;
+        return mCat && mP && mR && mQ;
       });
-
-      // Sort
-      if (currentSort === 'price-asc') results.sort((a,b) => a.price - b.price);
-      else if (currentSort === 'price-desc') results.sort((a,b) => b.price - a.price);
-      else if (currentSort === 'rating') results.sort((a,b) => b.rating - a.rating);
-      else results.sort((a,b) => b.sold - a.sold);
-
+      if (currentSort==='price-asc') results.sort((a,b)=>a.price-b.price);
+      else if (currentSort==='price-desc') results.sort((a,b)=>b.price-a.price);
+      else if (currentSort==='rating') results.sort((a,b)=>b.rating-a.rating);
+      else results.sort((a,b)=>b.sold-a.sold);
       const grid = document.getElementById('products-grid');
-      const noResult = document.getElementById('no-result');
-      document.getElementById('result-count').textContent = `${results.length} sản phẩm`;
-
-      if (results.length === 0) {
-        grid.innerHTML = '';
-        noResult.style.display = 'block';
-      } else {
-        noResult.style.display = 'none';
-        grid.innerHTML = results.map(p => renderProductCard(p)).join('');
-      }
+      const noR = document.getElementById('no-result');
+      document.getElementById('result-count').textContent = results.length + ' sản phẩm';
+      if (!results.length) { grid.innerHTML=''; noR.style.display='block'; }
+      else { noR.style.display='none'; grid.innerHTML = results.map(renderProductCard).join(''); }
     }
 
-    // Init
     const { cat, q } = getParams();
+    if (q) { document.getElementById('search-input').value=q; document.getElementById('page-title').textContent=`Kết quả: "${q}"`; document.getElementById('breadcrumb-cat').textContent='Tìm kiếm: '+q; }
+    else if (cat) { document.getElementById('page-title').textContent=catLabels[cat]||'Sản phẩm'; document.getElementById('breadcrumb-cat').textContent=catLabels[cat]||cat; }
+    if (cat) { const r=document.querySelector(`input[name=cat][value="${cat}"]`); if(r) r.checked=true; }
 
-    // Set search input
-    if (q) document.getElementById('search-input').value = q;
-
-    // Set page title
-    if (q) {
-      document.getElementById('page-title').textContent = `Kết quả: "${q}"`;
-      document.getElementById('breadcrumb-cat').textContent = `Tìm kiếm: ${q}`;
-    } else if (cat) {
-      document.getElementById('page-title').textContent = catLabels[cat] || 'Sản phẩm';
-      document.getElementById('breadcrumb-cat').textContent = catLabels[cat] || cat;
-    }
-
-    // Set category radio
-    if (cat) {
-      const radio = document.querySelector(`input[name=cat][value="${cat}"]`);
-      if (radio) radio.checked = true;
-    }
-
+    renderHeaderNav('nav-container');
     applyFilters();
     updateCartBadge();
   </script>

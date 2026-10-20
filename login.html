@@ -1,73 +1,110 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Đăng nhập – ShopVN</title>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng nhập / Đăng ký – Pick&Pay</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <style>
-    .login-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1f3864 60%, #FFB366 100%); padding: 20px; }
-    .login-card { background: white; border-radius: 16px; padding: 40px; width: 100%; max-width: 420px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
-    .login-logo { text-align: center; font-size: 2rem; font-weight: 800; color: var(--dark); font-family: 'Montserrat', sans-serif; margin-bottom: 8px; }
-    .login-sub { text-align: center; color: #888; font-size: 0.9rem; margin-bottom: 32px; }
-    .login-tabs { display: flex; margin-bottom: 28px; border-bottom: 2px solid #eee; }
-    .login-tab { flex: 1; padding: 10px; text-align: center; font-weight: 600; font-size: 0.9rem; cursor: pointer; color: #888; border-bottom: 3px solid transparent; margin-bottom: -2px; }
-    .login-tab.active { color: var(--dark); border-bottom-color: var(--orange); }
+    .auth-wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#2C2C2C 55%,#FFB366 100%); padding:24px; }
+    .auth-card { background:white; border-radius:18px; padding:40px 36px; width:100%; max-width:420px; box-shadow:0 8px 36px rgba(0,0,0,0.22); }
+    .auth-logo { text-align:center; font-size:2rem; font-weight:800; color:#2C2C2C; font-family:'Montserrat',sans-serif; margin-bottom:6px; }
+    .auth-logo span { color:#FFB366; }
+    .auth-sub { text-align:center; color:#888; font-size:0.88rem; margin-bottom:28px; }
+    .auth-tabs { display:flex; margin-bottom:26px; border-bottom:2px solid #eee; }
+    .auth-tab { flex:1; padding:10px; text-align:center; font-weight:700; font-size:0.92rem; cursor:pointer; color:#aaa; border-bottom:3px solid transparent; margin-bottom:-2px; font-family:'Montserrat',sans-serif; transition:all 0.2s; }
+    .auth-tab.active { color:#2C2C2C; border-bottom-color:#FFB366; }
+    .auth-panel { display:none; }
+    .auth-panel.active { display:block; }
+    .err-msg { color:#e53935; font-size:0.83rem; margin-bottom:10px; display:none; padding:8px 12px; background:#fce4ec; border-radius:8px; }
+    .ok-msg { color:#2e7d32; font-size:0.83rem; margin-bottom:10px; display:none; padding:8px 12px; background:#e8f5e9; border-radius:8px; }
   </style>
 </head>
 <body>
-  <div class="login-wrapper">
-    <div class="login-card">
-      <div class="login-logo">🛍️ ShopVN</div>
-      <div class="login-sub">Mua sắm online uy tín</div>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">🛒 Pick<span>&</span>Pay</div>
+      <div class="auth-sub">Mua sắm thả ga – Ưu đãi mỗi ngày</div>
 
-      <div class="login-tabs">
-        <div class="login-tab active">Đăng nhập</div>
-        <div class="login-tab">Đăng ký</div>
+      <div class="auth-tabs">
+        <div class="auth-tab active" onclick="switchTab('login')">Đăng nhập</div>
+        <div class="auth-tab" onclick="switchTab('register')">Đăng ký</div>
       </div>
 
-      <div class="form-group">
-        <label>Email hoặc Số điện thoại</label>
-        <input type="text" placeholder="email@example.com hoặc 09xx..." />
+      <!-- ĐĂNG NHẬP -->
+      <div class="auth-panel active" id="panel-login">
+        <div class="err-msg" id="login-err"></div>
+        <div class="form-group"><label>Email *</label><input type="email" id="login-email" placeholder="email@example.com" /></div>
+        <div class="form-group"><label>Mật khẩu *</label><input type="password" id="login-pass" placeholder="Nhập mật khẩu..." /></div>
+        <button class="btn-submit" style="margin-top:8px;" onclick="handleLogin()">Đăng nhập</button>
+        <div style="text-align:center;margin-top:14px;font-size:0.84rem;color:#888;">
+          Chưa có tài khoản? <a href="#" onclick="switchTab('register')" style="color:#FFB366;font-weight:700;">Đăng ký ngay</a>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Mật khẩu</label>
-        <input type="password" placeholder="Nhập mật khẩu..." />
-      </div>
-      <div style="text-align:right; margin-bottom:20px;">
-        <a href="#" style="font-size:0.85rem; color:var(--orange);">Quên mật khẩu?</a>
-      </div>
-      <button class="btn-submit" onclick="handleLogin()">Đăng nhập</button>
-      <div style="text-align:center; margin-top:16px; font-size:0.85rem; color:#888;">
-        Hoặc đăng nhập với
-      </div>
-      <div style="display:flex; gap:12px; margin-top:12px;">
-        <button style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px; background:white; cursor:pointer; font-size:0.88rem;">🔵 Facebook</button>
-        <button style="flex:1; padding:10px; border:1px solid #ddd; border-radius:8px; background:white; cursor:pointer; font-size:0.88rem;">🔴 Google</button>
-      </div>
-      <div style="text-align:center; margin-top:20px; font-size:0.85rem;">
-        Muốn bán hàng? <a href="seller-register.html" style="color:var(--orange); font-weight:600;">Đăng ký ngay →</a>
+
+      <!-- ĐĂNG KÝ -->
+      <div class="auth-panel" id="panel-register">
+        <div class="err-msg" id="reg-err"></div>
+        <div class="ok-msg" id="reg-ok"></div>
+        <div class="form-group"><label>Họ và tên *</label><input type="text" id="reg-name" placeholder="Nguyễn Văn A" /></div>
+        <div class="form-group"><label>Email *</label><input type="email" id="reg-email" placeholder="email@example.com" /></div>
+        <div class="form-group"><label>Số điện thoại *</label><input type="tel" id="reg-phone" placeholder="0901 234 567" /></div>
+        <div class="form-group"><label>Mật khẩu *</label><input type="password" id="reg-pass" placeholder="Ít nhất 6 ký tự" /></div>
+        <div class="form-group"><label>Xác nhận mật khẩu *</label><input type="password" id="reg-pass2" placeholder="Nhập lại mật khẩu" /></div>
+        <button class="btn-submit" style="margin-top:8px;" onclick="handleRegister()">Đăng ký</button>
+        <div style="text-align:center;margin-top:14px;font-size:0.84rem;color:#888;">
+          Đã có tài khoản? <a href="#" onclick="switchTab('login')" style="color:#FFB366;font-weight:700;">Đăng nhập</a>
+        </div>
       </div>
     </div>
   </div>
+
   <script src="auth.js"></script>
   <script src="data.js"></script>
   <script>
+    function switchTab(tab) {
+      document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
+      document.getElementById('panel-login').classList.toggle('active', tab==='login');
+      document.getElementById('panel-register').classList.toggle('active', tab==='register');
+    }
+    function showErr(id, msg) { const el=document.getElementById(id); el.textContent=msg; el.style.display='block'; }
+    function hideErr(id) { document.getElementById(id).style.display='none'; }
+
     function handleLogin() {
-      const input = document.querySelector('input[type=text]').value.trim();
-      const pass = document.querySelector('input[type=password]').value.trim();
-      if (!input || !pass) { alert('Vui lòng nhập email/SĐT và mật khẩu!'); return; }
-      // Lấy user đã có hoặc tạo mới
-      const existing = getUser();
-      const name = existing ? existing.name : input.split('@')[0] || 'Người dùng';
-      const user = existing ? existing : { name, email: input, points: 0, spent: 0 };
-      saveUser(user);
-      // Lưu voucher chào mừng cho user mới
-      if (!existing) { saveVoucher('WELCOME10'); saveVoucher('NEWBIE50K'); }
+      hideErr('login-err');
+      const email = document.getElementById('login-email').value.trim();
+      const pass = document.getElementById('login-pass').value;
+      if (!email || !pass) { showErr('login-err','Vui lòng điền đầy đủ thông tin!'); return; }
+      const res = loginWithCredentials(email, pass);
+      if (!res.ok) { showErr('login-err', res.msg); return; }
       window.location.href = 'index.html';
     }
-  </script>
 
+    function handleRegister() {
+      hideErr('reg-err');
+      document.getElementById('reg-ok').style.display='none';
+      const name = document.getElementById('reg-name').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const phone = document.getElementById('reg-phone').value.trim();
+      const pass = document.getElementById('reg-pass').value;
+      const pass2 = document.getElementById('reg-pass2').value;
+      if (!name||!email||!phone||!pass) { showErr('reg-err','Vui lòng điền đầy đủ thông tin!'); return; }
+      if (pass.length < 6) { showErr('reg-err','Mật khẩu phải ít nhất 6 ký tự!'); return; }
+      if (pass !== pass2) { showErr('reg-err','Mật khẩu xác nhận không khớp!'); return; }
+      const res = register(name, email, phone, pass);
+      if (!res.ok) { showErr('reg-err', res.msg); return; }
+      const ok = document.getElementById('reg-ok');
+      ok.textContent = '✅ Đăng ký thành công! Đang chuyển trang...';
+      ok.style.display = 'block';
+      setTimeout(() => window.location.href = 'index.html', 1200);
+    }
+
+    // Enter key
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      if (document.getElementById('panel-login').classList.contains('active')) handleLogin();
+      else handleRegister();
+    });
+  </script>
 </body>
 </html>

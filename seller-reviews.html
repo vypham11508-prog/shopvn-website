@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đánh giá – Pick&Pay Seller</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="seller-header">
+    <div class="shop-name">🏪 <span id="shop-name-display">Pick&amp;Pay Shop</span></div>
+    <div style="display:flex;align-items:center;gap:14px;"><a href="index.html" style="color:var(--yellow);font-size:0.84rem;">← Về trang mua sắm</a></div>
+  </div>
+  <nav class="seller-nav">
+    <a href="seller-dashboard.html">📊 Tổng quan</a>
+    <a href="seller-products.html">📦 Sản phẩm</a>
+    <a href="seller-orders.html">🛒 Đơn hàng</a>
+    <a href="seller-revenue.html">💰 Doanh thu</a>
+    <a href="seller-reviews.html" class="active">⭐ Đánh giá</a>
+  </nav>
+
+  <div class="container seller-content">
+    <h2 style="font-size:1.2rem;color:var(--dark);margin-bottom:22px;">⭐ Đánh giá từ người mua</h2>
+
+    <div style="display:grid;grid-template-columns:240px 1fr;gap:24px;margin-bottom:28px;align-items:start;" id="review-summary"></div>
+
+    <div class="new-orders-table">
+      <h3>Tất cả đánh giá</h3>
+      <div style="padding:0 18px 18px;" id="reviews-list"></div>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script src="data.js"></script>
+  <script src="seller-data.js"></script>
+  <script>
+    const user = getUser();
+    if (user) document.getElementById('shop-name-display').textContent = user.shopName||'Pick&Pay Shop';
+
+    const reviews = getSellerReviews();
+    const avg = (reviews.reduce((s,r)=>s+r.stars,0)/reviews.length).toFixed(1);
+    const dist = [5,4,3,2,1].map(s=>({s,c:reviews.filter(r=>r.stars===s).length}));
+
+    document.getElementById('review-summary').innerHTML = `
+      <div style="background:white;border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,0.08);text-align:center;">
+        <div style="font-size:4rem;font-weight:800;font-family:Montserrat,sans-serif;color:var(--dark);">${avg}</div>
+        <div style="font-size:1.8rem;margin:6px 0;">${'⭐'.repeat(Math.round(parseFloat(avg)))}</div>
+        <div style="font-size:0.88rem;color:#888;">${reviews.length} đánh giá</div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,0.08);">
+        <div style="font-weight:700;color:var(--dark);margin-bottom:14px;">Phân bố đánh giá</div>
+        ${dist.map(d=>{const pct=Math.round(d.c/reviews.length*100)||0;return `
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:9px;">
+            <span style="min-width:28px;font-size:0.85rem;font-weight:600;">${d.s}⭐</span>
+            <div style="flex:1;background:#eee;border-radius:8px;height:10px;overflow:hidden;">
+              <div style="width:${pct}%;background:var(--yellow);height:100%;border-radius:8px;"></div>
+            </div>
+            <span style="min-width:36px;font-size:0.82rem;color:#888;text-align:right;">${d.c} (${pct}%)</span>
+          </div>`}).join('')}
+      </div>`;
+
+    document.getElementById('reviews-list').innerHTML = reviews.map(r=>`
+      <div style="padding:16px 0;border-bottom:1px solid #f0f0f0;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;background:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--dark);font-size:0.9rem;">${r.user.charAt(0)}</div>
+            <div><div style="font-weight:700;font-size:0.9rem;color:var(--dark);">${r.user}</div>
+            <div style="font-size:0.78rem;color:#888;">📦 ${r.product}</div></div>
+          </div>
+          <div style="text-align:right;"><div style="font-size:1rem;">${'⭐'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div><div style="font-size:0.76rem;color:#aaa;">${r.date}</div></div>
+        </div>
+        <p style="font-size:0.86rem;color:#444;line-height:1.6;margin-left:46px;">${r.text}</p>
+      </div>`).join('');
+  </script>
+</body>
+</html>

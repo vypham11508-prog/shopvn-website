@@ -2,35 +2,31 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ShopVN - Mua sắm online</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <title>Pick&Pay – Mua sắm online</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <header class="header">
     <div class="container header-inner">
-      <a href="index.html" class="logo">🛍️ ShopVN</a>
+      <a href="index.html" class="logo">🛒 Pick&amp;Pay</a>
       <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm..." onkeydown="if(event.key==='Enter') doSearch()" />
+        <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm..." onkeydown="if(event.key==='Enter')doSearch()" />
         <button onclick="doSearch()">🔍</button>
       </div>
       <nav class="nav-links" id="nav-container"></nav>
     </div>
   </header>
 
-  <!-- BANNER -->
   <section class="banner">
     <div class="banner-content">
       <h1>Mua sắm thả ga<br/>Ưu đãi mỗi ngày!</h1>
       <p>Hàng ngàn sản phẩm chính hãng – Giao hàng nhanh – Đổi trả dễ dàng</p>
       <a href="products.html" class="btn-primary">Mua ngay</a>
     </div>
-    <div class="banner-img">🛍️</div>
+    <div class="banner-img">🛒</div>
   </section>
 
-  <!-- CATEGORIES -->
   <section class="section">
     <div class="container">
       <h2 class="section-title">Danh mục nổi bật</h2>
@@ -44,72 +40,47 @@
     </div>
   </section>
 
-  <!-- VOUCHER BANNER -->
-  <section style="background:linear-gradient(135deg,var(--orange),var(--yellow));padding:28px 0;">
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+  <section style="background:linear-gradient(135deg,var(--orange),var(--yellow));padding:24px 0;">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
       <div>
-        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.2rem;color:var(--dark);margin-bottom:4px;">🎟️ Voucher dành cho bạn!</h3>
-        <p style="color:var(--dark);opacity:0.8;font-size:0.9rem;">Lưu voucher ngay – Giảm đến 30% cho đơn hàng đầu tiên</p>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.15rem;color:var(--dark);margin-bottom:3px;">🎟️ Voucher dành cho bạn!</h3>
+        <p style="color:var(--dark);opacity:0.85;font-size:0.88rem;">Lưu voucher ngay – Giảm đến 30% cho đơn hàng</p>
       </div>
-      <a href="vouchers.html" style="padding:10px 28px;background:var(--dark);color:white;border-radius:25px;font-weight:700;font-family:'Montserrat',sans-serif;">Xem voucher →</a>
+      <a href="vouchers.html" style="padding:10px 26px;background:var(--dark);color:white;border-radius:25px;font-weight:700;font-family:'Montserrat',sans-serif;font-size:0.9rem;">Xem voucher →</a>
     </div>
   </section>
 
-  <!-- FEATURED PRODUCTS -->
   <section class="section bg-light">
     <div class="container">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
         <h2 class="section-title" style="margin:0;">Sản phẩm nổi bật</h2>
-        <a href="products.html" style="color:var(--orange);font-weight:600;font-size:0.9rem;">Xem tất cả →</a>
+        <a href="products.html" style="color:var(--orange);font-weight:600;font-size:0.88rem;">Xem tất cả →</a>
       </div>
       <div class="products-grid" id="featured-grid"></div>
     </div>
   </section>
 
-  <!-- MEMBER POINTS BANNER -->
-  <section class="member-banner">
+  <section class="member-banner" id="member-section" style="display:none;">
     <div class="container member-banner-inner">
       <div>
         <h3>🌟 Hệ thống điểm thành viên</h3>
         <p>Tích điểm mỗi đơn hàng – Đổi voucher giảm giá hấp dẫn</p>
-        <a href="member.html" style="display:inline-block;margin-top:10px;padding:8px 20px;background:var(--dark);color:white;border-radius:20px;font-size:0.85rem;font-weight:700;">Xem chi tiết →</a>
+        <a href="member.html" style="display:inline-block;margin-top:10px;padding:8px 18px;background:var(--dark);color:white;border-radius:20px;font-size:0.83rem;font-weight:700;">Xem chi tiết →</a>
       </div>
-      <div class="member-levels" id="member-levels-display">
-        <span class="level">🥈 Bạc</span>
-        <span class="level">🥇 Vàng</span>
-        <span class="level">💎 Kim Cương</span>
-      </div>
+      <div class="member-levels" id="member-levels-display"></div>
     </div>
   </section>
 
-  <div class="hotline-btn">📞 Hotline: 1800 1234</div>
+  <div class="hotline-btn">📞 1800 1234</div>
 
   <footer class="footer">
     <div class="container footer-inner">
-      <div>
-        <strong>🛍️ ShopVN</strong>
-        <p>Mua sắm online uy tín, giá tốt nhất</p>
-        <p>📞 Hotline: 1800 1234</p>
-      </div>
-      <div>
-        <strong>Hỗ trợ</strong>
-        <p><a href="policy-return.html">Chính sách đổi trả</a></p>
-        <p><a href="policy-quality.html">Cam kết chất lượng</a></p>
-        <p><a href="#">Liên hệ</a></p>
-      </div>
-      <div>
-        <strong>Tài khoản</strong>
-        <p><a href="member.html">Điểm thành viên</a></p>
-        <p><a href="vouchers.html">Voucher của tôi</a></p>
-        <p><a href="orders.html">Đơn hàng</a></p>
-      </div>
-      <div>
-        <strong>Bán hàng</strong>
-        <p><a href="seller-register.html">Đăng ký người bán</a></p>
-        <p><a href="seller-dashboard.html">Quản lý gian hàng</a></p>
-      </div>
+      <div><strong>🛒 Pick&amp;Pay</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p></div>
+      <div><strong>Hỗ trợ</strong><p><a href="policy-return.html">Chính sách đổi trả</a></p><p><a href="policy-quality.html">Cam kết chất lượng</a></p></div>
+      <div><strong>Tài khoản</strong><p><a href="member.html">Điểm thành viên</a></p><p><a href="vouchers.html">Voucher</a></p><p><a href="orders.html">Đơn hàng</a></p></div>
+      <div><strong>Bán hàng</strong><p><a href="seller-register.html">Đăng ký người bán</a></p><p><a href="seller-dashboard.html">Quản lý gian hàng</a></p></div>
     </div>
-    <div class="footer-bottom">© 2026 ShopVN – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
+    <div class="footer-bottom">© 2026 Pick&amp;Pay – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
   </footer>
 
   <script src="auth.js"></script>
@@ -117,30 +88,24 @@
   <script>
     function doSearch() {
       const q = document.getElementById('search-input').value.trim();
-      if (q) window.location.href = 'products.html?q=' + encodeURIComponent(q);
+      window.location.href = q ? 'products.html?q='+encodeURIComponent(q) : 'products.html';
     }
-
     renderHeaderNav('nav-container');
-
-    // Featured products – lấy từ mỗi danh mục 1 sản phẩm
-    const featuredCats = ['thethao','dientuchomay','lamdep','sach','thoitrang','thoitrang'];
+    // Featured
     const grid = document.getElementById('featured-grid');
     const seen = new Set();
-    featuredCats.forEach(cat => {
-      const p = PRODUCTS.find(x => x.category === cat && !seen.has(x.id));
-      if (p) { seen.add(p.id); grid.innerHTML += renderProductCard(p); }
+    FEATURED_IDS.forEach(id => {
+      const p = PRODUCTS.find(x => x.id===id);
+      if (p && !seen.has(p.id)) { seen.add(p.id); grid.innerHTML += renderProductCard(p); }
     });
-
-    // Member tier display
+    // Member section
     const user = getUser();
     if (user) {
-      const tier = getTier(user.spent || 0);
-      const levelsEl = document.getElementById('member-levels-display');
-      levelsEl.innerHTML = MEMBER_TIERS.map(t =>
-        `<span class="level${t.name===tier.name?' active':''}">${t.icon} ${t.name}</span>`
-      ).join('');
+      document.getElementById('member-section').style.display = '';
+      const tier = getTier(user.spent||0);
+      document.getElementById('member-levels-display').innerHTML = MEMBER_TIERS.map(t =>
+        `<span class="level${t.name===tier.name?' active':''}">${t.icon} ${t.name}</span>`).join('');
     }
-
     updateCartBadge();
   </script>
 </body>

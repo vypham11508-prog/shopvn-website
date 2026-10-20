@@ -1,171 +1,147 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quản lý đơn hàng – ShopVN Seller</title>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý đơn hàng – Pick&Pay Seller</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <div class="seller-header">
-    <div class="shop-name">🏪 Nike Official Store</div>
-    <div style="display:flex; align-items:center; gap:16px;">
-      <span style="font-size:1.2rem;">🔔</span>
-      <span style="font-size:0.88rem; color:rgba(255,255,255,0.7);">Xin chào, Anh Vy</span>
-      <a href="index.html" style="color:var(--yellow); font-size:0.85rem;">← Về trang mua sắm</a>
-    </div>
+    <div class="shop-name">🏪 <span id="shop-name-display">Pick&amp;Pay Shop</span></div>
+    <div style="display:flex;align-items:center;gap:14px;"><a href="index.html" style="color:var(--yellow);font-size:0.84rem;">← Về trang mua sắm</a></div>
   </div>
-
   <nav class="seller-nav">
     <a href="seller-dashboard.html">📊 Tổng quan</a>
     <a href="seller-products.html">📦 Sản phẩm</a>
     <a href="seller-orders.html" class="active">🛒 Đơn hàng</a>
-    <a href="#">💰 Doanh thu</a>
-    <a href="#">⭐ Đánh giá</a>
-    <a href="#">⚙️ Cài đặt</a>
+    <a href="seller-revenue.html">💰 Doanh thu</a>
+    <a href="seller-reviews.html">⭐ Đánh giá</a>
   </nav>
 
   <div class="container seller-content">
-    <h2 style="font-size:1.3rem; color:var(--dark); margin-bottom:20px;">🛒 Quản lý đơn hàng</h2>
-
-    <!-- STATUS TABS -->
-    <div class="tab-bar">
-      <button class="tab-btn active">Tất cả (48)</button>
-      <button class="tab-btn">Chờ xác nhận (24)</button>
-      <button class="tab-btn">Đang đóng gói (8)</button>
-      <button class="tab-btn">Đang giao (12)</button>
-      <button class="tab-btn">Đã hoàn tất (201)</button>
-      <button class="tab-btn">Đã hủy (3)</button>
+    <h2 style="font-size:1.2rem;color:var(--dark);margin-bottom:18px;">🛒 Quản lý đơn hàng</h2>
+    <div class="tab-bar" id="status-tabs">
+      <button class="tab-btn active" onclick="setTab('all',this)">Tất cả</button>
+      <button class="tab-btn" onclick="setTab('pending',this)">Chờ xác nhận</button>
+      <button class="tab-btn" onclick="setTab('packing',this)">Đang đóng gói</button>
+      <button class="tab-btn" onclick="setTab('shipping',this)">Đang giao</button>
+      <button class="tab-btn" onclick="setTab('delivered',this)">Đã hoàn tất</button>
+      <button class="tab-btn" onclick="setTab('cancelled',this)">Đã hủy</button>
     </div>
-
-    <!-- SEARCH BAR -->
     <div class="toolbar">
-      <input type="text" placeholder="🔍 Tìm theo mã đơn hoặc tên khách hàng..." />
-      <select style="padding:10px 14px; border:1px solid #ddd; border-radius:8px; font-size:0.88rem;">
-        <option>Hôm nay</option>
-        <option>7 ngày qua</option>
-        <option>Tháng này</option>
+      <input type="text" id="search-order" placeholder="🔍 Mã đơn hoặc tên khách..." oninput="renderOrders()" />
+      <select id="filter-time" onchange="renderOrders()">
+        <option value="all">Tất cả thời gian</option>
+        <option value="today">Hôm nay</option>
+        <option value="week">7 ngày qua</option>
+        <option value="month">Tháng này</option>
       </select>
     </div>
-
-    <!-- ORDERS TABLE -->
     <div class="new-orders-table">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Mã đơn</th>
-              <th>Khách hàng</th>
-              <th>Sản phẩm</th>
-              <th>Tổng tiền</th>
-              <th>Ngày đặt</th>
-              <th>Trạng thái</th>
-              <th>Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>#VN2026101901</strong></td>
-              <td>
-                <div style="font-weight:600;font-size:0.88rem;">Nguyễn Văn A</div>
-                <div style="font-size:0.75rem;color:#888;">📞 0901 234 567</div>
-                <div style="font-size:0.75rem;color:#888;">📍 Hà Nội</div>
-              </td>
-              <td>
-                <div style="font-size:0.85rem;">👟 Nike Air Max 270</div>
-                <div style="font-size:0.75rem;color:#888;">Size 40 | Đen | x1</div>
-              </td>
-              <td><strong style="color:#e53935;">1.875.000₫</strong></td>
-              <td style="font-size:0.82rem;">19/10/2026<br/>14:32</td>
-              <td><span class="status-pill pill-new">Chờ xác nhận</span></td>
-              <td>
-                <button class="btn-action btn-confirm" style="margin-bottom:4px;" onclick="this.textContent='✓ Đã xác nhận'; this.disabled=true;">Xác nhận đơn</button><br/>
-                <button class="btn-action btn-print">In phiếu GH</button>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>#VN2026101898</strong></td>
-              <td>
-                <div style="font-weight:600;font-size:0.88rem;">Trần Thị B</div>
-                <div style="font-size:0.75rem;color:#888;">📞 0912 345 678</div>
-                <div style="font-size:0.75rem;color:#888;">📍 TP.HCM</div>
-              </td>
-              <td>
-                <div style="font-size:0.85rem;">👟 Nike Zoom Fly 5</div>
-                <div style="font-size:0.75rem;color:#888;">Size 38 | Trắng | x2</div>
-              </td>
-              <td><strong style="color:#e53935;">3.200.000₫</strong></td>
-              <td style="font-size:0.82rem;">19/10/2026<br/>11:15</td>
-              <td><span class="status-pill pill-packing">Đang đóng gói</span></td>
-              <td>
-                <button class="btn-action btn-print" style="margin-bottom:4px;">In phiếu GH</button><br/>
-                <button class="btn-action btn-cancel-sm">Hủy đơn</button>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>#VN2026101890</strong></td>
-              <td>
-                <div style="font-weight:600;font-size:0.88rem;">Lê Minh C</div>
-                <div style="font-size:0.75rem;color:#888;">📞 0923 456 789</div>
-                <div style="font-size:0.75rem;color:#888;">📍 Đà Nẵng</div>
-              </td>
-              <td>
-                <div style="font-size:0.85rem;">👟 Nike React Infinity</div>
-                <div style="font-size:0.75rem;color:#888;">Size 42 | Xám | x1</div>
-              </td>
-              <td><strong style="color:#e53935;">2.100.000₫</strong></td>
-              <td style="font-size:0.82rem;">18/10/2026<br/>09:44</td>
-              <td><span class="status-pill" style="background:#e3f2fd;color:#1565c0;">Đang giao</span></td>
-              <td>
-                <button class="btn-action btn-cancel-sm">Xem chi tiết</button>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>#VN2026101870</strong></td>
-              <td>
-                <div style="font-weight:600;font-size:0.88rem;">Phạm Thị D</div>
-                <div style="font-size:0.75rem;color:#888;">📞 0934 567 890</div>
-                <div style="font-size:0.75rem;color:#888;">📍 Cần Thơ</div>
-              </td>
-              <td>
-                <div style="font-size:0.85rem;">👟 Nike Pegasus 40</div>
-                <div style="font-size:0.75rem;color:#888;">Size 39 | Đỏ | x3</div>
-              </td>
-              <td><strong style="color:#e53935;">4.500.000₫</strong></td>
-              <td style="font-size:0.82rem;">17/10/2026<br/>16:20</td>
-              <td><span class="status-pill pill-done">Đã hoàn tất</span></td>
-              <td>
-                <button class="btn-action btn-cancel-sm">Xem chi tiết</button>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>#VN2026101855</strong></td>
-              <td>
-                <div style="font-weight:600;font-size:0.88rem;">Hoàng Văn E</div>
-                <div style="font-size:0.75rem;color:#888;">📞 0945 678 901</div>
-                <div style="font-size:0.75rem;color:#888;">📍 Hải Phòng</div>
-              </td>
-              <td>
-                <div style="font-size:0.85rem;">👟 Nike Air Force 1</div>
-                <div style="font-size:0.75rem;color:#888;">Size 41 | Trắng | x1</div>
-              </td>
-              <td><strong style="color:#e53935;">1.250.000₫</strong></td>
-              <td style="font-size:0.82rem;">16/10/2026<br/>13:05</td>
-              <td><span class="status-pill pill-cancel">Đã hủy</span></td>
-              <td>
-                <button class="btn-action btn-cancel-sm">Xem lý do</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Mã đơn</th><th>Khách hàng</th><th>Sản phẩm</th><th>Tổng tiền</th><th>Ngày đặt</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+        <tbody id="orders-tbody"></tbody>
+      </table></div>
     </div>
-
   </div>
 
-  <div class="hotline-btn">📞 Hotline: 1800 1234</div>
+  <!-- MODAL CHI TIẾT -->
+  <div class="modal-overlay" id="order-modal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-title" id="modal-title"></div>
+      <div id="modal-content"></div>
+      <div id="modal-actions" style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;"></div>
+    </div>
+  </div>
 
+  <script src="auth.js"></script>
+  <script src="data.js"></script>
+  <script src="seller-data.js"></script>
+  <script>
+    const user = getUser();
+    if (user) document.getElementById('shop-name-display').textContent = user.shopName||'Pick&Pay Shop';
+    let currentTab = 'all', currentOrderId = null;
+
+    const statusLabel = {
+      pending:'<span class="status-pill pill-new">Chờ xác nhận</span>',
+      packing:'<span class="status-pill pill-packing">Đang đóng gói</span>',
+      shipping:'<span class="status-pill pill-ship">Đang giao</span>',
+      delivered:'<span class="status-pill pill-done">Đã hoàn tất</span>',
+      cancelled:'<span class="status-pill pill-cancel">Đã hủy</span>'
+    };
+
+    function setTab(tab, btn) {
+      currentTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active'); renderOrders();
+    }
+
+    function parseVNDate(str) {
+      // dd/mm/yyyy
+      const parts = str.split('/');
+      return new Date(parseInt(parts[2]), parseInt(parts[1])-1, parseInt(parts[0]));
+    }
+
+    function renderOrders() {
+      const q = document.getElementById('search-order').value.toLowerCase();
+      const tf = document.getElementById('filter-time').value;
+      const today = new Date(); today.setHours(0,0,0,0);
+      let orders = getSellerOrders().filter(o => {
+        const mTab = currentTab==='all'||o.status===currentTab;
+        const mQ = !q||(o.id.toLowerCase().includes(q)||o.customer.toLowerCase().includes(q));
+        let mTime = true;
+        if (tf!=='all') {
+          const d = parseVNDate(o.date); d.setHours(0,0,0,0);
+          const diff = Math.floor((today-d)/(1000*60*60*24));
+          if (tf==='today') mTime = diff===0;
+          else if (tf==='week') mTime = diff<=7;
+          else if (tf==='month') mTime = diff<=30;
+        }
+        return mTab&&mQ&&mTime;
+      });
+      document.getElementById('orders-tbody').innerHTML = orders.length ? orders.map(o=>`<tr style="cursor:pointer;" onclick="openModal('${o.id}')">
+        <td><strong>${o.id}</strong></td>
+        <td>${o.customer}<br/><span style="font-size:0.75rem;color:#888;">${o.phone}</span></td>
+        <td style="font-size:0.83rem;">${o.items[0].emoji} ${o.items[0].name}${o.items.length>1?` <span style="color:#888;">+${o.items.length-1}</span>`:''}</td>
+        <td><strong style="color:#e53935;">${formatPrice(o.total)}</strong></td>
+        <td style="font-size:0.82rem;">${o.date}</td>
+        <td>${statusLabel[o.status]||''}</td>
+        <td onclick="event.stopPropagation()"><button class="btn-action btn-view" onclick="openModal('${o.id}')">Xem</button></td>
+      </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;color:#888;padding:32px;">Không có đơn hàng</td></tr>';
+    }
+
+    function openModal(id) {
+      currentOrderId = id;
+      const o = getSellerOrders().find(x=>x.id===id); if(!o) return;
+      document.getElementById('modal-title').textContent = 'Đơn hàng ' + o.id;
+      document.getElementById('modal-content').innerHTML = `
+        <div class="modal-row"><span>Khách hàng</span><span><strong>${o.customer}</strong></span></div>
+        <div class="modal-row"><span>Điện thoại</span><span>${o.phone}</span></div>
+        <div class="modal-row"><span>Địa chỉ giao</span><span style="text-align:right;max-width:220px;">${o.address}</span></div>
+        <div class="modal-row"><span>Ngày đặt</span><span>${o.date}</span></div>
+        <div class="modal-row"><span>Trạng thái</span><span>${statusLabel[o.status]}</span></div>
+        <div style="margin:12px 0 6px;font-weight:700;font-size:0.85rem;color:var(--dark);">🛍️ Sản phẩm:</div>
+        ${o.items.map(i=>`<div class="modal-row"><span>${i.emoji} ${i.name} x${i.qty}</span><span>${formatPrice(i.price*i.qty)}</span></div>`).join('')}
+        <div class="modal-row" style="margin-top:8px;border-top:2px solid var(--yellow);padding-top:8px;"><span><strong>Tổng tiền</strong></span><span style="color:#e53935;font-weight:800;font-size:1.05rem;">${formatPrice(o.total)}</span></div>`;
+      const acts = document.getElementById('modal-actions');
+      acts.innerHTML = '';
+      if (o.status==='pending') acts.innerHTML += `<button onclick="updateStatus('${id}','packing')" style="flex:1;padding:10px;background:var(--green);border:none;color:white;border-radius:8px;font-weight:700;cursor:pointer;">✅ Xác nhận đơn</button>`;
+      if (o.status==='packing') acts.innerHTML += `<button onclick="updateStatus('${id}','shipping')" style="flex:1;padding:10px;background:var(--orange);border:none;color:var(--dark);border-radius:8px;font-weight:700;cursor:pointer;">🚚 Bàn giao vận chuyển</button>`;
+      if (o.status==='shipping') acts.innerHTML += `<button onclick="updateStatus('${id}','delivered')" style="flex:1;padding:10px;background:var(--green);border:none;color:white;border-radius:8px;font-weight:700;cursor:pointer;">✅ Xác nhận đã giao</button>`;
+      if (['pending','packing'].includes(o.status)) acts.innerHTML += `<button onclick="updateStatus('${id}','cancelled')" style="padding:10px 18px;background:#fee;border:2px solid #e53935;color:#e53935;border-radius:8px;font-weight:700;cursor:pointer;">❌ Hủy đơn</button>`;
+      document.getElementById('order-modal').classList.add('open');
+    }
+    function closeModal() { document.getElementById('order-modal').classList.remove('open'); }
+    function updateStatus(id, status) {
+      const orders = getSellerOrders();
+      const o = orders.find(x=>x.id===id); if(o) o.status=status;
+      saveSellerOrders(orders); closeModal(); renderOrders();
+      showToast('✅ Đã cập nhật trạng thái đơn hàng');
+    }
+    document.getElementById('order-modal').addEventListener('click',e=>{if(e.target===document.getElementById('order-modal'))closeModal();});
+    renderOrders();
+  </script>
 </body>
 </html>
