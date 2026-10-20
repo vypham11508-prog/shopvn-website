@@ -1,175 +1,133 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Đăng ký người bán – ShopVN</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <header class="header">
     <div class="container header-inner">
       <a href="index.html" class="logo">🛍️ ShopVN</a>
       <div style="flex:1;"></div>
-      <nav class="nav-links">
-        <a href="login.html" class="btn-login">Đăng nhập</a>
-      </nav>
+      <nav class="nav-links" id="nav-container"></nav>
     </div>
   </header>
-
-  <div class="page-header">
-    <div class="container">
-      <h1>🏪 Đăng ký Gian hàng</h1>
-      <div class="breadcrumb"><a href="index.html">Trang chủ</a> › Đăng ký người bán</div>
-    </div>
-  </div>
+  <div class="page-header"><div class="container"><h1>🏪 Đăng ký Gian hàng</h1><div class="breadcrumb"><a href="index.html">Trang chủ</a> › Đăng ký người bán</div></div></div>
 
   <div class="container seller-page">
     <div class="seller-form-card">
       <h2>Mở gian hàng trên ShopVN</h2>
-      <p>Điền đầy đủ thông tin bên dưới để đăng ký. Hồ sơ sẽ được duyệt trong vòng 1–2 ngày làm việc.</p>
+      <p>Điền đầy đủ thông tin bên dưới để đăng ký. Gian hàng sẽ được kích hoạt ngay sau khi gửi hồ sơ.</p>
 
       <!-- THÔNG TIN CÁ NHÂN -->
       <div class="section-divider">👤 Thông tin cá nhân / Chủ shop</div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Họ và tên *</label>
-          <input type="text" placeholder="Nguyễn Văn A" />
-        </div>
-        <div class="form-group">
-          <label>Số điện thoại *</label>
-          <input type="tel" placeholder="0901 234 567" />
-        </div>
+        <div class="form-group"><label>Họ và tên *</label><input type="text" id="s-name" placeholder="Nguyễn Văn A" /></div>
+        <div class="form-group"><label>Số điện thoại *</label><input type="tel" id="s-phone" placeholder="0901 234 567" /></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Email *</label>
-          <input type="email" placeholder="email@example.com" />
-        </div>
-        <div class="form-group">
-          <label>Số CCCD / CMND *</label>
-          <input type="text" placeholder="012345678901" />
-        </div>
+        <div class="form-group"><label>Email *</label><input type="email" id="s-email" placeholder="email@example.com" /></div>
+        <div class="form-group"><label>Số CCCD / CMND *</label><input type="text" id="s-cccd" placeholder="012345678901" /></div>
       </div>
 
       <!-- THÔNG TIN GIAN HÀNG -->
       <div class="section-divider">🏪 Thông tin gian hàng</div>
-      <div class="form-group">
-        <label>Tên cửa hàng *</label>
-        <input type="text" placeholder="VD: Shop Thời Trang Anh Vy" />
-      </div>
+      <div class="form-group"><label>Tên cửa hàng *</label><input type="text" id="s-shopname" placeholder="VD: Shop Thời Trang Anh Vy" /></div>
       <div class="form-row">
         <div class="form-group">
           <label>Ngành hàng kinh doanh chính *</label>
-          <select>
-            <option>Chọn ngành hàng</option>
-            <option>Thời trang</option>
-            <option>Điện tử</option>
-            <option>Nhà cửa & Đời sống</option>
-            <option>Làm đẹp</option>
-            <option>Thực phẩm</option>
-            <option>Thể thao</option>
+          <select id="s-category">
+            <option value="">Chọn ngành hàng</option>
+            <option>Thời trang</option><option>Điện tử</option><option>Nhà cửa & Đời sống</option>
+            <option>Làm đẹp</option><option>Thực phẩm</option><option>Thể thao</option><option>Sách</option>
           </select>
         </div>
         <div class="form-group">
           <label>Loại hình kinh doanh</label>
-          <select>
-            <option>Cá nhân</option>
-            <option>Doanh nghiệp</option>
-          </select>
+          <select><option>Cá nhân</option><option>Doanh nghiệp</option></select>
         </div>
       </div>
-      <div class="form-group">
-        <label>Mô tả ngắn về shop</label>
-        <input type="text" placeholder="VD: Chuyên cung cấp giày sneaker chính hãng, giá tốt..." />
-      </div>
+      <div class="form-group"><label>Mô tả ngắn về shop</label><input type="text" placeholder="VD: Chuyên cung cấp giày sneaker chính hãng..." /></div>
 
       <!-- ĐỊA CHỈ LẤY HÀNG -->
       <div class="section-divider">📍 Địa chỉ lấy hàng</div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Tỉnh / Thành phố *</label>
-          <select id="seller-province"></select>
-        </div>
-        <div class="form-group">
-          <label>Quận / Huyện *</label>
-          <select id="seller-district"></select>
-        </div>
+        <div class="form-group"><label>Tỉnh / Thành phố *</label><select id="seller-province"></select></div>
+        <div class="form-group"><label>Quận / Huyện *</label><select id="seller-district"></select></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Phường / Xã *</label>
-          <select>
-            <option>Chọn phường/xã</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Chi tiết địa chỉ *</label>
-          <input type="text" placeholder="Số nhà, tên đường..." />
-        </div>
+        <div class="form-group"><label>Phường / Xã *</label><select id="seller-ward"></select></div>
+        <div class="form-group"><label>Chi tiết địa chỉ *</label><input type="text" id="s-address" placeholder="Số nhà, tên đường..." /></div>
       </div>
 
       <!-- TÀI KHOẢN NGÂN HÀNG -->
       <div class="section-divider">🏦 Tài khoản ngân hàng nhận doanh thu</div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Ngân hàng *</label>
-          <select>
-            <option>Chọn ngân hàng</option>
-            <option>Vietcombank</option>
-            <option>Techcombank</option>
-            <option>MB Bank</option>
-            <option>BIDV</option>
-            <option>Agribank</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Số tài khoản *</label>
-          <input type="text" placeholder="Nhập số tài khoản..." />
-        </div>
+        <div class="form-group"><label>Ngân hàng *</label><select id="seller-bank"></select></div>
+        <div class="form-group"><label>Số tài khoản *</label><input type="text" id="s-banknum" placeholder="Nhập số tài khoản..." /></div>
       </div>
-      <div class="form-group">
-        <label>Tên chủ tài khoản *</label>
-        <input type="text" placeholder="Đúng với tên trên thẻ ngân hàng" />
-      </div>
+      <div class="form-group"><label>Tên chủ tài khoản *</label><input type="text" id="s-bankname" placeholder="Đúng với tên trên thẻ ngân hàng" /></div>
 
-      <!-- CHÍNH SÁCH & ĐIỀU KHOẢN -->
+      <!-- CHÍNH SÁCH -->
       <div class="section-divider">📋 Chính sách & Điều khoản</div>
       <div class="policy-box">
         <strong>QUY ĐỊNH BÁN HÀNG TRÊN SHOPVN</strong><br/><br/>
         1. Người bán phải đảm bảo hàng hóa đúng mô tả, không hàng giả, hàng nhái.<br/>
         2. Xử lý và xác nhận đơn hàng trong vòng 24 giờ kể từ khi đặt hàng.<br/>
-        3. Hỗ trợ chính sách đổi trả theo quy định của sàn (7–30 ngày tuỳ ngành hàng).<br/>
+        3. Hỗ trợ chính sách đổi trả theo quy định của sàn (7–30 ngày tùy ngành hàng).<br/>
         4. Không bán các mặt hàng cấm theo pháp luật Việt Nam.<br/>
         5. Doanh thu sẽ được thanh toán sau 3–5 ngày làm việc kể từ khi đơn hoàn thành.<br/>
         6. ShopVN có quyền đình chỉ hoặc xóa gian hàng nếu vi phạm quy định.
       </div>
-      <label class="agree-row">
-        <input type="checkbox" /> Tôi đã đọc và đồng ý với các điều khoản bán hàng của ShopVN
-      </label>
-
-      <button class="btn-submit" onclick="alert('Hồ sơ đã gửi thành công! 🎉\nShopVN sẽ xem xét và phản hồi trong 1–2 ngày làm việc.')">
-        📤 Gửi hồ sơ đăng ký
-      </button>
+      <label class="agree-row"><input type="checkbox" id="s-agree" /> Tôi đã đọc và đồng ý với các điều khoản bán hàng của ShopVN</label>
+      <button class="btn-submit" onclick="submitRegister()">📤 Gửi hồ sơ đăng ký</button>
     </div>
   </div>
 
   <div class="hotline-btn">📞 Hotline: 1800 1234</div>
-
-  <script src="vietnam-address.js"></script>
-  <script>
-    initProvinceDropdown('seller-province', 'seller-district');
-  </script>
-
   <footer class="footer">
     <div class="container footer-inner">
       <div><strong>🛍️ ShopVN</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p></div>
-      <div><strong>Hỗ trợ</strong><p><a href="#">Chính sách đổi trả</a></p><p><a href="#">Cam kết chất lượng</a></p></div>
-      <div><strong>Bán hàng</strong><p><a href="seller-register.html">Đăng ký người bán</a></p></div>
+      <div><strong>Hỗ trợ</strong><p><a href="policy-return.html">Chính sách đổi trả</a></p><p><a href="policy-quality.html">Cam kết chất lượng</a></p></div>
     </div>
     <div class="footer-bottom">© 2026 ShopVN – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
   </footer>
+
+  <script src="auth.js"></script>
+  <script src="data.js"></script>
+  <script src="vietnam-address.js"></script>
+  <script>
+    renderHeaderNav('nav-container');
+    updateCartBadge();
+    initFullAddressDropdown('seller-province','seller-district','seller-ward');
+    initBankDropdown('seller-bank');
+
+    function submitRegister() {
+      const name = document.getElementById('s-name').value.trim();
+      const phone = document.getElementById('s-phone').value.trim();
+      const email = document.getElementById('s-email').value.trim();
+      const shopName = document.getElementById('s-shopname').value.trim();
+      const category = document.getElementById('s-category').value;
+      const agree = document.getElementById('s-agree').checked;
+
+      if (!name||!phone||!email||!shopName||!category) { showToast('⚠️ Vui lòng điền đầy đủ thông tin!'); return; }
+      if (!agree) { showToast('⚠️ Vui lòng đồng ý với điều khoản!'); return; }
+
+      // Lưu thông tin tài khoản người bán
+      const existingUser = getUser() || {};
+      const user = {
+        ...existingUser,
+        name, phone, email,
+        shopName, category,
+        isSeller: true,
+        points: existingUser.points || 0,
+        spent: existingUser.spent || 0
+      };
+      saveUser(user);
+      window.location.href = 'seller-success.html';
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng ký thành công – ShopVN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .success-wrap{min-height:80vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;background:#f5f7fa;}
+    .success-card{background:white;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.1);padding:48px 40px;max-width:520px;width:100%;text-align:center;}
+    .s-icon{font-size:5rem;animation:pop .4s ease;}
+    @keyframes pop{0%{transform:scale(0.5);opacity:0}100%{transform:scale(1);opacity:1}}
+    .s-title{font-family:'Montserrat',sans-serif;font-size:1.8rem;font-weight:800;color:var(--dark);margin:16px 0 8px;}
+    .s-sub{color:#666;margin-bottom:28px;line-height:1.6;}
+    .info-box{background:#f0f7ff;border-radius:10px;padding:16px 20px;margin-bottom:28px;text-align:left;}
+    .info-row{display:flex;justify-content:space-between;font-size:0.88rem;padding:5px 0;border-bottom:1px solid #e0e8f0;}
+    .info-row:last-child{border:none;}
+    .info-row span:first-child{color:#888;}
+    .info-row span:last-child{font-weight:600;color:var(--dark);}
+    .action-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+    .btn-dashboard{padding:12px 28px;background:var(--dark);color:white;border:none;border-radius:25px;font-weight:700;font-family:'Montserrat',sans-serif;cursor:pointer;font-size:0.95rem;}
+    .btn-shop{padding:12px 28px;background:var(--yellow);color:var(--dark);border:none;border-radius:25px;font-weight:700;font-family:'Montserrat',sans-serif;cursor:pointer;font-size:0.95rem;}
+    .switch-mode-hint{margin-top:24px;padding:16px;background:#fff8e1;border-radius:10px;font-size:0.85rem;color:#666;border-left:4px solid var(--yellow);}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">🛍️ ShopVN</a>
+      <div style="flex:1;"></div>
+      <nav class="nav-links" id="nav-container"></nav>
+    </div>
+  </header>
+
+  <div style="background:var(--dark);padding:20px 0;">
+    <div class="container"><h1 style="color:var(--yellow);font-size:1.4rem;">🏪 Đăng ký Người bán</h1></div>
+  </div>
+
+  <div class="success-wrap">
+    <div class="success-card">
+      <div class="s-icon">🎉</div>
+      <div class="s-title">Đăng ký thành công!</div>
+      <div class="s-sub">Hồ sơ của bạn đã được gửi. Gian hàng của bạn đã được kích hoạt ngay lập tức trên ShopVN!</div>
+
+      <div class="info-box" id="shop-info-box"></div>
+
+      <div class="switch-mode-hint">
+        💡 Bạn có thể <strong>chuyển đổi giữa chế độ Người mua ↔ Người bán</strong> bằng menu tài khoản ở góc trên phải.
+      </div>
+
+      <br/>
+      <div class="action-btns">
+        <button class="btn-dashboard" onclick="window.location='seller-dashboard.html'">🏪 Vào quản lý gian hàng</button>
+        <button class="btn-shop" onclick="window.location='index.html'">🛍️ Tiếp tục mua sắm</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script src="data.js"></script>
+  <script>
+    renderHeaderNav('nav-container');
+    updateCartBadge();
+    const user = getUser();
+    const el = document.getElementById('shop-info-box');
+    if (user) {
+      el.innerHTML = `
+        <div class="info-row"><span>Tên cửa hàng</span><span>${user.shopName || '—'}</span></div>
+        <div class="info-row"><span>Chủ shop</span><span>${user.name}</span></div>
+        <div class="info-row"><span>Ngành hàng</span><span>${user.category || '—'}</span></div>
+        <div class="info-row"><span>Trạng thái</span><span style="color:#2e7d32;">✅ Đã kích hoạt</span></div>`;
+    }
+  </script>
+</body>
+</html>

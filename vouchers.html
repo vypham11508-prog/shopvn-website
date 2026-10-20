@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voucher của tôi – ShopVN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">🛍️ ShopVN</a>
+      <div class="search-bar"><input type="text" placeholder="Tìm kiếm..." /><button>🔍</button></div>
+      <nav class="nav-links" id="nav-container"></nav>
+    </div>
+  </header>
+  <div class="page-header"><div class="container"><h1>🎟️ Voucher của tôi</h1><div class="breadcrumb"><a href="index.html">Trang chủ</a> › Voucher</div></div></div>
+
+  <div class="container" style="padding:32px 20px;max-width:760px;">
+    <div class="tab-bar" style="margin-bottom:24px;">
+      <button class="tab-btn active" onclick="showTab('all',this)">Tất cả</button>
+      <button class="tab-btn" onclick="showTab('saved',this)">Đã lưu</button>
+      <button class="tab-btn" onclick="showTab('new',this)">Dành cho bạn</button>
+    </div>
+    <div id="voucher-list"></div>
+  </div>
+
+  <div class="hotline-btn">📞 Hotline: 1800 1234</div>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><strong>🛍️ ShopVN</strong><p>📞 1800 1234</p></div>
+      <div><strong>Hỗ trợ</strong><p><a href="policy-return.html">Chính sách đổi trả</a></p><p><a href="policy-quality.html">Cam kết chất lượng</a></p></div>
+    </div>
+    <div class="footer-bottom">© 2026 ShopVN – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
+  </footer>
+
+  <script src="auth.js"></script>
+  <script src="data.js"></script>
+  <script>
+    renderHeaderNav('nav-container'); updateCartBadge();
+    let currentTab = 'all';
+    function showTab(tab, btn) {
+      currentTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderVouchers();
+    }
+    function renderVouchers() {
+      const saved = getSavedVouchers();
+      let list = SYSTEM_VOUCHERS;
+      if (currentTab === 'saved') list = list.filter(v => saved.includes(v.code));
+      if (currentTab === 'new') list = list.filter(v => v.new);
+      const el = document.getElementById('voucher-list');
+      if (list.length === 0) { el.innerHTML = '<p style="text-align:center;color:#888;padding:40px;">Không có voucher nào</p>'; return; }
+      el.innerHTML = list.map(v => {
+        const isSaved = saved.includes(v.code);
+        const valLabel = v.type==='percent' ? `-${v.value}%` : v.type==='fixed' ? `-${formatPrice(v.value)}` : 'FREE SHIP';
+        return `<div class="voucher-card">
+          <div class="voucher-left">
+            <div class="voucher-value">${valLabel}</div>
+            <div class="voucher-type">${v.type==='ship'?'Vận chuyển':'Giảm giá'}</div>
+          </div>
+          <div class="voucher-right">
+            <div class="voucher-info">
+              <div class="voucher-code">${v.code}${v.new?'<span class="voucher-new-tag">MỚI</span>':''}</div>
+              <div class="voucher-desc">${v.desc}</div>
+              <div class="voucher-meta">Đơn tối thiểu: ${v.minOrder>0?formatPrice(v.minOrder):'Không yêu cầu'} &nbsp;|&nbsp; HSD: ${v.exp}</div>
+            </div>
+            <button class="btn-save-voucher${isSaved?' saved':''}" onclick="handleSave('${v.code}',this)" ${isSaved?'disabled':''}>
+              ${isSaved?'✓ Đã lưu':'Lưu ngay'}
+            </button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+    function handleSave(code, btn) {
+      saveVoucher(code); btn.textContent='✓ Đã lưu'; btn.classList.add('saved'); btn.disabled=true;
+      showToast('Đã lưu voucher ' + code + '! 🎟️');
+    }
+    renderVouchers();
+  </script>
+</body>
+</html>
