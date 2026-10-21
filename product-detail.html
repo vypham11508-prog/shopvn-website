@@ -77,13 +77,10 @@
           <span class="price-original" id="product-oldprice"></span>
           <span class="discount-tag" id="product-discount" style="display:none;"></span>
         </div>
-        <div class="option-group" id="color-group">
-          <label>Màu sắc: <span id="selected-color" style="font-weight:400;color:var(--orange);"></span></label>
-          <div class="option-btns" id="color-btns"></div>
-        </div>
-        <div class="option-group" id="size-group">
-          <label>Kích thước: <span id="selected-size" style="font-weight:400;color:var(--orange);"></span></label>
-          <div class="option-btns" id="size-btns"></div>
+        <!-- PHIÊN BẢN / SIZE / MÀU SẮC -->
+        <div class="option-group" id="variant-group">
+          <label>Lựa chọn: <span id="selected-variant" style="font-weight:400;color:var(--orange);"></span></label>
+          <div class="option-btns" id="variant-btns"></div>
         </div>
         <div class="qty-row">
           <label>Số lượng:</label>
@@ -143,39 +140,43 @@
       window.location.href = q ? 'products.html?q='+encodeURIComponent(q) : 'products.html';
     }
 
-    const catOpts = {
-      thoitrang:{colors:['Đen','Trắng','Đỏ','Xanh','Vàng','Hồng'],sizes:['XS','S','M','L','XL','XXL']},
-      dientuchomay:{colors:['Đen','Trắng','Bạc','Tím','Xanh'],sizes:['64GB','128GB','256GB','512GB']},
-      lamdep:{colors:['Đỏ','Hồng','Cam','Nude','Berry'],sizes:['Mini','Standard','Large']},
-      sach:{colors:[],sizes:[]},
-      thethao:{colors:['Đen','Trắng','Đỏ','Xanh Navy'],sizes:['S','M','L','XL','36','38','40','42','44']}
-    };
-
-    let selectedColor='', selectedSize='', qty=1, currentProduct=null, compareProduct=null;
+    let selectedVariant=null, qty=1, currentProduct=null, compareProduct=null;
+    let currentPrice=0;
 
     function changeQty(d){qty=Math.max(1,qty+d);document.getElementById('qty-val').textContent=qty;}
 
-    function selectOption(type,val,el){
-      const grp=type==='color'?'color-btns':'size-btns';
-      document.querySelectorAll(`#${grp} .opt-btn`).forEach(b=>b.classList.remove('active'));
+    function selectVariant(v, el){
+      document.querySelectorAll('#variant-btns .opt-btn').forEach(b=>b.classList.remove('active'));
       el.classList.add('active');
-      if(type==='color'){selectedColor=val;document.getElementById('selected-color').textContent='– '+val;}
-      else{selectedSize=val;document.getElementById('selected-size').textContent='– '+val;}
+      selectedVariant=v;
+      currentPrice = currentProduct.price + v.pd;
+      // Cập nhật giá hiển thị
+      document.getElementById('product-price').textContent=formatPrice(currentPrice);
+      if(currentProduct.oldPrice){
+        const oldAdjusted = currentProduct.oldPrice + v.pd;
+        document.getElementById('product-oldprice').textContent=formatPrice(oldAdjusted);
+        const pct=Math.round((1-currentPrice/oldAdjusted)*100);
+        document.getElementById('product-discount').textContent=`-${pct}%`;
+      }
+      document.getElementById('selected-variant').textContent='– '+v.label+(v.pd>0?' (+'+formatPrice(v.pd)+')':v.pd<0?' ('+formatPrice(v.pd)+')':'');
     }
 
     function handleAddToCart(){
       if(!currentProduct)return;
-      const o=catOpts[currentProduct.category];
-      if(o.colors.length>0&&!selectedColor){showToast('Vui lòng chọn màu sắc!');return;}
-      if(o.sizes.length>0&&!selectedSize){showToast('Vui lòng chọn kích thước!');return;}
-      addToCart(currentProduct.id,qty,selectedColor,selectedSize);
+      if((currentProduct.variants||[]).length>0&&!selectedVariant){showToast('Vui lòng chọn phiên bản!');return;}
+      const label=selectedVariant?selectedVariant.label:'';
+      // Lưu giá đã điều chỉnh vào cart
+      const cart=getCart();
+      const key=`${currentProduct.id}-${label}`;
+      const ex=cart.find(i=>i.key===key);
+      if(ex) ex.qty+=qty;
+      else cart.push({key,id:currentProduct.id,name:currentProduct.name+(label?' ('+label+')':''),price:currentPrice||currentProduct.price,emoji:currentProduct.emoji,color:label,size:'',qty});
+      saveCart(cart); showToast('Đã thêm vào giỏ hàng! 🛒');
     }
     function handleBuyNow(){
       if(!currentProduct)return;
-      const o=catOpts[currentProduct.category];
-      if(o.colors.length>0&&!selectedColor){showToast('Vui lòng chọn màu sắc!');return;}
-      if(o.sizes.length>0&&!selectedSize){showToast('Vui lòng chọn kích thước!');return;}
-      addToCart(currentProduct.id,qty,selectedColor,selectedSize);
+      if((currentProduct.variants||[]).length>0&&!selectedVariant){showToast('Vui lòng chọn phiên bản!');return;}
+      handleAddToCart();
       window.location.href='checkout.html';
     }
 
@@ -219,8 +220,9 @@
     }
 
     // Load product
-    const productId=parseInt(localStorage.getItem('currentProduct')||'1');
+    const productId=parseInt(localStorage.getItem('currentProduct')||'801');
     currentProduct=PRODUCTS.find(p=>p.id===productId)||PRODUCTS[0];
+    currentPrice = currentProduct.price;
 
     document.getElementById('main-img').textContent=currentProduct.emoji;
     document.getElementById('main-img').style.cssText='font-size:9rem;text-align:center;padding:36px;background:#f5f5f5;border-radius:12px;';
@@ -238,12 +240,21 @@
     }
     document.getElementById('seller-info').innerHTML=`<p><strong>👤 Người bán:</strong> ${currentProduct.seller}</p><p>⭐ ${currentProduct.rating}/5 &nbsp;|&nbsp; 🚀 Giao 2–3 ngày &nbsp;|&nbsp; 🔄 Đổi trả 30 ngày</p>`;
 
-    // Options
-    const opts=catOpts[currentProduct.category]||{colors:[],sizes:[]};
-    if(!opts.colors.length){document.getElementById('color-group').style.display='none';}
-    else opts.colors.forEach(c=>{const b=document.createElement('button');b.className='opt-btn';b.textContent=c;b.onclick=function(){selectOption('color',c,this);};document.getElementById('color-btns').appendChild(b);});
-    if(!opts.sizes.length){document.getElementById('size-group').style.display='none';}
-    else opts.sizes.forEach(s=>{const b=document.createElement('button');b.className='opt-btn';b.textContent=s;b.onclick=function(){selectOption('size',s,this);};document.getElementById('size-btns').appendChild(b);});
+    // Variants – giá thay đổi theo lựa chọn
+    const varGrp = document.getElementById('variant-group');
+    const varBtns = document.getElementById('variant-btns');
+    if(!currentProduct.variants||currentProduct.variants.length===0){
+      varGrp.style.display='none';
+    } else {
+      currentProduct.variants.forEach(v=>{
+        const b=document.createElement('button');
+        b.className='opt-btn';
+        b.innerHTML=v.label+(v.pd>0?`<br/><small style="color:#e53935;font-size:0.7rem;">+${formatPrice(v.pd)}</small>`:v.pd<0?`<br/><small style="color:#2e7d32;font-size:0.7rem;">${formatPrice(v.pd)}</small>`:'');
+        b.style.cssText='min-width:80px;text-align:center;line-height:1.3;';
+        b.onclick=function(){selectVariant(v,this);};
+        varBtns.appendChild(b);
+      });
+    }
 
     // Similar products for comparison (same category, different product)
     const similar=PRODUCTS.filter(p=>p.category===currentProduct.category&&p.id!==currentProduct.id).slice(0,8);
