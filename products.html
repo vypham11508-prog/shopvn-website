@@ -25,6 +25,14 @@
     </div>
   </div>
 
+  <!-- FLASH SALE HEADER (hiện khi ?sale=1) -->
+  <div id="sale-banner" style="display:none;background:linear-gradient(135deg,#e53935,#c62828);color:white;padding:14px 0;">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div style="font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:800;">⚡ Flash Sale – Giảm đến 50% – Số lượng có hạn!</div>
+      <div style="font-size:0.85rem;opacity:0.9;">Chỉ hiện sản phẩm đang được giảm giá</div>
+    </div>
+  </div>
+
   <div class="container products-page">
     <div class="products-layout">
       <aside class="filter-sidebar">
@@ -92,7 +100,7 @@
     }
     function getParams() {
       const p = new URLSearchParams(window.location.search);
-      return { cat: p.get('cat')||'', q: p.get('q')||'' };
+      return { cat: p.get('cat')||'', q: p.get('q')||'', sale: p.get('sale')||'' };
     }
     function setSort(type, btn) {
       currentSort = type;
@@ -103,14 +111,15 @@
       const maxP = parseInt(document.getElementById('price-range').value);
       const minR = parseFloat(document.querySelector('input[name=rating]:checked').value);
       const catV = document.querySelector('input[name=cat]:checked').value;
-      const { q } = getParams();
+      const { q, sale } = getParams();
       document.getElementById('price-label').textContent = maxP>=30000000 ? 'Tất cả' : formatPrice(maxP);
       let results = PRODUCTS.filter(p => {
         const mCat = catV ? p.category===catV : true;
         const mP = p.price <= maxP;
         const mR = p.rating >= minR;
         const mQ = q ? p.name.toLowerCase().includes(q.toLowerCase()) || (p.seller&&p.seller.toLowerCase().includes(q.toLowerCase())) : true;
-        return mCat && mP && mR && mQ;
+        const mSale = sale ? !!p.oldPrice : true; // chỉ lấy sp đang giảm giá
+        return mCat && mP && mR && mQ && mSale;
       });
       if (currentSort==='price-asc') results.sort((a,b)=>a.price-b.price);
       else if (currentSort==='price-desc') results.sort((a,b)=>b.price-a.price);
@@ -123,8 +132,16 @@
       else { noR.style.display='none'; grid.innerHTML = results.map(renderProductCard).join(''); }
     }
 
-    const { cat, q } = getParams();
-    if (q) {
+    const { cat, q, sale } = getParams();
+    if (sale) {
+      document.getElementById('search-input').value='';
+      document.getElementById('page-title').textContent='⚡ Flash Sale – Sản phẩm đang giảm giá';
+      document.getElementById('breadcrumb-cat').textContent='Flash Sale';
+      document.getElementById('sale-banner').style.display='block';
+      // Reset về tất cả danh mục
+      const allRadio = document.querySelector('input[name=cat][value=""]');
+      if(allRadio) allRadio.checked=true;
+    } else if (q) {
       document.getElementById('search-input').value=q;
       document.getElementById('page-title').textContent=`Kết quả: "${q}"`;
       document.getElementById('breadcrumb-cat').textContent='Tìm kiếm: '+q;

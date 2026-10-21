@@ -2,7 +2,9 @@
 function formatPrice(n) { return Number(n).toLocaleString('vi-VN') + '₫'; }
 function goToDetail(id) { localStorage.setItem('currentProduct', id); window.location.href = 'product-detail.html'; }
 function renderProductCard(p) {
-  return `<div class="product-card" onclick="goToDetail(${p.id})">
+  const discPct = p.oldPrice ? Math.round((1-p.price/p.oldPrice)*100) : 0;
+  return `<div class="product-card" onclick="goToDetail(${p.id})" style="position:relative;">
+    ${discPct>0?`<div style="position:absolute;top:10px;left:10px;background:#e53935;color:white;font-size:0.7rem;font-weight:800;padding:3px 8px;border-radius:6px;z-index:1;font-family:Montserrat,sans-serif;">-${discPct}%</div>`:''}
     <div class="product-img">${p.emoji}</div>
     <div class="product-info">
       <h3>${p.name}</h3>
