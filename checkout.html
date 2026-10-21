@@ -66,17 +66,8 @@
         <div class="form-card">
           <h3>💳 Phương thức thanh toán</h3>
           <div class="payment-options" id="pay-options">
-            <label class="payment-opt" onclick="selectPay(this, 'Thanh toán khi nhận hàng (COD)')">
-              <input type="radio" name="pay" /> <span>💵 Thanh toán khi nhận hàng (COD)</span>
-            </label>
-            <label class="payment-opt" onclick="selectPay(this, 'Chuyển khoản ngân hàng')">
-              <input type="radio" name="pay" /> <span>🏦 Chuyển khoản ngân hàng</span>
-            </label>
-            <label class="payment-opt" onclick="selectPay(this, 'Ví điện tử (MoMo / ZaloPay)')">
-              <input type="radio" name="pay" /> <span>📱 Ví điện tử (MoMo, ZaloPay, VNPay)</span>
-            </label>
-            <label class="payment-opt" onclick="selectPay(this, 'Thẻ tín dụng / ghi nợ')">
-              <input type="radio" name="pay" /> <span>💳 Thẻ tín dụng / ghi nợ</span>
+            <label class="payment-opt selected" id="cod-opt">
+              <input type="radio" name="pay" checked /> <span>💵 Thanh toán khi nhận hàng (COD)</span>
             </label>
           </div>
         </div>
@@ -133,7 +124,7 @@
 
     renderHeaderNav('nav-container');
 
-    let shipFee = -1, shipLabel = '', payLabel = '', voucherDiscount = 0, appliedCode = '';
+    let shipFee = -1, shipLabel = '', payLabel = 'Thanh toán khi nhận hàng (COD)', voucherDiscount = 0, appliedCode = '';
 
     function selectShip(el, fee, label) {
       document.querySelectorAll('#ship-options .payment-opt').forEach(e => e.classList.remove('selected'));
