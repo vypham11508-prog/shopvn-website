@@ -13,11 +13,17 @@
     .auth-side .brand { font-family:'Montserrat',sans-serif; font-size:1.6rem; font-weight:800; color:#FFD54F; margin-bottom:10px; }
     .auth-side p { font-size:0.83rem; opacity:0.75; line-height:1.7; margin-bottom:20px; }
     .auth-side .mode-btns { display:flex; flex-direction:column; gap:10px; width:100%; }
-    .mode-btn { padding:10px 14px; border-radius:10px; font-weight:700; font-size:0.86rem; cursor:pointer; border:2px solid transparent; font-family:'Montserrat',sans-serif; transition:all 0.2s; }
-    .mode-btn.buyer { background:#FFD54F; color:#2C2C2C; }
-    .mode-btn.seller { background:transparent; border-color:#FFB366; color:#FFB366; }
-    .mode-btn.buyer.active { box-shadow:0 2px 10px rgba(255,213,79,0.5); }
-    .mode-btn.seller.active { background:#FFB366; color:#2C2C2C; }
+    .mode-btn { padding:12px 14px; border-radius:12px; font-weight:700; font-size:0.9rem; cursor:pointer; border:3px solid transparent; font-family:'Montserrat',sans-serif; transition:all 0.25s; text-align:left; display:flex; align-items:center; gap:8px; position:relative; }
+
+    /* NGƯỜI MUA – mặc định */
+    .mode-btn.buyer { background:rgba(255,213,79,0.15); border-color:rgba(255,213,79,0.4); color:rgba(255,255,255,0.6); }
+    .mode-btn.buyer.active { background:#FFD54F; border-color:#FFD54F; color:#1A1A1A; box-shadow:0 4px 16px rgba(255,213,79,0.6); }
+    .mode-btn.buyer.active::after { content:'✓'; position:absolute; right:14px; font-size:1rem; font-weight:900; color:#1A1A1A; }
+
+    /* NGƯỜI BÁN – mặc định */
+    .mode-btn.seller { background:rgba(255,179,102,0.15); border-color:rgba(255,179,102,0.4); color:rgba(255,255,255,0.6); }
+    .mode-btn.seller.active { background:#FFB366; border-color:#FFB366; color:#1A1A1A; box-shadow:0 4px 16px rgba(255,179,102,0.6); }
+    .mode-btn.seller.active::after { content:'✓'; position:absolute; right:14px; font-size:1rem; font-weight:900; color:#1A1A1A; }
     .auth-card { background:white; flex:1; padding:36px 32px; }
     .auth-logo { font-size:1.4rem; font-weight:800; color:#2C2C2C; font-family:'Montserrat',sans-serif; margin-bottom:4px; }
     .auth-logo span { color:#FFB366; }
