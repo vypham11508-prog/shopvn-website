@@ -1,19 +1,47 @@
 ﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chi tiết sản phẩm – Pick&Pay</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ===== SO SÁNH SẢN PHẨM ===== */
+    .compare-section { background:white; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,0.08); padding:24px; margin-top:28px; }
+    .compare-section h2 { font-size:1.15rem; color:var(--dark); margin-bottom:6px; border-bottom:2px solid var(--yellow); padding-bottom:7px; }
+    .compare-section .sub { font-size:0.83rem; color:#888; margin-bottom:18px; }
+    .compare-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; margin-bottom:20px; }
+    .compare-card { border:2px solid #eee; border-radius:12px; padding:14px; cursor:pointer; transition:all 0.2s; position:relative; }
+    .compare-card.selected { border-color:var(--orange); background:#fff8f0; }
+    .compare-card:hover { border-color:var(--yellow); }
+    .compare-card .cc-emoji { font-size:2.8rem; text-align:center; margin-bottom:8px; }
+    .compare-card .cc-name { font-size:0.84rem; font-weight:600; color:var(--dark); margin-bottom:4px; line-height:1.3; }
+    .compare-card .cc-price { font-size:0.95rem; font-weight:700; color:#e53935; font-family:'Montserrat',sans-serif; }
+    .compare-card .cc-badge { position:absolute; top:8px; right:8px; background:var(--yellow); color:var(--dark); font-size:0.68rem; font-weight:700; padding:2px 7px; border-radius:8px; }
+    .compare-table { width:100%; border-collapse:collapse; font-size:0.86rem; margin-top:16px; }
+    .compare-table th { background:var(--dark); color:white; padding:12px 14px; text-align:left; font-weight:700; }
+    .compare-table td { padding:11px 14px; border-bottom:1px solid #f0f0f0; color:var(--text); }
+    .compare-table tr:nth-child(even) td { background:#fafafa; }
+    .compare-table .winner { color:#2e7d32; font-weight:700; }
+    .compare-table .loser { color:#e53935; }
+    .btn-compare-now { padding:11px 28px; background:linear-gradient(135deg,var(--orange),var(--yellow)); border:none; color:var(--dark); border-radius:25px; font-weight:700; cursor:pointer; font-family:'Montserrat',sans-serif; font-size:0.92rem; }
+    .similar-scroll { display:flex; gap:14px; overflow-x:auto; padding:4px 0 10px; scrollbar-width:thin; }
+    .similar-scroll::-webkit-scrollbar { height:4px; }
+    .similar-scroll .s-card { flex-shrink:0; width:160px; border:2px solid #eee; border-radius:10px; padding:12px; cursor:pointer; transition:all 0.2s; }
+    .similar-scroll .s-card:hover { border-color:var(--orange); }
+    .similar-scroll .s-card.sel { border-color:var(--orange); background:#fff8f0; }
+    .similar-scroll .s-card .s-emoji { font-size:2.2rem; text-align:center; }
+    .similar-scroll .s-card .s-name { font-size:0.78rem; font-weight:600; color:var(--dark); margin:5px 0 3px; line-height:1.3; }
+    .similar-scroll .s-card .s-price { font-size:0.85rem; font-weight:700; color:#e53935; font-family:'Montserrat',sans-serif; }
+    #compare-result { display:none; margin-top:16px; }
+  </style>
 </head>
 <body>
-
   <header class="header">
     <div class="container header-inner">
-      <a href="index.html" class="logo">🛒 Pick&Pay</a>
+      <a href="index.html" class="logo">🛒 Pick&amp;Pay</a>
       <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm..." onkeydown="if(event.key==='Enter') doSearch()" />
+        <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm..." onkeydown="if(event.key==='Enter')doSearch()" />
         <button onclick="doSearch()">🔍</button>
       </div>
       <nav class="nav-links" id="nav-container"></nav>
@@ -22,16 +50,16 @@
 
   <div class="page-header">
     <div class="container">
-      <h1 id="detail-title">Chi tiết sản phẩm</h1>
+      <h1 id="detail-title" style="font-size:1.3rem;">Chi tiết sản phẩm</h1>
       <div class="breadcrumb"><a href="index.html">Trang chủ</a> › <a href="products.html">Sản phẩm</a> › <span id="detail-breadcrumb"></span></div>
     </div>
   </div>
 
   <div class="container product-detail">
     <div class="detail-layout">
-      <!-- IMAGES -->
+      <!-- ẢNH -->
       <div class="detail-images">
-        <div class="main-img" id="main-img" style="font-size:10rem;text-align:center;padding:40px;background:#f5f5f5;border-radius:12px;"></div>
+        <div class="main-img" id="main-img"></div>
         <div class="thumbnails">
           <div class="thumb active" id="thumb-main"></div>
           <div class="thumb">📦</div>
@@ -39,30 +67,24 @@
         </div>
       </div>
 
-      <!-- INFO -->
+      <!-- THÔNG TIN -->
       <div class="detail-info">
-        <h1 id="product-name" style="font-size:1.5rem;color:var(--dark);margin-bottom:8px;"></h1>
-        <div id="product-stars" style="font-size:1rem;margin-bottom:6px;"></div>
+        <h1 id="product-name"></h1>
+        <div id="product-stars"></div>
         <div id="product-sold" class="sold-count"></div>
-
         <div class="price-box">
           <span class="price-main" id="product-price"></span>
           <span class="price-original" id="product-oldprice"></span>
           <span class="discount-tag" id="product-discount" style="display:none;"></span>
         </div>
-
-        <!-- COLORS -->
         <div class="option-group" id="color-group">
           <label>Màu sắc: <span id="selected-color" style="font-weight:400;color:var(--orange);"></span></label>
           <div class="option-btns" id="color-btns"></div>
         </div>
-
-        <!-- SIZES -->
         <div class="option-group" id="size-group">
           <label>Kích thước: <span id="selected-size" style="font-weight:400;color:var(--orange);"></span></label>
           <div class="option-btns" id="size-btns"></div>
         </div>
-
         <div class="qty-row">
           <label>Số lượng:</label>
           <div class="qty-control">
@@ -70,48 +92,47 @@
             <span id="qty-val">1</span>
             <button onclick="changeQty(1)">+</button>
           </div>
-          <span style="font-size:0.8rem;color:#888;">Còn 48 sản phẩm</span>
+          <span style="font-size:0.79rem;color:#888;">Còn 48 sản phẩm</span>
         </div>
-
         <div class="action-btns">
           <button class="btn-cart" onclick="handleAddToCart()">🛒 Thêm vào giỏ</button>
           <button class="btn-buy" onclick="handleBuyNow()">⚡ Mua ngay</button>
         </div>
-
         <div class="seller-info" id="seller-info"></div>
       </div>
     </div>
 
-    <!-- REVIEWS -->
-    <div class="reviews-section">
+    <!-- ===== SO SÁNH SẢN PHẨM ===== -->
+    <div class="compare-section" id="compare-section">
+      <h2>⚖️ So sánh giá sản phẩm cùng loại</h2>
+      <p class="sub">Chọn 1 sản phẩm bên dưới để so sánh với sản phẩm đang xem</p>
+      <div class="similar-scroll" id="similar-products"></div>
+      <button class="btn-compare-now" onclick="doCompare()" style="margin-top:12px;">⚖️ So sánh ngay</button>
+      <div id="compare-result">
+        <table class="compare-table">
+          <thead><tr><th>Tiêu chí</th><th id="th-current">Sản phẩm A</th><th id="th-compare">Sản phẩm B</th></tr></thead>
+          <tbody id="compare-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ĐÁNH GIÁ -->
+    <div class="reviews-section" style="margin-top:24px;">
       <h2>💬 Đánh giá từ người mua</h2>
-      <div class="review-item">
-        <div class="review-user">Nguyễn Văn A</div>
-        <div class="review-stars">⭐⭐⭐⭐⭐</div>
-        <div class="review-text">Sản phẩm đúng mô tả, chất lượng tốt, giao hàng nhanh. Rất hài lòng!</div>
-      </div>
-      <div class="review-item">
-        <div class="review-user">Trần Thị B</div>
-        <div class="review-stars">⭐⭐⭐⭐⭐</div>
-        <div class="review-text">Hàng đẹp hơn ảnh, đóng gói cẩn thận. Sẽ ủng hộ shop lần sau!</div>
-      </div>
-      <div class="review-item">
-        <div class="review-user">Lê Minh C</div>
-        <div class="review-stars">⭐⭐⭐⭐</div>
-        <div class="review-text">Ổn, giao hàng hơi chậm nhưng sản phẩm vẫn tốt.</div>
-      </div>
+      <div class="review-item"><div class="review-user">Nguyễn Văn A</div><div class="review-stars">⭐⭐⭐⭐⭐</div><div class="review-text">Sản phẩm đúng mô tả, chất lượng tốt, giao hàng nhanh. Rất hài lòng!</div></div>
+      <div class="review-item"><div class="review-user">Trần Thị B</div><div class="review-stars">⭐⭐⭐⭐⭐</div><div class="review-text">Hàng đẹp hơn ảnh, đóng gói cẩn thận. Sẽ ủng hộ shop lần sau!</div></div>
+      <div class="review-item"><div class="review-user">Lê Minh C</div><div class="review-stars">⭐⭐⭐⭐</div><div class="review-text">Ổn, giao hàng hơi chậm nhưng sản phẩm vẫn tốt.</div></div>
     </div>
   </div>
 
-  <div class="hotline-btn">📞 Hotline: 1800 1234</div>
-
+  <div class="hotline-btn">📞 1800 1234</div>
   <footer class="footer">
     <div class="container footer-inner">
-      <div><strong>🛒 Pick&Pay</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p></div>
+      <div><strong>🛒 Pick&amp;Pay</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p></div>
       <div><strong>Hỗ trợ</strong><p><a href="policy-return.html">Chính sách đổi trả</a></p><p><a href="policy-quality.html">Cam kết chất lượng</a></p></div>
-      <div><strong>Bán hàng</strong><p><a href="seller-register.html">Đăng ký người bán</a></p></div>
+      <div><strong>Bán hàng</strong><p><a href="login.html">Đăng ký người bán</a></p></div>
     </div>
-    <div class="footer-bottom">© 2026 Pick&Pay – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
+    <div class="footer-bottom">© 2026 Pick&amp;Pay – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
   </footer>
 
   <script src="auth.js"></script>
@@ -119,120 +140,123 @@
   <script>
     function doSearch() {
       const q = document.getElementById('search-input').value.trim();
-      if (q) window.location.href = 'products.html?q=' + encodeURIComponent(q);
+      window.location.href = q ? 'products.html?q='+encodeURIComponent(q) : 'products.html';
     }
 
-    // Options theo danh mục
-    const categoryOptions = {
-      thoitrang: {
-        colors: ['Đen','Trắng','Đỏ','Xanh','Vàng'],
-        sizes: ['XS','S','M','L','XL','XXL']
-      },
-      dientuchomay: {
-        colors: ['Đen','Trắng','Bạc','Vàng','Tím'],
-        sizes: ['64GB','128GB','256GB','512GB']
-      },
-      lamdep: {
-        colors: ['Đỏ','Hồng','Cam','Nude','Berry'],
-        sizes: ['Mini','Standard','Large']
-      },
-      sach: { colors: [], sizes: [] },
-      thethao: {
-        colors: ['Đen','Trắng','Đỏ','Xanh'],
-        sizes: ['S','M','L','XL','36','38','40','42','44']
-      }
+    const catOpts = {
+      thoitrang:{colors:['Đen','Trắng','Đỏ','Xanh','Vàng','Hồng'],sizes:['XS','S','M','L','XL','XXL']},
+      dientuchomay:{colors:['Đen','Trắng','Bạc','Tím','Xanh'],sizes:['64GB','128GB','256GB','512GB']},
+      lamdep:{colors:['Đỏ','Hồng','Cam','Nude','Berry'],sizes:['Mini','Standard','Large']},
+      sach:{colors:[],sizes:[]},
+      thethao:{colors:['Đen','Trắng','Đỏ','Xanh Navy'],sizes:['S','M','L','XL','36','38','40','42','44']}
     };
 
-    let selectedColor = '', selectedSize = '', qty = 1;
-    let currentProduct = null;
+    let selectedColor='', selectedSize='', qty=1, currentProduct=null, compareProduct=null;
 
-    function changeQty(delta) {
-      qty = Math.max(1, qty + delta);
-      document.getElementById('qty-val').textContent = qty;
-    }
+    function changeQty(d){qty=Math.max(1,qty+d);document.getElementById('qty-val').textContent=qty;}
 
-    function selectOption(type, value, el) {
-      const group = type === 'color' ? 'color-btns' : 'size-btns';
-      document.querySelectorAll(`#${group} .opt-btn`).forEach(b => b.classList.remove('active'));
+    function selectOption(type,val,el){
+      const grp=type==='color'?'color-btns':'size-btns';
+      document.querySelectorAll(`#${grp} .opt-btn`).forEach(b=>b.classList.remove('active'));
       el.classList.add('active');
-      if (type === 'color') {
-        selectedColor = value;
-        document.getElementById('selected-color').textContent = '– ' + value;
-      } else {
-        selectedSize = value;
-        document.getElementById('selected-size').textContent = '– ' + value;
-      }
+      if(type==='color'){selectedColor=val;document.getElementById('selected-color').textContent='– '+val;}
+      else{selectedSize=val;document.getElementById('selected-size').textContent='– '+val;}
     }
 
-    function handleAddToCart() {
-      if (!currentProduct) return;
-      const opts = categoryOptions[currentProduct.category];
-      if (opts.colors.length > 0 && !selectedColor) { showToast('Vui lòng chọn màu sắc!'); return; }
-      if (opts.sizes.length > 0 && !selectedSize) { showToast('Vui lòng chọn kích thước!'); return; }
-      addToCart(currentProduct.id, qty, selectedColor, selectedSize);
+    function handleAddToCart(){
+      if(!currentProduct)return;
+      const o=catOpts[currentProduct.category];
+      if(o.colors.length>0&&!selectedColor){showToast('Vui lòng chọn màu sắc!');return;}
+      if(o.sizes.length>0&&!selectedSize){showToast('Vui lòng chọn kích thước!');return;}
+      addToCart(currentProduct.id,qty,selectedColor,selectedSize);
+    }
+    function handleBuyNow(){
+      if(!currentProduct)return;
+      const o=catOpts[currentProduct.category];
+      if(o.colors.length>0&&!selectedColor){showToast('Vui lòng chọn màu sắc!');return;}
+      if(o.sizes.length>0&&!selectedSize){showToast('Vui lòng chọn kích thước!');return;}
+      addToCart(currentProduct.id,qty,selectedColor,selectedSize);
+      window.location.href='checkout.html';
     }
 
-    function handleBuyNow() {
-      if (!currentProduct) return;
-      const opts = categoryOptions[currentProduct.category];
-      if (opts.colors.length > 0 && !selectedColor) { showToast('Vui lòng chọn màu sắc!'); return; }
-      if (opts.sizes.length > 0 && !selectedSize) { showToast('Vui lòng chọn kích thước!'); return; }
-      addToCart(currentProduct.id, qty, selectedColor, selectedSize);
-      window.location.href = 'checkout.html';
+    // ===== SO SÁNH =====
+    function selectCompare(id, el) {
+      compareProduct = PRODUCTS.find(p=>p.id===id);
+      document.querySelectorAll('.s-card').forEach(c=>c.classList.remove('sel'));
+      el.classList.add('sel');
+      document.getElementById('compare-result').style.display='none';
+    }
+
+    function doCompare() {
+      if(!compareProduct){showToast('Vui lòng chọn sản phẩm để so sánh!');return;}
+      const a=currentProduct, b=compareProduct;
+      document.getElementById('th-current').textContent=a.emoji+' '+a.name.slice(0,30)+(a.name.length>30?'…':'');
+      document.getElementById('th-compare').textContent=b.emoji+' '+b.name.slice(0,30)+(b.name.length>30?'…':'');
+      const cheaper = a.price < b.price ? 'a' : (b.price < a.price ? 'b' : 'eq');
+      const higherRating = a.rating > b.rating ? 'a' : (b.rating > a.rating ? 'b' : 'eq');
+      const moreSold = a.sold > b.sold ? 'a' : (b.sold > a.sold ? 'b' : 'eq');
+      function cls(who,side){return who==='eq'?'':(who===side?'winner':'loser');}
+      document.getElementById('compare-tbody').innerHTML=`
+        <tr><td><strong>💰 Giá bán</strong></td>
+          <td class="${cls(cheaper,'a')}">${formatPrice(a.price)}${cheaper==='a'?' 🏆':''}</td>
+          <td class="${cls(cheaper,'b')}">${formatPrice(b.price)}${cheaper==='b'?' 🏆':''}</td></tr>
+        <tr><td><strong>🔖 Giá gốc</strong></td>
+          <td>${a.oldPrice?formatPrice(a.oldPrice):'—'}</td>
+          <td>${b.oldPrice?formatPrice(b.oldPrice):'—'}</td></tr>
+        <tr><td><strong>⭐ Đánh giá</strong></td>
+          <td class="${cls(higherRating,'a')}">${a.rating}/5 (${a.reviews} lượt)${higherRating==='a'?' 🏆':''}</td>
+          <td class="${cls(higherRating,'b')}">${b.rating}/5 (${b.reviews} lượt)${higherRating==='b'?' 🏆':''}</td></tr>
+        <tr><td><strong>📦 Đã bán</strong></td>
+          <td class="${cls(moreSold,'a')}">${a.sold.toLocaleString()}${moreSold==='a'?' 🏆':''}</td>
+          <td class="${cls(moreSold,'b')}">${b.sold.toLocaleString()}${moreSold==='b'?' 🏆':''}</td></tr>
+        <tr><td><strong>🏪 Người bán</strong></td><td>${a.seller}</td><td>${b.seller}</td></tr>
+        <tr><td><strong>💡 Chênh lệch</strong></td>
+          <td colspan="2" style="text-align:center;font-weight:700;color:${cheaper==='eq'?'#888':'#e65100'};">
+            ${cheaper==='eq'?'Cùng giá':('Chênh lệch: '+formatPrice(Math.abs(a.price-b.price))+' – '+(cheaper==='a'?a.name.split(' ').slice(0,3).join(' '):b.name.split(' ').slice(0,3).join(' '))+' rẻ hơn 🏆')}
+          </td></tr>`;
+      document.getElementById('compare-result').style.display='block';
+      document.getElementById('compare-result').scrollIntoView({behavior:'smooth',block:'nearest'});
     }
 
     // Load product
-    const productId = parseInt(localStorage.getItem('currentProduct') || '25');
-    currentProduct = PRODUCTS.find(p => p.id === productId) || PRODUCTS[0];
+    const productId=parseInt(localStorage.getItem('currentProduct')||'1');
+    currentProduct=PRODUCTS.find(p=>p.id===productId)||PRODUCTS[0];
 
-    document.getElementById('main-img').textContent = currentProduct.emoji;
-    document.getElementById('thumb-main').textContent = currentProduct.emoji;
-    document.getElementById('product-name').textContent = currentProduct.name;
-    document.getElementById('detail-breadcrumb').textContent = currentProduct.name;
-    document.getElementById('detail-title').textContent = currentProduct.name;
-    document.getElementById('product-stars').innerHTML = '⭐'.repeat(Math.floor(currentProduct.rating)) + ` ${currentProduct.rating}/5 <span style="color:#888;font-size:0.85rem;">(${currentProduct.reviews} đánh giá)</span>`;
-    document.getElementById('product-sold').innerHTML = `Đã bán: <span>${currentProduct.sold.toLocaleString()} lượt</span>`;
-    document.getElementById('product-price').textContent = formatPrice(currentProduct.price);
-
-    if (currentProduct.oldPrice) {
-      document.getElementById('product-oldprice').textContent = formatPrice(currentProduct.oldPrice);
-      const pct = Math.round((1 - currentProduct.price / currentProduct.oldPrice) * 100);
-      const discEl = document.getElementById('product-discount');
-      discEl.textContent = `-${pct}%`;
-      discEl.style.display = 'inline';
+    document.getElementById('main-img').textContent=currentProduct.emoji;
+    document.getElementById('main-img').style.cssText='font-size:9rem;text-align:center;padding:36px;background:#f5f5f5;border-radius:12px;';
+    document.getElementById('thumb-main').textContent=currentProduct.emoji;
+    document.getElementById('product-name').textContent=currentProduct.name;
+    document.getElementById('detail-breadcrumb').textContent=currentProduct.name;
+    document.getElementById('detail-title').textContent=currentProduct.name;
+    document.getElementById('product-stars').innerHTML='⭐'.repeat(Math.floor(currentProduct.rating))+` ${currentProduct.rating}/5 <span style="color:#888;font-size:0.84rem;">(${currentProduct.reviews} đánh giá)</span>`;
+    document.getElementById('product-sold').innerHTML=`Đã bán: <span>${currentProduct.sold.toLocaleString()} lượt</span>`;
+    document.getElementById('product-price').textContent=formatPrice(currentProduct.price);
+    if(currentProduct.oldPrice){
+      document.getElementById('product-oldprice').textContent=formatPrice(currentProduct.oldPrice);
+      const pct=Math.round((1-currentProduct.price/currentProduct.oldPrice)*100);
+      const d=document.getElementById('product-discount'); d.textContent=`-${pct}%`; d.style.display='inline';
     }
+    document.getElementById('seller-info').innerHTML=`<p><strong>👤 Người bán:</strong> ${currentProduct.seller}</p><p>⭐ ${currentProduct.rating}/5 &nbsp;|&nbsp; 🚀 Giao 2–3 ngày &nbsp;|&nbsp; 🔄 Đổi trả 30 ngày</p>`;
 
-    document.getElementById('seller-info').innerHTML = `
-      <p><strong>👤 Người bán:</strong> ${currentProduct.seller}</p>
-      <p>⭐ ${currentProduct.rating}/5 &nbsp;|&nbsp; 🚀 Giao hàng 2–3 ngày &nbsp;|&nbsp; 🔄 Đổi trả 30 ngày</p>`;
+    // Options
+    const opts=catOpts[currentProduct.category]||{colors:[],sizes:[]};
+    if(!opts.colors.length){document.getElementById('color-group').style.display='none';}
+    else opts.colors.forEach(c=>{const b=document.createElement('button');b.className='opt-btn';b.textContent=c;b.onclick=function(){selectOption('color',c,this);};document.getElementById('color-btns').appendChild(b);});
+    if(!opts.sizes.length){document.getElementById('size-group').style.display='none';}
+    else opts.sizes.forEach(s=>{const b=document.createElement('button');b.className='opt-btn';b.textContent=s;b.onclick=function(){selectOption('size',s,this);};document.getElementById('size-btns').appendChild(b);});
 
-    // Render color options
-    const opts = categoryOptions[currentProduct.category];
-    const colorBtns = document.getElementById('color-btns');
-    const sizeBtns = document.getElementById('size-btns');
-
-    if (opts.colors.length === 0) {
-      document.getElementById('color-group').style.display = 'none';
-    } else {
-      opts.colors.forEach(c => {
-        const btn = document.createElement('button');
-        btn.className = 'opt-btn';
-        btn.textContent = c;
-        btn.onclick = function() { selectOption('color', c, this); };
-        colorBtns.appendChild(btn);
-      });
-    }
-
-    if (opts.sizes.length === 0) {
-      document.getElementById('size-group').style.display = 'none';
-    } else {
-      opts.sizes.forEach(s => {
-        const btn = document.createElement('button');
-        btn.className = 'opt-btn';
-        btn.textContent = s;
-        btn.onclick = function() { selectOption('size', s, this); };
-        sizeBtns.appendChild(btn);
-      });
+    // Similar products for comparison (same category, different product)
+    const similar=PRODUCTS.filter(p=>p.category===currentProduct.category&&p.id!==currentProduct.id).slice(0,8);
+    const sc=document.getElementById('similar-products');
+    if(similar.length===0){document.getElementById('compare-section').style.display='none';}
+    else{
+      sc.innerHTML=similar.map(p=>`<div class="s-card" onclick="selectCompare(${p.id},this)">
+        <div class="s-emoji">${p.emoji}</div>
+        <div class="s-name">${p.name.length>40?p.name.slice(0,40)+'…':p.name}</div>
+        <div class="s-price">${formatPrice(p.price)}</div>
+        ${p.oldPrice?`<div style="font-size:0.72rem;color:#bbb;text-decoration:line-through;">${formatPrice(p.oldPrice)}</div>`:''}
+        <div style="font-size:0.72rem;color:#888;margin-top:3px;">⭐${p.rating}</div>
+      </div>`).join('');
     }
 
     renderHeaderNav('nav-container');
@@ -240,4 +264,3 @@
   </script>
 </body>
 </html>
-

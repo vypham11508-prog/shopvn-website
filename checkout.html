@@ -36,7 +36,7 @@
           <h3>📍 Thông tin giao hàng</h3>
           <div class="form-row">
             <div class="form-group"><label>Họ và tên *</label><input type="text" id="receiver-name" placeholder="Nguyễn Văn A" /></div>
-            <div class="form-group"><label>Số điện thoại *</label><input type="tel" id="receiver-phone" placeholder="0901 234 567" /></div>
+            <div class="form-group"><label>Số điện thoại *</label><input type="text" id="receiver-phone" placeholder="0901234567" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')" maxlength="11" /></div>
           </div>
           <div class="form-row">
             <div class="form-group"><label>Tỉnh / Thành phố *</label><select id="checkout-province"></select></div>
@@ -235,4 +235,5 @@
   </script>
 </body>
 </html>
+
 

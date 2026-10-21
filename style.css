@@ -337,3 +337,58 @@ tr:hover td { background: #fafafa; }
   .cart-item-row { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
 }
+
+/* ===== COLORFUL ENHANCEMENTS ===== */
+/* Page header gradient */
+.page-header { background: linear-gradient(135deg, #2C2C2C 60%, #444 100%); }
+
+/* Colorful section titles */
+.section-title::after { content:''; display:block; width:40px; height:3px; background:var(--orange); border-radius:2px; margin-top:6px; }
+
+/* Products page sidebar headers */
+.filter-sidebar h3 { color: var(--dark); }
+
+/* Colorful stat cards in seller */
+.stat-card:nth-child(1) { border-left: 4px solid var(--yellow); }
+.stat-card:nth-child(2) { border-left: 4px solid #42A5F5; }
+.stat-card:nth-child(3) { border-left: 4px solid #e53935; }
+.stat-card:nth-child(4) { border-left: 4px solid var(--green); }
+
+/* Colorful order status */
+.order-card { border-left: 4px solid #eee; }
+.order-card:has(.status-confirmed) { border-left-color: #9c27b0; }
+.order-card:has(.status-processing) { border-left-color: var(--orange); }
+.order-card:has(.status-shipping) { border-left-color: #1565c0; }
+.order-card:has(.status-delivered) { border-left-color: var(--green); }
+
+/* Cart badge colored */
+.badge { background: #e53935; }
+
+/* Section backgrounds alternating */
+.section:nth-child(even) { background: #FAFAFA; }
+.section:nth-child(odd) { background: white; }
+
+/* Colorful footer links */
+.footer-inner strong { border-bottom: 2px solid var(--yellow); padding-bottom: 6px; display: inline-block; }
+
+/* Colorful form focus */
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255,179,102,0.15);
+}
+
+/* Colorful checkout summary */
+.order-summary-card { border-top: 4px solid var(--yellow); }
+.cart-summary { border-top: 4px solid var(--yellow); }
+
+/* Product card hover accent */
+.product-card:hover { box-shadow: 0 8px 24px rgba(255,179,102,0.25); }
+
+/* Colorful seller nav active */
+.seller-nav a.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+/* Colorful tabs */
+.tab-btn.active { background: var(--dark); color: var(--yellow); border-color: var(--dark); }
+
+/* Review stars */
+.review-stars { color: var(--yellow); }

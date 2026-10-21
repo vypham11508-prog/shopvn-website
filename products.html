@@ -124,12 +124,21 @@
     }
 
     const { cat, q } = getParams();
-    if (q) { document.getElementById('search-input').value=q; document.getElementById('page-title').textContent=`Kết quả: "${q}"`; document.getElementById('breadcrumb-cat').textContent='Tìm kiếm: '+q; }
-    else if (cat) { document.getElementById('page-title').textContent=catLabels[cat]||'Sản phẩm'; document.getElementById('breadcrumb-cat').textContent=catLabels[cat]||cat; }
+    if (q) {
+      document.getElementById('search-input').value=q;
+      document.getElementById('page-title').textContent=`Kết quả: "${q}"`;
+      document.getElementById('breadcrumb-cat').textContent='Tìm kiếm: '+q;
+    } else if (cat) {
+      document.getElementById('page-title').textContent=catLabels[cat]||'Tất cả sản phẩm';
+      document.getElementById('breadcrumb-cat').textContent=catLabels[cat]||cat;
+    } else {
+      document.getElementById('page-title').textContent='Tất cả sản phẩm';
+      document.getElementById('breadcrumb-cat').textContent='Tất cả';
+    }
     if (cat) { const r=document.querySelector(`input[name=cat][value="${cat}"]`); if(r) r.checked=true; }
 
     renderHeaderNav('nav-container');
-    applyFilters();
+    applyFilters();   // Hiển thị sản phẩm ngay lập tức, không chờ
     updateCartBadge();
   </script>
 </body>

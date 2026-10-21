@@ -5,69 +5,204 @@
   <title>Pick&Pay – Mua sắm online</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ===== COLORFUL CATEGORY CARDS ===== */
+    .cat-card { transition: transform 0.2s, box-shadow 0.2s; }
+    .cat-card:nth-child(1){background:linear-gradient(135deg,#FFD54F,#FFB366);color:#2C2C2C;border:none;}
+    .cat-card:nth-child(2){background:linear-gradient(135deg,#42A5F5,#1E88E5);color:white;border:none;}
+    .cat-card:nth-child(3){background:linear-gradient(135deg,#EC407A,#D81B60);color:white;border:none;}
+    .cat-card:nth-child(4){background:linear-gradient(135deg,#66BB6A,#43A047);color:white;border:none;}
+    .cat-card:nth-child(5){background:linear-gradient(135deg,#A3B454,#7B9E28);color:white;border:none;}
+    .cat-card:nth-child(6){background:linear-gradient(135deg,#FF7043,#E64A19);color:white;border:none;}
+    .cat-card:nth-child(7){background:linear-gradient(135deg,#AB47BC,#8E24AA);color:white;border:none;}
+    .cat-card:nth-child(8){background:linear-gradient(135deg,#26C6DA,#00ACC1);color:white;border:none;}
+    .cat-card:hover{transform:translateY(-5px);box-shadow:0 8px 24px rgba(0,0,0,0.18);}
+    .cat-card .cat-icon{font-size:2.2rem;display:block;margin-bottom:8px;}
+    .cat-card .cat-name{font-weight:700;font-size:0.9rem;}
+
+    /* ===== PROMO BANNERS ===== */
+    .promo-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;}
+    .promo-card{border-radius:14px;padding:24px 20px;display:flex;align-items:center;gap:16px;cursor:pointer;transition:transform 0.2s;}
+    .promo-card:hover{transform:scale(1.02);}
+    .promo-icon{font-size:3rem;flex-shrink:0;}
+    .promo-title{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:4px;}
+    .promo-sub{font-size:0.82rem;opacity:0.88;}
+
+    /* ===== FLASH SALE BANNER ===== */
+    .flash-sale{background:linear-gradient(135deg,#e53935,#c62828);color:white;padding:16px 24px;border-radius:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;}
+    .flash-sale h3{font-size:1.2rem;font-family:'Montserrat',sans-serif;}
+    .flash-countdown{display:flex;gap:8px;}
+    .count-box{background:rgba(255,255,255,0.2);padding:6px 10px;border-radius:6px;font-weight:800;font-family:'Montserrat',sans-serif;font-size:1.1rem;min-width:36px;text-align:center;}
+
+    /* ===== BRAND STRIP ===== */
+    .brand-strip{display:flex;gap:16px;overflow-x:auto;padding:4px 0;margin-bottom:4px;scrollbar-width:none;}
+    .brand-strip::-webkit-scrollbar{display:none;}
+    .brand-chip{padding:8px 20px;background:white;border:2px solid #eee;border-radius:25px;white-space:nowrap;font-size:0.84rem;font-weight:600;color:#444;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
+    .brand-chip:hover{border-color:var(--orange);color:var(--dark);}
+
+    /* ===== FEATURE ICONS ===== */
+    .features-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:28px 0;}
+    .feature-item{text-align:center;}
+    .feature-icon{font-size:2rem;margin-bottom:8px;}
+    .feature-title{font-weight:700;font-size:0.88rem;color:var(--dark);margin-bottom:2px;}
+    .feature-sub{font-size:0.76rem;color:#777;}
+    @media(max-width:600px){.promo-grid{grid-template-columns:1fr;}.features-row{grid-template-columns:repeat(2,1fr);}}
+  </style>
 </head>
 <body>
   <header class="header">
     <div class="container header-inner">
       <a href="index.html" class="logo">🛒 Pick&amp;Pay</a>
       <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm..." onkeydown="if(event.key==='Enter')doSearch()" />
+        <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm, thương hiệu..." onkeydown="if(event.key==='Enter')doSearch()" />
         <button onclick="doSearch()">🔍</button>
       </div>
       <nav class="nav-links" id="nav-container"></nav>
     </div>
   </header>
 
-  <section class="banner">
+  <!-- MAIN BANNER -->
+  <section class="banner" style="background:linear-gradient(135deg,#2C2C2C 50%,#3a3a3a 100%);min-height:320px;">
     <div class="banner-content">
-      <h1>Mua sắm thả ga<br/>Ưu đãi mỗi ngày!</h1>
-      <p>Hàng ngàn sản phẩm chính hãng – Giao hàng nhanh – Đổi trả dễ dàng</p>
-      <a href="products.html" class="btn-primary">Mua ngay</a>
+      <div style="display:inline-block;background:var(--yellow);color:var(--dark);padding:4px 14px;border-radius:20px;font-size:0.8rem;font-weight:700;margin-bottom:12px;">🔥 HOT DEAL HÔM NAY</div>
+      <h1 style="font-size:2.4rem;">Mua sắm thả ga<br/><span style="color:var(--yellow);">Ưu đãi mỗi ngày!</span></h1>
+      <p style="opacity:0.85;margin-bottom:24px;">Hàng ngàn sản phẩm chính hãng – Giao hàng nhanh toàn quốc</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="products.html" class="btn-primary" style="padding:13px 32px;">🛍️ Mua ngay</a>
+        <a href="vouchers.html" style="padding:13px 28px;background:transparent;border:2px solid var(--yellow);color:var(--yellow);border-radius:25px;font-weight:700;font-family:'Montserrat',sans-serif;font-size:0.95rem;">🎟️ Lấy voucher</a>
+      </div>
     </div>
-    <div class="banner-img">🛒</div>
+    <div style="font-size:7rem;opacity:0.15;display:flex;flex-direction:column;gap:-10px;line-height:1;">🛒<br/>💳<br/>📦</div>
   </section>
 
+  <!-- FEATURE ROW -->
+  <section style="background:white;border-bottom:1px solid #eee;">
+    <div class="container">
+      <div class="features-row">
+        <div class="feature-item"><div class="feature-icon">🚀</div><div class="feature-title">Giao hàng nhanh</div><div class="feature-sub">Toàn quốc trong 2–3 ngày</div></div>
+        <div class="feature-item"><div class="feature-icon">🔄</div><div class="feature-title">Đổi trả dễ dàng</div><div class="feature-sub">30 ngày miễn phí</div></div>
+        <div class="feature-item"><div class="feature-icon">🛡️</div><div class="feature-title">Hàng chính hãng</div><div class="feature-sub">Cam kết 100%</div></div>
+        <div class="feature-item"><div class="feature-icon">💳</div><div class="feature-title">Thanh toán an toàn</div><div class="feature-sub">Mã hóa SSL 256-bit</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
   <section class="section">
     <div class="container">
-      <h2 class="section-title">Danh mục nổi bật</h2>
-      <div class="categories-grid">
-        <a href="products.html?cat=thoitrang" class="cat-card">👗 Thời trang</a>
-        <a href="products.html?cat=dientuchomay" class="cat-card">📱 Điện tử</a>
-        <a href="products.html?cat=lamdep" class="cat-card">💄 Làm đẹp</a>
-        <a href="products.html?cat=sach" class="cat-card">📚 Sách</a>
-        <a href="products.html?cat=thethao" class="cat-card">⚽ Thể thao</a>
+      <h2 class="section-title">🗂️ Danh mục nổi bật</h2>
+      <div class="categories-grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr));">
+        <a href="products.html?cat=thoitrang" class="cat-card"><span class="cat-icon">👗</span><span class="cat-name">Thời trang</span></a>
+        <a href="products.html?cat=dientuchomay" class="cat-card"><span class="cat-icon">📱</span><span class="cat-name">Điện tử</span></a>
+        <a href="products.html?cat=lamdep" class="cat-card"><span class="cat-icon">💄</span><span class="cat-name">Làm đẹp</span></a>
+        <a href="products.html?cat=sach" class="cat-card"><span class="cat-icon">📚</span><span class="cat-name">Sách</span></a>
+        <a href="products.html?cat=thethao" class="cat-card"><span class="cat-icon">⚽</span><span class="cat-name">Thể thao</span></a>
+        <a href="products.html?cat=thoitrang&sub=giay" class="cat-card"><span class="cat-icon">👟</span><span class="cat-name">Giày dép</span></a>
+        <a href="products.html?cat=lamdep&sub=nuochoa" class="cat-card"><span class="cat-icon">🌸</span><span class="cat-name">Nước hoa</span></a>
+        <a href="products.html?cat=dientuchomay&sub=laptop" class="cat-card"><span class="cat-icon">💻</span><span class="cat-name">Laptop</span></a>
       </div>
     </div>
   </section>
 
-  <section style="background:linear-gradient(135deg,var(--orange),var(--yellow));padding:24px 0;">
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
-      <div>
-        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.15rem;color:var(--dark);margin-bottom:3px;">🎟️ Voucher dành cho bạn!</h3>
-        <p style="color:var(--dark);opacity:0.85;font-size:0.88rem;">Lưu voucher ngay – Giảm đến 30% cho đơn hàng</p>
+  <!-- FLASH SALE -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="flash-sale">
+        <div><h3>⚡ Flash Sale – Giảm đến 50%</h3><p style="font-size:0.84rem;opacity:0.9;margin-top:4px;">Số lượng có hạn – Đặt hàng ngay!</p></div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:0.85rem;opacity:0.85;">Kết thúc sau:</span>
+          <div class="flash-countdown">
+            <div class="count-box" id="cnt-h">05</div><span style="font-weight:700;font-size:1.1rem;">:</span>
+            <div class="count-box" id="cnt-m">23</div><span style="font-weight:700;font-size:1.1rem;">:</span>
+            <div class="count-box" id="cnt-s">41</div>
+          </div>
+          <a href="products.html" style="padding:8px 20px;background:white;color:#e53935;border-radius:20px;font-weight:700;font-size:0.84rem;font-family:'Montserrat',sans-serif;">Xem ngay →</a>
+        </div>
       </div>
-      <a href="vouchers.html" style="padding:10px 26px;background:var(--dark);color:white;border-radius:25px;font-weight:700;font-family:'Montserrat',sans-serif;font-size:0.9rem;">Xem voucher →</a>
+
+      <!-- PROMO BANNERS -->
+      <div class="promo-grid">
+        <div class="promo-card" style="background:linear-gradient(135deg,#FFD54F,#FFB366);" onclick="window.location='products.html?cat=thoitrang'">
+          <div class="promo-icon">👗</div>
+          <div><div class="promo-title" style="color:#2C2C2C;">Thời trang hè 2026</div><div class="promo-sub" style="color:#5C3A00;">Giảm đến 40% – Mẫu mới cập nhật</div></div>
+        </div>
+        <div class="promo-card" style="background:linear-gradient(135deg,#2C2C2C,#444);" onclick="window.location='products.html?cat=dientuchomay'">
+          <div class="promo-icon">📱</div>
+          <div><div class="promo-title" style="color:#FFD54F;">Tech Deal</div><div class="promo-sub" style="color:rgba(255,255,255,0.8);">Điện thoại & Laptop giá tốt</div></div>
+        </div>
+        <div class="promo-card" style="background:linear-gradient(135deg,#A3B454,#7B9E28);" onclick="window.location='products.html?cat=sach'">
+          <div class="promo-icon">📚</div>
+          <div><div class="promo-title" style="color:white;">Sách Best Seller</div><div class="promo-sub" style="color:rgba(255,255,255,0.85);">Hàng trăm đầu sách hay từ 45k</div></div>
+        </div>
+        <div class="promo-card" style="background:linear-gradient(135deg,#EC407A,#D81B60);" onclick="window.location='products.html?cat=lamdep'">
+          <div class="promo-icon">💄</div>
+          <div><div class="promo-title" style="color:white;">Beauty Week</div><div class="promo-sub" style="color:rgba(255,255,255,0.85);">Mỹ phẩm chính hãng – Deal hot</div></div>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- BRANDS -->
+  <section style="background:white;padding:20px 0;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;">
+    <div class="container">
+      <div style="font-size:0.82rem;font-weight:700;color:#888;margin-bottom:10px;">THƯƠNG HIỆU NỔI BẬT</div>
+      <div class="brand-strip">
+        <div class="brand-chip" onclick="window.location='products.html?q=Nike'">👟 Nike</div>
+        <div class="brand-chip" onclick="window.location='products.html?q=Samsung'">📱 Samsung</div>
+        <div class="brand-chip" onclick="window.location='products.html?q=Apple'">🍎 Apple</div>
+        <div class="brand-chip" onclick="window.location='products.html?q=Adidas'">⚽ Adidas</div>
+        <div class="brand-chip" onclick="window.location='products.html?q=Uniqlo'">👕 Uniqlo</div>
+        <div class="brand-chip" onclick="window.location='products.html?q=MAC'">💄 MAC</div>
+        <div class="brand-chip" onclick="window.location='products.html?q=Yonex'">🏸 Yonex</div>
+        <div class="brand-chip" onclick="window.location='products.html?q=Sony'">🎧 Sony</div>
+        <div class="brand-chip" onclick="window.location='products.html?q=Laneige'">✨ Laneige</div>
+        <div class="brand-chip" onclick="window.location='products.html?q=Dell'">💻 Dell</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PRODUCTS -->
   <section class="section bg-light">
     <div class="container">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
-        <h2 class="section-title" style="margin:0;">Sản phẩm nổi bật</h2>
-        <a href="products.html" style="color:var(--orange);font-weight:600;font-size:0.88rem;">Xem tất cả →</a>
+        <h2 class="section-title" style="margin:0;">🔥 Sản phẩm nổi bật</h2>
+        <a href="products.html" style="color:var(--orange);font-weight:700;font-size:0.88rem;padding:8px 18px;background:white;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">Xem tất cả →</a>
       </div>
       <div class="products-grid" id="featured-grid"></div>
     </div>
   </section>
 
+  <!-- VOUCHER BANNER -->
+  <section style="background:linear-gradient(135deg,var(--orange),var(--yellow));padding:28px 0;">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
+      <div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.2rem;color:var(--dark);margin-bottom:4px;">🎟️ Voucher độc quyền cho bạn!</h3>
+        <p style="color:var(--dark);font-size:0.88rem;">Lưu voucher ngay – Giảm đến 30% cho mọi đơn hàng</p>
+      </div>
+      <a href="vouchers.html" style="padding:11px 28px;background:var(--dark);color:white;border-radius:25px;font-weight:700;font-family:'Montserrat',sans-serif;font-size:0.9rem;white-space:nowrap;">Lấy voucher ngay →</a>
+    </div>
+  </section>
+
+  <!-- MEMBER SECTION (chỉ hiện khi đăng nhập) -->
   <section class="member-banner" id="member-section" style="display:none;">
     <div class="container member-banner-inner">
       <div>
         <h3>🌟 Hệ thống điểm thành viên</h3>
         <p>Tích điểm mỗi đơn hàng – Đổi voucher giảm giá hấp dẫn</p>
-        <a href="member.html" style="display:inline-block;margin-top:10px;padding:8px 18px;background:var(--dark);color:white;border-radius:20px;font-size:0.83rem;font-weight:700;">Xem chi tiết →</a>
+        <a href="member.html" style="display:inline-block;margin-top:10px;padding:8px 20px;background:var(--dark);color:white;border-radius:20px;font-size:0.83rem;font-weight:700;">Xem chi tiết →</a>
       </div>
       <div class="member-levels" id="member-levels-display"></div>
+    </div>
+  </section>
+
+  <!-- SELL ON PICK&PAY -->
+  <section style="background:var(--dark);padding:36px 0;">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;">
+      <div style="color:white;">
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:1.3rem;color:var(--yellow);margin-bottom:6px;">🏪 Bán hàng cùng Pick&Pay</h3>
+        <p style="opacity:0.8;font-size:0.9rem;">Tiếp cận hàng triệu khách hàng – Mở gian hàng miễn phí, hoa hồng thấp</p>
+      </div>
+      <a href="login.html" onclick="localStorage.setItem('openMode','seller')" style="padding:12px 30px;background:var(--yellow);color:var(--dark);border-radius:25px;font-weight:700;font-family:'Montserrat',sans-serif;font-size:0.95rem;white-space:nowrap;">Đăng ký bán hàng →</a>
     </div>
   </section>
 
@@ -75,10 +210,10 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <div><strong>🛒 Pick&amp;Pay</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p></div>
-      <div><strong>Hỗ trợ</strong><p><a href="policy-return.html">Chính sách đổi trả</a></p><p><a href="policy-quality.html">Cam kết chất lượng</a></p></div>
+      <div><strong>🛒 Pick&amp;Pay</strong><p>Mua sắm online uy tín</p><p>📞 1800 1234</p><p style="font-size:0.76rem;opacity:0.6;margin-top:8px;">© 2026 Pick&amp;Pay</p></div>
+      <div><strong>Hỗ trợ</strong><p><a href="policy-return.html">Chính sách đổi trả</a></p><p><a href="policy-quality.html">Cam kết chất lượng</a></p><p><a href="#">Liên hệ</a></p></div>
       <div><strong>Tài khoản</strong><p><a href="member.html">Điểm thành viên</a></p><p><a href="vouchers.html">Voucher</a></p><p><a href="orders.html">Đơn hàng</a></p></div>
-      <div><strong>Bán hàng</strong><p><a href="seller-register.html">Đăng ký người bán</a></p><p><a href="seller-dashboard.html">Quản lý gian hàng</a></p></div>
+      <div><strong>Bán hàng</strong><p><a href="login.html">Đăng ký người bán</a></p><p><a href="seller-dashboard.html">Quản lý gian hàng</a></p></div>
     </div>
     <div class="footer-bottom">© 2026 Pick&amp;Pay – Nhóm: Vy, Nam, Linh, Khanh, Huy, Đức – Lớp 10.2</div>
   </footer>
@@ -91,21 +226,37 @@
       window.location.href = q ? 'products.html?q='+encodeURIComponent(q) : 'products.html';
     }
     renderHeaderNav('nav-container');
-    // Featured
+
+    // Featured – 1 từ mỗi danh mục
     const grid = document.getElementById('featured-grid');
+    const cats = ['thethao','dientuchomay','lamdep','sach','thoitrang','thethao'];
     const seen = new Set();
-    FEATURED_IDS.forEach(id => {
-      const p = PRODUCTS.find(x => x.id===id);
-      if (p && !seen.has(p.id)) { seen.add(p.id); grid.innerHTML += renderProductCard(p); }
+    cats.forEach(cat => {
+      const p = PRODUCTS.find(x => x.category===cat && !seen.has(x.id));
+      if(p){seen.add(p.id); grid.innerHTML += renderProductCard(p);}
     });
-    // Member section
+
+    // Member
     const user = getUser();
-    if (user) {
-      document.getElementById('member-section').style.display = '';
-      const tier = getTier(user.spent||0);
-      document.getElementById('member-levels-display').innerHTML = MEMBER_TIERS.map(t =>
-        `<span class="level${t.name===tier.name?' active':''}">${t.icon} ${t.name}</span>`).join('');
+    if(user){
+      document.getElementById('member-section').style.display='';
+      const tier=getTier(user.spent||0);
+      document.getElementById('member-levels-display').innerHTML=MEMBER_TIERS.map(t=>`<span class="level${t.name===tier.name?' active':''}">${t.icon} ${t.name}</span>`).join('');
     }
+
+    // Countdown
+    let total = 5*3600+23*60+41;
+    setInterval(()=>{
+      if(total<=0)return; total--;
+      const h=Math.floor(total/3600), m=Math.floor((total%3600)/60), s=total%60;
+      document.getElementById('cnt-h').textContent=String(h).padStart(2,'0');
+      document.getElementById('cnt-m').textContent=String(m).padStart(2,'0');
+      document.getElementById('cnt-s').textContent=String(s).padStart(2,'0');
+    },1000);
+
+    // Auto open seller mode if redirected from banner
+    if(localStorage.getItem('openMode')==='seller'){localStorage.removeItem('openMode');}
+
     updateCartBadge();
   </script>
 </body>
